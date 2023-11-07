@@ -9,6 +9,14 @@ import * as SplashScreen from 'expo-splash-screen';
 const fetchFonts = () => {
   return Font.loadAsync({
     'RobotoSlab-Regular': require('./assets/fonts/RobotoSlab-Regular.ttf'),
+    'RobotoSlab-Black': require('./assets/fonts/RobotoSlab-Black.ttf'),
+    'RobotoSlab-Bold': require('./assets/fonts/RobotoSlab-Bold.ttf'),
+    'RobotoSlab-ExtraBold': require('./assets/fonts/RobotoSlab-ExtraBold.ttf'),
+    'RobotoSlab-ExtraLight': require('./assets/fonts/RobotoSlab-ExtraLight.ttf'),
+    'RobotoSlab-Light': require('./assets/fonts/RobotoSlab-Light.ttf'),
+    'RobotoSlab-Medium': require('./assets/fonts/RobotoSlab-Medium.ttf'),
+    'RobotoSlab-SemiBold': require('./assets/fonts/RobotoSlab-SemiBold.ttf'),
+    'RobotoSlab-Thin': require('./assets/fonts/RobotoSlab-Thin.ttf')
     // ... include all the custom fonts you need here
   });
 };
@@ -16,25 +24,27 @@ const fetchFonts = () => {
 const Stack = createNativeStackNavigator();
 
 function App() {
-  const [fontLoaded, setFontLoaded] = useState(false);
-
+  const [fontLoaded, setFontLoaded] = useState(false);  
   useEffect(() => {
-    async function prepare() {
+    async function loadResourcesAndDataAsync() {
       try {
-        // Load fonts and wait for it to finish
+        await SplashScreen.preventAutoHideAsync();
+  
+        // Load fonts
         await fetchFonts();
-        // Inform the app that the fonts are loaded
-        setFontLoaded(true);
       } catch (e) {
+        // We might want to provide this error information to an error reporting service
         console.warn(e);
       } finally {
-        // Hide the splash screen
+        setFontLoaded(true);
         await SplashScreen.hideAsync();
       }
     }
-
-    prepare();
+  
+    loadResourcesAndDataAsync();
   }, []);
+
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Log In">

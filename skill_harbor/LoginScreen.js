@@ -1,4 +1,5 @@
 import React from 'react';
+import { Image } from 'react-native'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, SafeAreaView } from 'react-native';
 
 const LoginScreen = ({ navigation }) => {
@@ -6,7 +7,10 @@ const LoginScreen = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
       <View style={styles.logoContainer}>
-        {/* Add your logo here */}
+        <Image
+        source={require('skill_harbor/assets/logo.png')} // Replace with the correct path to your local image
+        style={styles.logo} // You may need additional styling for your image
+        />
         <Text style={styles.logoText}>Skill Harbor</Text>
       </View>
       <Text style={styles.title}>Sign in</Text>
@@ -58,19 +62,30 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     marginBottom: 40,
-    // If you have a logo image, you can use Image component instead
+    alignItems: 'center',
+    paddingHorizontal: 16.877,
+    flexShrink: 0,
+  },
+  logo: {
+    // If you want to specify the size of the logo or any other style:
+    width: 200, // Set the width as needed
+    height: 100, // Set the height as needed
+    resizeMode: 'contain', // Ensures the image is scaled to fit within the container
   },
   logoText: {
-    fontSize: 26,
+    fontSize: 32,
     fontWeight: 'bold',
     color: '#00507B',
-    fontFamily: 'RobotoSlab-Regular'
+    fontFamily: 'RobotoSlab-ExtraBold',
   },
   title: {
     fontSize: 24,
     fontWeight: '600',
-    color: '#000',
+    color: '#00507B',
     marginBottom: 20,
+    alignSelf: 'flex-start',
+    paddingHorizontal: 20,
+    fontFamily: 'RobotoSlab-Bold'
   },
   inputContainer: {
     width: '90%',
@@ -82,12 +97,16 @@ const styles = StyleSheet.create({
     padding: 15,
     marginBottom: 15,
     fontSize: 16,
+    fontFamily: 'RobotoSlab-Regular'
   },
   forgotPasswordButton: {
-    alignSelf: 'flex-middle',
+    alignSelf: 'flex-start',
+    paddingHorizontal: 20,
   },
   forgotPasswordText: {
     color: 'blue',
+
+    fontFamily: 'RobotoSlab-Regular'
   },
   signInButton: {
     backgroundColor: '#00507B',
@@ -101,12 +120,14 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontWeight: '600',
+    fontFamily: 'RobotoSlab-Medium'
   },
   signUpButton: {
     marginTop: 20,
   },
   signUpButtonText: {
-    color: 'blue',
+    color: 'black',
+    fontFamily: 'RobotoSlab-Regular'
   },
 });
 
