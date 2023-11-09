@@ -24,7 +24,8 @@ const fetchFonts = () => {
 const Stack = createNativeStackNavigator();
 
 function App() {
-  const [fontLoaded, setFontLoaded] = useState(false);  
+  const [fontLoaded, setFontLoaded] = useState(false);
+  
   useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
@@ -44,6 +45,9 @@ function App() {
     loadResourcesAndDataAsync();
   }, []);
 
+  if (!fontLoaded) {
+    return null; // or a custom loading component if you wish
+  }
 
   return (
     <NavigationContainer>
