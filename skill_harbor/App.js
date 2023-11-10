@@ -3,9 +3,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './LoginScreen';
 import HomeScreen from './HomeScreen';
-import CreateTeam from './Create';
-import BrowseTeam from './Browse';
-import SearchTeam from './Search';
+import Create from './Create';
+import Browse from './Browse';
+import Search from './Search';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 
@@ -59,10 +59,10 @@ function App() {
         options={{ headerShown: false }}/>
         <Stack.Screen name="Home" component={HomeScreen}
         options={{ headerShown: false }} />
+         <Stack.Screen name="Create" component={Create} />
+         <Stack.Screen name="Search" component={Search}/>
+         <Stack.Screen name="Browse" component={Browse}/>
       </Stack.Navigator>
-      <Stack.Screen name="Create" component={CreateTeam} />
-         <Stack.Screen name="Search" component={SearchTeam}/>
-         <Stack.Screen name="Browse" component={BrowseTeam}/>
     </NavigationContainer>
   );
 }

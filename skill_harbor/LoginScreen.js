@@ -36,6 +36,7 @@ const LoginScreen = ({ navigation }) => {
       >
         <Text style={styles.forgotPasswordText}>Forget Password?</Text>
       </TouchableOpacity>
+      
       <TouchableOpacity
         style={styles.signInButton}
         onPress={() => navigation.navigate('Home')}
