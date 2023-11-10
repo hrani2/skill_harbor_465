@@ -25,18 +25,21 @@ const HomeScreen = ({text, count}) => {
             <Icon name="plus" size={30} color="#FFF"/>
           </View>
           <Text style={styles.menuItemText}>CREATE</Text>
+          onPress={() => navigation.navigate('Create')}
         </TouchableOpacity>
         <TouchableOpacity style={styles.menuItem} >
           <View style={styles.icon}>
             <Icon name="book" size={30} color="#FFF" />
           </View>
           <Text style={styles.menuItemText}>BROWSE</Text>
+          onPress={() => navigation.navigate('Browse')}
         </TouchableOpacity>
         <TouchableOpacity style={styles.menuItem}>
           <View style={styles.icon}>
             <Icon name="search" size={30} color="#FFF" />
           </View>
           <Text style={styles.menuItemText}>JOIN</Text>
+          onPress={() => navigation.navigate('Search')}
         </TouchableOpacity>
       </View>
 
