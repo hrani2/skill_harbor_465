@@ -2,8 +2,9 @@ import React from 'react';
 import { Image } from 'react-native'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, SafeAreaView , ScrollView} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Make sure to install this package
+import { useNavigation } from '@react-navigation/native';
 
-const HomeScreen = ({text, count}) => {
+const HomeScreen = ({text, count, navigation}) => {
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -20,27 +21,28 @@ const HomeScreen = ({text, count}) => {
 
 
       <View style={styles.menu}>
-        <TouchableOpacity style={styles.menuItem}>
+        <TouchableOpacity style={styles.menuItem} 
+        onPress={() => navigation.navigate('Create')}>
           <View style={styles.icon}>
             <Icon name="plus" size={30} color="#FFF"/>
           </View>
           <Text style={styles.menuItemText}>CREATE</Text>
-          onPress={() => navigation.navigate('Create')}
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menuItem} >
+
+        <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Browse')} >
           <View style={styles.icon}>
             <Icon name="book" size={30} color="#FFF" />
           </View>
           <Text style={styles.menuItemText}>BROWSE</Text>
-          onPress={() => navigation.navigate('Browse')}
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menuItem}>
+
+        <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Search')} >
           <View style={styles.icon}>
             <Icon name="search" size={30} color="#FFF" />
           </View>
           <Text style={styles.menuItemText}>JOIN</Text>
-          onPress={() => navigation.navigate('Search')}
         </TouchableOpacity>
+
       </View>
 
 

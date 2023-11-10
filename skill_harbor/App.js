@@ -3,6 +3,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './LoginScreen';
 import HomeScreen from './HomeScreen';
+import Create from './Create';
+import Browse from './Browse';
+import Search from './Search';
 import SignUpScreen from './SignUp';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
@@ -57,7 +60,10 @@ function App() {
         options={{ headerShown: false }}/>
         <Stack.Screen name="Home" component={HomeScreen}
         options={{ headerShown: false }} />
-        <Stack.Screen name="SignUp" component={SignUpScreen}
+         <Stack.Screen name="Create" component={Create} />
+         <Stack.Screen name="Search" component={Search}/>
+         <Stack.Screen name="Browse" component={Browse}/>
+         <Stack.Screen name="SignUp" component={SignUpScreen}/>
         options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
