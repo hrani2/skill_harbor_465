@@ -24,7 +24,8 @@ const fetchFonts = () => {
 const Stack = createNativeStackNavigator();
 
 function App() {
-  const [fontLoaded, setFontLoaded] = useState(false);  
+  const [fontLoaded, setFontLoaded] = useState(false);
+  
   useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
@@ -44,13 +45,17 @@ function App() {
     loadResourcesAndDataAsync();
   }, []);
 
+  if (!fontLoaded) {
+    return null; // or a custom loading component if you wish
+  }
 
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Log In">
         <Stack.Screen name="Log In" component={LoginScreen} 
         options={{ headerShown: false }}/>
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Home" component={HomeScreen}
+        options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

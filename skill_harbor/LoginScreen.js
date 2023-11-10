@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image } from 'react-native'
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, SafeAreaView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, SafeAreaView, ScrollView } from 'react-native';
 
 const LoginScreen = ({ navigation }) => {
   return (
@@ -48,6 +48,7 @@ const LoginScreen = ({ navigation }) => {
       >
         <Text style={styles.signUpButtonText}>Don’t have account? Sign Up</Text>
       </TouchableOpacity>
+      
     </SafeAreaView>
   );
 };
@@ -58,7 +59,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 40,
+    
   },
   logoContainer: {
     marginBottom: 40,
@@ -77,6 +78,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#00507B',
     fontFamily: 'RobotoSlab-ExtraBold',
+    letterSpacing: 1,
   },
   title: {
     fontSize: 24,
@@ -85,7 +87,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     alignSelf: 'flex-start',
     paddingHorizontal: 20,
-    fontFamily: 'RobotoSlab-Bold'
+    fontFamily: 'RobotoSlab-Bold',
   },
   inputContainer: {
     width: '90%',
@@ -100,7 +102,7 @@ const styles = StyleSheet.create({
     fontFamily: 'RobotoSlab-Regular'
   },
   forgotPasswordButton: {
-    alignSelf: 'flex-start',
+    alignSelf: 'flex-end',
     paddingHorizontal: 20,
   },
   forgotPasswordText: {
