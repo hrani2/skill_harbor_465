@@ -1,7 +1,22 @@
 import React from 'react';
 import { Image } from 'react-native'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, SafeAreaView, ScrollView } from 'react-native';
+import { firebase, db } from './firebase/config';
+import { collection, addDoc } from "firebase/firestore";
 
+
+const onPressTest = async () => {
+  try {
+    const docRef = await addDoc(collection(db, "users"), {
+      name: "John Doe", // 用户名
+      email: "johndoe@example.com", // 用户电子邮件
+      password: "secretPassword" // 用户密码（注意：实际应用中不应这样做）
+    });
+    console.log("Document written with ID: ", docRef.id);
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+};
 const LoginScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
@@ -31,7 +46,7 @@ const LoginScreen = ({ navigation }) => {
         />
       </View>
       <TouchableOpacity
-        onPress={() => {/* Implement Forgot Password navigation */}}
+        onPress={() => onPressTest()}
         style={styles.forgotPasswordButton}
       >
         <Text style={styles.forgotPasswordText}>Forget Password?</Text>
