@@ -1,26 +1,8 @@
 import React from 'react';
 import { Image } from 'react-native'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, SafeAreaView, ScrollView } from 'react-native';
-import {firebase, fireStoreDb, realtimeDb} from './firebase/config';
-// import { collection, doc, setDoc } from "firebase/firestore";
-import { getDatabase, ref, set } from "firebase/database";
+import { onPressTest, queryData, deleteData } from './firebase/utils'
 
-
-const onPressTest = async () => {
-  try {
-    console.log("cool");
-    // const db = getDatabase();
-    const cityRef = ref(realtimeDb, "cities/LA");
-    await set(cityRef, {
-      name: "Los Angeles",
-      state: "CA",
-      country: "USA"
-    });
-    console.log("Document successfully written!");
-  } catch (e) {
-    console.error("Error adding document: ", e);
-  }
-};
 
 
 
@@ -53,7 +35,7 @@ const LoginScreen = ({ navigation }) => {
         />
       </View>
       <TouchableOpacity
-        onPress={() => onPressTest()}
+        onPress={() => queryData()}
         style={styles.forgotPasswordButton}
       >
         <Text style={styles.forgotPasswordText}>Forget Password?</Text>
