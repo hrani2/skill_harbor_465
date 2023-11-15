@@ -38,9 +38,9 @@ const SignUpScreen = ({ navigation }) => {
     if (isNaN(ageNumber) || ageNumber < 14 || ageNumber > 80) {
       Alert.alert("Invalid Age", "Age must be a number between 14 and 80.");
       return;
-    }
-    console.log("Skills: ", skills)
-    addNewUser(fullName, email, password, age, skills)
+    };
+    console.log("Skills: ", skills);
+    addNewUser(fullName, email, password, age, skills);
 
     try {
         // Your sign-up logic...
