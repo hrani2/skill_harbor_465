@@ -24,6 +24,6 @@ const firebase = initializeApp(firebaseConfig);
 const fireStoreDb = getFirestore(firebase);
 const realtimeDb = getDatabase(firebase);
 
-const analytics = getAnalytics(firebase);
+// const analytics = getAnalytics(firebase);
 
 export {firebase, fireStoreDb, realtimeDb};
