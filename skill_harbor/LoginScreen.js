@@ -1,12 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Image } from 'react-native'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, SafeAreaView, ScrollView } from 'react-native';
-import { onPressTest, queryData, deleteData } from './firebase/utils'
-
+import { onPressTest, checkUserLogin, deleteData } from './firebase/utils'
 
 
 
 const LoginScreen = ({ navigation }) => {
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogIn = async (userName, password) => {
+    flag = await checkUserLogin(userName, password);
+    if (flag === true){
+      try {
+        console.log('Navigating to Home...');
+        navigation.navigate('Home');
+      } catch (error) {
+        console.error('Navigation error:', error);
+      }
+    }
+  }
+
+
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
@@ -25,6 +41,8 @@ const LoginScreen = ({ navigation }) => {
           keyboardType="email-address"
           autoCapitalize="none"
           autoCorrect={false}
+          value={userName}
+          onChangeText={setUserName}
         />
         <TextInput
           style={styles.input}
@@ -32,10 +50,12 @@ const LoginScreen = ({ navigation }) => {
           secureTextEntry
           autoCapitalize="none"
           autoCorrect={false}
+          value={password}
+          onChangeText={setPassword} 
         />
       </View>
       <TouchableOpacity
-        onPress={() => queryData()}
+        onPress={() => {}}
         style={styles.forgotPasswordButton}
       >
         <Text style={styles.forgotPasswordText}>Forget Password?</Text>
@@ -43,7 +63,7 @@ const LoginScreen = ({ navigation }) => {
       
       <TouchableOpacity
         style={styles.signInButton}
-        onPress={() => navigation.navigate('Home')}
+        onPress={() => handleLogIn(userName, password)}
       >
         <Text style={styles.signInButtonText}>Sign in</Text>
       </TouchableOpacity>
