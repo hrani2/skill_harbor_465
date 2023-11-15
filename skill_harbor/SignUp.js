@@ -3,6 +3,8 @@ import { View, TextInput, Button, Text, StyleSheet, Alert, TouchableOpacity, Sta
 import { Image } from 'react-native'; 
 import HomeScreen from './HomeScreen';
 import { Picker } from '@react-native-picker/picker';
+import { addNewUser } from './firebase/utils'
+
 
 
 const SignUpScreen = ({ navigation }) => {
@@ -25,10 +27,10 @@ const SignUpScreen = ({ navigation }) => {
   const handleSignUp = () => {
     // Here you would add your validation logic and possibly network requests
     // For this example, we'll just show an alert
-    // if (password !== confirmPassword) {
-    //   Alert.alert("Passwords don't match");
-    //   return;
-    // }
+    if (password !== confirmPassword) {
+      Alert.alert("Passwords don't match");
+      return;
+    }
     // Proceed with backend sign-up process...
     // Alert.alert('Sign Up Successful', 'Welcome ' + fullName);
     // After sign up, you can navigate to another screen
@@ -38,6 +40,8 @@ const SignUpScreen = ({ navigation }) => {
       return;
     }
     console.log("Skills: ", skills)
+    addNewUser(fullName, email, password, age, skills)
+
     try {
         // Your sign-up logic...
         console.log('Navigating to Home...');

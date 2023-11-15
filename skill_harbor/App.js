@@ -29,7 +29,6 @@ const Stack = createNativeStackNavigator();
 
 function App() {
   const [fontLoaded, setFontLoaded] = useState(false);
-  
   useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {

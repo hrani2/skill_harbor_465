@@ -1,6 +1,10 @@
 import React from 'react';
 import { Image } from 'react-native'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, SafeAreaView, ScrollView } from 'react-native';
+import { onPressTest, queryData, deleteData } from './firebase/utils'
+
+
+
 
 const LoginScreen = ({ navigation }) => {
   return (
@@ -31,7 +35,7 @@ const LoginScreen = ({ navigation }) => {
         />
       </View>
       <TouchableOpacity
-        onPress={() => {/* Implement Forgot Password navigation */}}
+        onPress={() => queryData()}
         style={styles.forgotPasswordButton}
       >
         <Text style={styles.forgotPasswordText}>Forget Password?</Text>
