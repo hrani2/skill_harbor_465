@@ -60,7 +60,8 @@ function App() {
         <Stack.Screen name="Home" component={HomeScreen}
         options={{ headerShown: false }} />
          <Stack.Screen name="Create" component={Create} />
-         <Stack.Screen name="Search" component={Search}/>
+         <Stack.Screen name="Search" component={Search} 
+          options={{ headerShown: false }}/>
          <Stack.Screen name="Browse" component={Browse}/>
          <Stack.Screen name="SignUp" component={SignUpScreen}
         options={{ headerShown: false }} />
