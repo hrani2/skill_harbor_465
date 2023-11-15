@@ -45,7 +45,7 @@ const SignUpScreen = ({ navigation }) => {
     try {
         // Your sign-up logic...
         console.log('Navigating to Home...');
-        navigation.navigate('Home', {email: email});
+        navigation.navigate('Home');
       } catch (error) {
         console.error('Navigation error:', error);
       }

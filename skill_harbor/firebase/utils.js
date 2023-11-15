@@ -4,9 +4,15 @@ import { ref, set, get, remove } from "firebase/database";
 import { Alert } from 'react-native';
 
 
+function removeSpecialCharacters(str) {
+  return str.replace(/[.#$[\]]/g, '');
+}
+
+
 export const addNewUser = async (name, email, password, age, skills) => {
+  path_email = removeSpecialCharacters(email); 
   try {
-    const userRef = ref(realtimeDb, "user/" + email);
+    const userRef = ref(realtimeDb, "user/" + path_email);
     await set(userRef, {
       name: name,
       email: email,
@@ -37,9 +43,10 @@ export const createNewTeam = async (name, location, max_size, join_code, skills,
   }
 };
 
-export const queryUserByName = async (name) => {
+export const queryUserByName = async (email) => {
+    path_email = removeSpecialCharacters(email); 
     try{
-        const userRef = ref(realtimeDb, "user/" + email);
+        const userRef = ref(realtimeDb, "user/" + path_email);
         const snapshot = await get(userRef);
         if (snapshot.exists()){
             return snapshot.val();

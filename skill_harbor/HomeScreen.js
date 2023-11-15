@@ -40,14 +40,15 @@ const MyModal = ({modalVisible, setModalVisible, navigation}) => (
 
 
 
-const HomeScreen = ({text, count, navigation}) => {
+const HomeScreen = ({text, count, route, navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <View style={styles.container}>
       <ScrollView>
       <View style={styles.header}>
       <TouchableOpacity style={styles.headerIcon}>
-          <Icon name="user" size={30} color="#FFF"/> 
+          <Icon name="user" size={30} color="#FFF"/>
+          <Text >profile</Text>
           </TouchableOpacity>
       <Text style={styles.headerTitle}>Skill Harbor</Text>
       <TouchableOpacity style={styles.headerIcon}>
