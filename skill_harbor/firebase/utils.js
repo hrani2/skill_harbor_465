@@ -6,7 +6,7 @@ import { Alert } from 'react-native';
 
 export const addNewUser = async (name, email, password, age, skills) => {
   try {
-    const userRef = ref(realtimeDb, "user/" + name);
+    const userRef = ref(realtimeDb, "user/" + email);
     await set(userRef, {
       name: name,
       email: email,
@@ -20,10 +20,9 @@ export const addNewUser = async (name, email, password, age, skills) => {
   }
 };
 
-export const queryUserByName = async (name) => {
+export const queryUserByName = async (email) => {
     try{
-        const userRef = ref(realtimeDb, "user/" + name);
-        console.log(name)
+        const userRef = ref(realtimeDb, "user/" + email);
         const snapshot = await get(userRef);
         if (snapshot.exists()){
             return snapshot.val();
@@ -36,11 +35,11 @@ export const queryUserByName = async (name) => {
     }
 }
 
-export const checkUserLogin = async (name, password) => {
+export const checkUserLogin = async (email, password) => {
     try{
-        snapshot = await queryUserByName(name);
+        snapshot = await queryUserByName(email);
         if (snapshot == null){
-            Alert.alert("You haven't signed up!");
+            Alert.alert("You haven't signed up! Wrong email address!");
             return false;
         }
         if (snapshot["password"] == password){

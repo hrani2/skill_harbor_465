@@ -1,17 +1,26 @@
 import React, { useState } from 'react';
-import { Image } from 'react-native'
+import { Image, Alert} from 'react-native'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, SafeAreaView, ScrollView } from 'react-native';
 import { onPressTest, checkUserLogin, deleteData } from './firebase/utils'
 
 
 
 const LoginScreen = ({ navigation }) => {
-  const [userName, setUserName] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogIn = async (userName, password) => {
-    flag = await checkUserLogin(userName, password);
-    if (flag === true){
+  const handleLogIn = async (email, password) => {
+    if (email == ''){
+      Alert.alert("Please enter your email")
+      return;
+    }
+    else if (password == ''){
+      Alert.alert("Please enter your password")
+      return;
+    }
+
+    flag = await checkUserLogin(email, password);
+    if (flag == true){
       try {
         console.log('Navigating to Home...');
         navigation.navigate('Home');
@@ -37,12 +46,12 @@ const LoginScreen = ({ navigation }) => {
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
-          placeholder="Email or User Name"
+          placeholder="Email"
           keyboardType="email-address"
           autoCapitalize="none"
           autoCorrect={false}
-          value={userName}
-          onChangeText={setUserName}
+          value={email}
+          onChangeText={setEmail}
         />
         <TextInput
           style={styles.input}
@@ -63,7 +72,7 @@ const LoginScreen = ({ navigation }) => {
       
       <TouchableOpacity
         style={styles.signInButton}
-        onPress={() => handleLogIn(userName, password)}
+        onPress={() => handleLogIn(email, password)}
       >
         <Text style={styles.signInButtonText}>Sign in</Text>
       </TouchableOpacity>
