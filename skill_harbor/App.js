@@ -9,6 +9,7 @@ import Search from './Search';
 import SignUpScreen from './SignUp';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
+import ProfileScreen from './ProfileScreen';
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -58,6 +59,8 @@ function App() {
         <Stack.Screen name="Log In" component={LoginScreen} 
         options={{ headerShown: false }}/>
         <Stack.Screen name="Home" component={HomeScreen}
+        options={{ headerShown: false }} />
+        <Stack.Screen name="Profile" component={ProfileScreen}
         options={{ headerShown: false }} />
          <Stack.Screen name="Create" component={Create} />
          <Stack.Screen name="Search" component={Search} 

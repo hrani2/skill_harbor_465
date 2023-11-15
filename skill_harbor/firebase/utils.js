@@ -49,6 +49,7 @@ export const queryUserByName = async (email) => {
         const userRef = ref(realtimeDb, "user/" + path_email);
         const snapshot = await get(userRef);
         if (snapshot.exists()){
+          console.log(snapshot.val()); 
             return snapshot.val();
         }
         else{
