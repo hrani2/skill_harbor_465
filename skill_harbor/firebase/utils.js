@@ -20,7 +20,24 @@ export const addNewUser = async (name, email, password, age, skills) => {
   }
 };
 
-export const queryUserByName = async (email) => {
+export const createNewTeam = async (name, location, max_size, join_code, skills, info) => {
+  try {
+    const teamRef = ref(realtimeDb, "team/" + name);
+    await set(teamRef, {
+      name: name,
+      location: location,
+      max_size: max_size,
+      join_code: join_code,
+      skills: skills,
+      info: info, 
+    });
+    console.log("Document successfully written!");
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+};
+
+export const queryUserByName = async (name) => {
     try{
         const userRef = ref(realtimeDb, "user/" + email);
         const snapshot = await get(userRef);
