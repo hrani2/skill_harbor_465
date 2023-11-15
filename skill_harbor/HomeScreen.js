@@ -2,10 +2,9 @@ import React, {useState} from 'react';
 import { Image } from 'react-native'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, SafeAreaView , ScrollView, Modal} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Make sure to install this package
-import { useNavigation } from '@react-navigation/native';
 
 //Pop-up for Join a Team (asks to search all teams or Join Organization)
-const MyModal = ({modalVisible, setModalVisible}) => (
+const MyModal = ({modalVisible, setModalVisible, navigation}) => (
   <Modal
     animationType="fade"
     transparent={true}
@@ -15,13 +14,18 @@ const MyModal = ({modalVisible, setModalVisible}) => (
     }}>
     <View style={styles.centeredView}>
       <View style={styles.modalView}>
-      <TouchableOpacity style = {styles.closeicon}
-        onPress={() => setModalVisible(false)}>
-         <Icon name="times" size={25} color="#00507B"/> 
-        </TouchableOpacity>
+        <View style={styles.iconview}>
+        <TouchableOpacity style = {styles.helpicon}>
+          <Icon name="question-circle" size={25}  color="#00507B"/> 
+         </TouchableOpacity>
+          <TouchableOpacity style = {styles.closeicon}
+          onPress={() => setModalVisible(false)}>
+          <Icon name="times" size={25} color="#00507B"/> 
+         </TouchableOpacity>
+        </View>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => {/* Your action for first option */}}>
+          onPress={() =>  {navigation.navigate('Search'); setModalVisible(false);}}>
           <Text style={styles.textStyle}>Search All Teams</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -77,6 +81,7 @@ const HomeScreen = ({text, count, navigation}) => {
           <MyModal 
               modalVisible={modalVisible}
               setModalVisible={setModalVisible}
+              navigation={navigation}
           />
         </TouchableOpacity>
 
@@ -165,9 +170,17 @@ const styles = StyleSheet.create({
     marginBottom: 10,
 
   },
+  iconview: {
+    flexDirection: 'row',
+  },
+  helpicon: {
+    top: -5,
+    right: 120,
+    paddingBottom: -70,
+  },
   closeicon: {
     top: -5,
-    left: 135,
+    left: 120,
     paddingBottom: -70,
   },
   textStyle: {
