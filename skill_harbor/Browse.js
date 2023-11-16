@@ -1,5 +1,7 @@
 import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import { Alert, View, Text, ScrollView, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 
 const Browse = ({ route, navigation }) => {
   // This data would typically come from your application's state or props
@@ -15,6 +17,36 @@ const Browse = ({ route, navigation }) => {
     { name: 'Jason', rating: 8.4 },
   ];
 
+  const confirmAddition = (name) => {
+    Alert.alert(
+      "Confirmation",
+      `Are you sure you want to add ${name} to your team?`,
+      [
+        {
+          text: "No",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        {
+          text: "Yes",
+          onPress: () => {
+            console.log("Yes Pressed");
+            additionSuccessful(name); // Call another function to show the second alert
+          }
+        }
+      ]
+    );
+  };
+
+  const additionSuccessful = (name) => {
+    Alert.alert(
+      "Success",
+      `You have added ${name} successfully!`,
+      [
+        { text: "OK", onPress: () => console.log('OK Pressed') }
+      ]
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -24,18 +56,33 @@ const Browse = ({ route, navigation }) => {
         {matches.map((match, index) => (
           <TouchableOpacity key={index} style={styles.item} onPress={() => navigation.navigate('Profile', { name: match.name,  age: 20, location: 'Champaign', email: 'abc@illinois.edu', school: 'UIUC'})} >
             <Text style={styles.name}>{match.name}</Text>
-            <Text style={styles.rating}>{match.rating}</Text>
+            <View style={styles.matchInfo}>
+              <Text style={styles.rating}>{match.rating}</Text>
+              <TouchableOpacity onPress={() => confirmAddition(match.name)}>
+                <Icon name="check" size={30} color="green" />
+              </TouchableOpacity>
+            </View>
           </TouchableOpacity>
         ))}
       </ScrollView>
       <Text style={styles.subheader}>Recommended:</Text>
       <View style={styles.recommendedContainer}>
-        {recommended.map((recommendation, index) => (
-          <TouchableOpacity key={index} style={styles.recommendation}onPress={() => navigation.navigate('Profile', { name: recommendation.name,  age: 20, location: 'Champaign', email: 'abc@illinois.edu', school: 'UIUC'})} >
-            <Text style={styles.name}>{recommendation.name}</Text>
-            <Text style={styles.rating}>{recommendation.rating}</Text>
-          </TouchableOpacity>
-        ))}
+        <ScrollView horizontal={true}
+    showsHorizontalScrollIndicator={false}
+    style={styles.scrollView}
+    contentContainerStyle={styles.scrollViewContent}>
+          {recommended.map((recommendation, index) => (
+            <TouchableOpacity key={index} style={styles.recommendation}onPress={() => navigation.navigate('Profile', { name: recommendation.name,  age: 20, location: 'Champaign', email: 'abc@illinois.edu', school: 'UIUC'})} >
+              <Text style={styles.name}>{recommendation.name}</Text>
+              <View style={styles.matchInfo}>
+                <Text style={styles.rating}>{recommendation.rating}</Text>
+                <TouchableOpacity onPress={() => confirmAddition(recommendation.name)}>
+                  <Icon name="check" size={30} color="green" />
+                </TouchableOpacity>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
       </View>
       {/* Add navigation and other controls as necessary */}
     </View>
@@ -72,19 +119,20 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 5,
     marginHorizontal: 20,
-    marginBottom: 10,
-    paddingVertical: 10,
+    marginBottom: 20,
+    paddingVertical: 30,
     paddingHorizontal: 20,
   },
   name: {
-    fontSize: 16,
+    fontSize: 20,
     color: 'black',
   },
   rating: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: 'bold',
     color: 'green',
     marginLeft: 10,
+    marginRight: 30,
   },
   recommendedContainer: {
     flexDirection: 'row',
@@ -100,8 +148,16 @@ const styles = StyleSheet.create({
     width: width * 0.4, // Adjust the width as per your design requirement
     alignItems: 'center',
     justifyContent: 'center',
+    marginHorizontal: 10,
   },
-  // You can add more styles for navigation and other controls as needed
+  matchInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  scrollViewContent: {
+    alignItems: 'center', // Centers items on the cross axis
+    // You can add more styles as needed
+  },
 });
 
 export default Browse;
