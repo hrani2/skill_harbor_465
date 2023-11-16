@@ -6,18 +6,27 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 const ProfileScreen = ({ route, navigation }) => {
     const { name, email, age, skills } = route.params;
-  
+    const skillss = [
+      'Python' ,
+      'C++' ,
+      'React',
+    ];
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>Name: {name}</Text>
-        <Text style={styles.text}>Email: {email}</Text>
-        <Text style={styles.text}>Age: {age}</Text>
-        <Text style={styles.text}>Skills:</Text>
-        {skills.map((skill, index) => (
-          <Text key={index} style={styles.skill}>
-            {skill}
-          </Text>
-        ))}
+        <Text style={styles.name}>{name}</Text>
+        <TouchableOpacity style={styles.ageButton}>
+            <Text>Age: {age}</Text>
+        </TouchableOpacity>
+        {/* <Text style={styles.input}>Location: {location}</Text> */}
+        <Text style={styles.input}>Email: {email}</Text>
+        {/* <Text style={styles.input}>School: {school}</Text> */}
+        <View style={styles.skillsContainer}>
+            {skills.map((skill, index) => (
+            <TouchableOpacity key={index} style={styles.skillButton}>
+                <Text>{skill}</Text>
+            </TouchableOpacity>
+            ))}
+        </View>
         <TouchableOpacity style={styles.floatButton} onPress={() => navigation.navigate('Home', {email: email})}>
           <View style = {styles.homeicon}>
             <Icon name="home" size={40} color="#FFF" />
@@ -30,16 +39,45 @@ const ProfileScreen = ({ route, navigation }) => {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
+      backgroundColor: '#00507B',
       alignItems: 'center',
       justifyContent: 'center',
-      padding: 20
+      padding: 20,
     },
-    text: {
-      fontSize: 18,
-      marginBottom: 10
+    name: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      color: 'white',
+      marginBottom: 10,
     },
-    skill: {
-      fontSize: 16
+    ageButton: {
+      backgroundColor: 'white',
+      paddingHorizontal: 15,
+      paddingVertical: 5,
+      borderRadius: 15,
+      marginBottom: 20,
+    },
+    input: {
+      width: '100%',
+      backgroundColor: 'white',
+      paddingHorizontal: 15,
+      paddingVertical: 10,
+      borderRadius: 5,
+      color: 'black',
+      fontSize: 16,
+      marginBottom: 15,
+    },
+    skillsContainer: {
+      flexDirection: 'row',
+      justifyContent: 'center',
+      marginBottom: 20,
+    },
+    skillButton: {
+      backgroundColor: 'white',
+      paddingHorizontal: 15,
+      paddingVertical: 5,
+      borderRadius: 15,
+      marginHorizontal: 5,
     }, 
     floatButton: {
         position: 'absolute',
