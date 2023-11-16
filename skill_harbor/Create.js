@@ -21,6 +21,7 @@ const Create = ({ navigation }) => {
         onPress={() => {
           // Add navigation logic for creating a join code
           console.log('Create Join Code button pressed');
+          navigation.navigate('JoinCode');
         }}
       >
         <Text style={styles.buttonText}>Create Join Code</Text>

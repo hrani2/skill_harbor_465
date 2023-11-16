@@ -7,6 +7,7 @@ import Create from './Create';
 import Browse from './Browse';
 import Search from './Search';
 import SignUpScreen from './SignUp';
+import JoinCode from './JoinCode';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 
@@ -61,6 +62,7 @@ function App() {
         <Stack.Screen name="Home" component={HomeScreen}
         options={{ headerShown: false }} />
          <Stack.Screen name="Create" component={Create} />
+         <Stack.Screen name="JoinCode" component={JoinCode} />
          <Stack.Screen name="Search" component={Search} 
           options={{ headerShown: false }}/>
          <Stack.Screen name="Browse" component={Browse}/>
