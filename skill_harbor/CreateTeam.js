@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Modal } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const CreateTeam = ({ navigation }) => {
@@ -7,7 +7,10 @@ const CreateTeam = ({ navigation }) => {
   const [location, setLocation] = useState('');
   const [teamSize, setTeamSize] = useState('');
   const [joinCode, setJoinCode] = useState('');
-
+  const [additionalInfo, setAdditionalInfo] = useState('');
+  const [isSkillModalVisible, setSkillModalVisible] = useState(false);
+  const [newSkill, setNewSkill] = useState('');
+  const [skills, setSkills] = useState([]);
   const handleCompletePress = () => {
     if (name.trim() === '' || location.trim() === '' || teamSize.trim() === '' || parseInt(teamSize) < 2 || parseInt(teamSize) >= 1000) {
         // Show an error message if the required fields are empty or teamSize is less than 2 or greater than 1000
@@ -59,6 +62,34 @@ const CreateTeam = ({ navigation }) => {
     );
   };
 
+  const handleAddSkill = () => {
+    // Show the skill modal
+    setSkillModalVisible(true);
+  };
+
+  const handleSkillModalClose = () => {
+    // Close the skill modal
+    setSkillModalVisible(false);
+  };
+
+  const handleAddNewSkill = () => {
+    // Add the new skill to the list
+    setSkills([...skills, newSkill]);
+
+    // Close the skill modal
+    setSkillModalVisible(false);
+
+    // Optionally, clear the input field
+    setNewSkill('');
+  };
+
+  const handleRemoveSkill = (index) => {
+    // Remove the skill at the specified index
+    const updatedSkills = [...skills];
+    updatedSkills.splice(index, 1);
+    setSkills(updatedSkills);
+  };
+
   return (
     <View style={styles.container}>
       {/* Team Name */}
@@ -108,7 +139,7 @@ const CreateTeam = ({ navigation }) => {
 
         {/* Join Code */}
         <View style={styles.textBoxContainer}>
-          <Text style={styles.labelText}>JOIN CODE</Text>
+          <Text style={styles.labelText}>JOIN CODE (OPTIONAL)</Text>
           <TextInput
             style={styles.textBox}
             placeholder="Enter join code"
@@ -117,6 +148,32 @@ const CreateTeam = ({ navigation }) => {
           />
         </View>
       </View>
+
+      {/* m */}
+
+      {/* Add Skill Section */}
+      <View style={styles.addSkillContainer}>
+        <TouchableOpacity style={styles.addSkillButton} onPress={handleAddSkill}>
+          <Text style={styles.addSkillButtonText}>Add desired skills +</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Render Skills */}
+      {skills.length > 0 && (
+        <View style={styles.skillsContainer}>
+          {skills.map((skill, index) => (
+            <TouchableOpacity key={index} style={styles.skillItemContainer}>
+              <Text style={styles.skillItemText}>{skill}</Text>
+              <TouchableOpacity style={styles.removeSkillButtonContainer} onPress={() => handleRemoveSkill(index)}>
+                <Icon name="times" size={22} color="#00507B" />
+              </TouchableOpacity>
+            </TouchableOpacity>
+          ))}
+        </View>
+      )}
+
+
+      {/* m */}
 
       {/* Additional Info (Optional) */}
       <View style={styles.textBoxContainer}>
@@ -139,6 +196,26 @@ const CreateTeam = ({ navigation }) => {
       <TouchableOpacity style={styles.completeButton} onPress={handleCompletePress}>
         <Text style={styles.completeButtonText}>Complete</Text>
       </TouchableOpacity>
+
+      {/* Skill Modal */}
+      <Modal visible={isSkillModalVisible} transparent={true} animationType="slide">
+        <View style={styles.skillModalContainer}>
+          <TextInput
+            style={styles.skillModalInput}
+            placeholder="Enter skill"
+            value={newSkill}
+            onChangeText={(text) => setNewSkill(text)}
+          />
+          <View style={styles.skillModalButtonsContainer}>
+            <TouchableOpacity style={styles.skillModalCloseButton} onPress={handleSkillModalClose}>
+              <Text style={styles.skillModalButtonText}>CLOSE</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.skillModalAddButton} onPress={handleAddNewSkill}>
+              <Text style={styles.skillModalButtonText}>ADD</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -172,6 +249,101 @@ const styles = StyleSheet.create({
     width: 50,  // Adjust the width as needed
     textAlign: 'center',
   },
+
+  // 
+
+  addSkillContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+  skillsContainer: {
+    marginTop: 10,
+    marginBottom: 20,
+  },
+  addSkillTitle: {
+    color: '#FFF',
+    fontSize: 16,
+  },
+  addSkillButton: {
+    backgroundColor: '#4CAF50',
+    padding: 10,
+    borderRadius: 15,
+  },
+  addSkillButtonText: {
+    color: '#FFF',
+    fontSize: 16,
+  },
+  skillsTitle: {
+    color: '#FFF',
+    fontSize: 16,
+    marginBottom: 5,
+  },
+  skillItem: {
+    color: '#FFF',
+    fontSize: 16,
+  },
+  skillModalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.85)', // Semi-transparent black background
+  },
+  skillModalInput: {
+    backgroundColor: '#FFF', // White background color
+    padding: 10,
+    borderRadius: 5,
+    color: '#000', // Set text color to black
+    width: '80%', // Adjust the width as needed
+  },
+  skillModalButtonsContainer: {
+    flexDirection: 'row',
+    marginTop: 10,
+  },
+  skillModalCloseButton: {
+    flex: 1,
+    backgroundColor: '#4CAF50',
+    padding: 10,
+    borderRadius: 5,
+    marginRight: 5,
+    alignItems: 'center',
+  },
+  skillModalAddButton: {
+    flex: 1,
+    backgroundColor: '#4CAF50',
+    padding: 10,
+    borderRadius: 5,
+    marginLeft: 5,
+    alignItems: 'center',
+  },
+  skillModalButtonText: {
+    color: '#FFF',
+    fontSize: 16,
+  },
+  skillItemContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFF', // White background color
+    borderRadius: 20, // Adjust the border radius for an oval shape
+    padding: 10,
+    marginVertical: 5,
+  },
+  skillItemText: {
+    flex: 1, // Take up remaining space
+    color: '#00507B',
+    fontSize: 16,
+    marginRight: 10,
+  },
+  removeSkillButtonContainer: {
+    backgroundColor: '#FFF', // White background color
+    borderRadius: 15,
+    padding: 5, // Adjust the padding as needed
+  },
+  removeSkillButton: {
+    color: '#00507B',
+    fontSize: 22,
+  },
+  //
   doubleTextBoxContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
