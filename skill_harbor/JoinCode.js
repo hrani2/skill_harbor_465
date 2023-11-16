@@ -1,19 +1,59 @@
-// JoinCode.js
-import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const JoinCode = ({ navigation }) => {
+  const [organization, setOrganization] = useState('');
+
   const handleCompletePress = () => {
-    // Add any necessary logic before navigating
-    console.log('Complete button pressed');
-    navigation.navigate('ReceiveJoinCode');
+    if (organization.trim() === '') {
+      // Show an error message if the organization field is empty
+      Alert.alert('Error', 'Please enter the organization/school.');
+    } else {
+      // Show a confirmation dialog before completing the form
+      Alert.alert(
+        'Confirmation',
+        'Are you sure you want to complete the form?',
+        [
+          {
+            text: 'Cancel',
+            style: 'cancel',
+          },
+          {
+            text: 'OK',
+            onPress: () => {
+              // Add any necessary logic before navigating
+              console.log('Complete button pressed - confirmed');
+              navigation.navigate('ReceiveJoinCode');
+            },
+          },
+        ],
+        { cancelable: false }
+      );
+    }
   };
 
+
   const handleHomePress = () => {
-    // Navigate back to the HomeScreen
-    console.log('Home button pressed');
-    navigation.navigate('Home');
+    // Show a confirmation dialog before navigating to the HomeScreen
+    Alert.alert(
+      'Confirmation',
+      'Are you sure you want to go to the Home Screen?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => {
+            console.log('Home button pressed - confirmed');
+            navigation.navigate('Home');
+          },
+        },
+      ],
+      { cancelable: false }
+    );
   };
 
   return (
@@ -24,7 +64,12 @@ const JoinCode = ({ navigation }) => {
           ORGANIZATION/SCHOOL{' '}
           <Text style={styles.requiredStar}>*</Text>
         </Text>
-        <TextInput style={styles.textBox} placeholder="Enter organization/school" />
+        <TextInput
+          style={styles.textBox}
+          placeholder="Enter organization/school"
+          value={organization}
+          onChangeText={(text) => setOrganization(text)}
+        />
       </View>
 
       {/* Course (Optional) */}
