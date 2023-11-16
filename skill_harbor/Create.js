@@ -8,8 +8,8 @@ const Create = ({ navigation }) => {
       <TouchableOpacity
         style={styles.button}
         onPress={() => {
-          // Add navigation logic for creating a team
           console.log('Create Team button pressed');
+          navigation.navigate('CreateTeam');
         }}
       >
         <Text style={styles.buttonText}>Create Team</Text>
@@ -19,7 +19,6 @@ const Create = ({ navigation }) => {
       <TouchableOpacity
         style={styles.button}
         onPress={() => {
-          // Add navigation logic for creating a join code
           console.log('Create Join Code button pressed');
           navigation.navigate('JoinCode');
         }}
