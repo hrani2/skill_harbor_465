@@ -81,7 +81,7 @@ const HomeScreen = ({text, count, route, navigation}) => {
           <Text style={styles.menuItemText}>CREATE</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Browse')} >
+        <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('ChooseTeam')} >
           <View style={styles.icon}>
             <Icon name="book" size={30} color="#FFF" />
           </View>
