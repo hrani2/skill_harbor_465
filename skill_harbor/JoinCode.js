@@ -3,7 +3,19 @@ import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const JoinCode = () => {
+const JoinCode = ({ navigation }) => {
+  const handleCompletePress = () => {
+    // Add any necessary logic before navigating
+    console.log('Complete button pressed');
+    navigation.navigate('ReceiveJoinCode');
+  };
+
+  const handleHomePress = () => {
+    // Navigate back to the HomeScreen
+    console.log('Home button pressed');
+    navigation.navigate('Home');
+  };
+
   return (
     <View style={styles.container}>
       {/* Organization/School */}
@@ -34,12 +46,12 @@ const JoinCode = () => {
       </View>
 
       {/* Home Button */}
-      <TouchableOpacity style={styles.homeButton}>
+      <TouchableOpacity style={styles.homeButton} onPress={handleHomePress}>
         <Icon name="home" size={30} color="#00507B" />
       </TouchableOpacity>
 
       {/* Complete Button */}
-      <TouchableOpacity style={styles.completeButton}>
+      <TouchableOpacity style={styles.completeButton} onPress={handleCompletePress}>
         <Text style={styles.completeButtonText}>Complete</Text>
       </TouchableOpacity>
     </View>
