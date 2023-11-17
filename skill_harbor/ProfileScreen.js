@@ -5,12 +5,7 @@ import HomeScreen from './HomeScreen';
 import Icon from 'react-native-vector-icons/FontAwesome'; 
 
 const ProfileScreen = ({ route, navigation }) => {
-    const { name, email, age, skills } = route.params;
-    const skillss = [
-      'Python' ,
-      'C++' ,
-      'React',
-    ];
+    const { name, email, age, skills = [] } = route.params;
     return (
       <View style={styles.container}>
         <Text style={styles.name}>{name}</Text>

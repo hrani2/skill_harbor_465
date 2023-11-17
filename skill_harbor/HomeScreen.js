@@ -39,6 +39,33 @@ const MyModal = ({modalVisible, setModalVisible, navigation}) => (
   </Modal>
 );
 
+const JoinOrg = ({modalVisible, setModalVisible, navigation}) => (
+  <Modal
+    animationType="fade"
+    transparent={true}
+    visible={modalVisible}
+    onRequestClose={() => {
+      setModalVisible(!modalVisible);
+    }}>
+    <View style={styles.centeredView}>
+      <View style={styles.modalView}>
+
+        <View style={styles.iconview}>
+        <TouchableOpacity>
+          <Text style={styles.reseticon}>Reset</Text> 
+         </TouchableOpacity>
+        <Text style={styles.modalTitle}>FILTERS</Text>
+          <TouchableOpacity style = {styles.closeicon}
+          onPress={() => setModalVisible(false)}>
+          <Icon name="times" size={25} color="#00507B"/> 
+         </TouchableOpacity>
+        </View>
+        <View style={styles.lineone} />
+
+       </View>
+    </View>
+  </Modal>
+);
 
 
 const HomeScreen = ({text, count, route, navigation}) => {

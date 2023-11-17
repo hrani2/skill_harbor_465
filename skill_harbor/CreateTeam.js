@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Modal } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Modal , ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { addNewTeam } from './firebase/utils'
 
-const CreateTeam = ({ route, navigation }) => {
+const CreateTeam = ({ navigation }) => {
   const [name, setName] = useState('');
   const [location, setLocation] = useState('');
   const [teamSize, setTeamSize] = useState('');
@@ -13,7 +12,6 @@ const CreateTeam = ({ route, navigation }) => {
   const [newSkill, setNewSkill] = useState('');
   const [skills, setSkills] = useState([]);
   const [isAddButtonDisabled, setAddButtonDisabled] = useState(true);
-  const {email} = route.params; 
 
   const handleCompletePress = () => {
     if (name.trim() === '' || location.trim() === '' || teamSize.trim() === '' || parseInt(teamSize) < 2 || parseInt(teamSize) >= 1000) {
@@ -34,10 +32,8 @@ const CreateTeam = ({ route, navigation }) => {
             onPress: () => {
               // Add any necessary logic before navigating
               console.log('Complete button pressed - confirmed');
-              console.log('adding team to db'); 
-              addNewTeam(name,location,teamSize,joinCode,skills,additionalInfo); 
               navigation.navigate('TeamRequestPosted', {
-                name, email: email
+                name,
               });
             },
           },
@@ -108,7 +104,12 @@ const CreateTeam = ({ route, navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView
+      contentContainerStyle={styles.scrollContainer}
+      keyboardShouldPersistTaps="handled"
+      keyboardDismissMode="on-drag"
+    >
+      <View style={styles.container}>
       {/* Team Name */}
       <View style={styles.textBoxContainer}>
         <Text style={styles.labelText}>
@@ -201,7 +202,6 @@ const CreateTeam = ({ route, navigation }) => {
           multiline={true}
           numberOfLines={4}
           textAlignVertical="top"  // Move the placeholder to the top
-          onChangeText={(text) => setAdditionalInfo(text)}
         />
       </View>
 
@@ -242,10 +242,14 @@ const CreateTeam = ({ route, navigation }) => {
         </View>
       </Modal>
     </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    flexGrow: 1,
+  },
   container: {
     flex: 1,
     backgroundColor: '#00507B', // Blue background color
