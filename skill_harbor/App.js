@@ -76,11 +76,6 @@ function App() {
           options={{ headerShown: false }}/>
          <Stack.Screen name="Browse" component={Browse}/>
          <Stack.Screen name="ChooseTeam" component={ChooseTeam}/>
-<<<<<<< HEAD
-         <Stack.Screen name="Profile" component={Profile}/>
-=======
-         {/* <Stack.Screen name="Profile" component={Profile}/> */}
->>>>>>> origin/havish
          <Stack.Screen name="SignUp" component={SignUpScreen}
         options={{ headerShown: false }} />
       </Stack.Navigator>
