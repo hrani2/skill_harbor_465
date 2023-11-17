@@ -6,9 +6,12 @@ import HomeScreen from './HomeScreen';
 import Create from './Create';
 import Browse from './Browse';
 import ChooseTeam from './ChooseTeam';
-import Profile from './Profile'
 import Search from './Search';
 import SignUpScreen from './SignUp';
+import CreateTeam from './CreateTeam';
+import TeamRequestPosted from './TeamRequestPosted'
+import JoinCode from './JoinCode';
+import ReceiveJoinCode  from './ReceiveJoinCode';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import ProfileScreen from './ProfileScreen';
@@ -65,6 +68,10 @@ function App() {
         <Stack.Screen name="Profile" component={ProfileScreen}
         options={{ headerShown: false }} />
          <Stack.Screen name="Create" component={Create} />
+         <Stack.Screen name="CreateTeam" component={CreateTeam} />
+         <Stack.Screen name="TeamRequestPosted" component={TeamRequestPosted} />
+         <Stack.Screen name="JoinCode" component={JoinCode} />
+         <Stack.Screen name="ReceiveJoinCode" component={ReceiveJoinCode} />
          <Stack.Screen name="Search" component={Search} 
           options={{ headerShown: false }}/>
          <Stack.Screen name="Browse" component={Browse}/>
