@@ -60,6 +60,21 @@ export const queryUserByName = async (email) => {
     }
 }
 
+export const queryTeamDb = async () => { 
+  try { 
+      const userRef = ref(realtimeDb, "team/"); 
+      const snapshot = await get(userRef); 
+      if (snapshot.exists()) { 
+        console.log(snapshot.val()); 
+        return snapshot.val(); 
+      } else {
+        return null; 
+      }
+  } catch(error) { 
+    console.error("Error fetching data: ", error)
+  }
+}
+
 export const checkUserLogin = async (email, password) => {
     try{
         snapshot = await queryUserByName(email);
