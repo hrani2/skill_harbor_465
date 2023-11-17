@@ -20,12 +20,11 @@ const fetchFonts = () => {
 
 const TeamRequestPosted = ({ route , navigation }) => {
 
-  const { name } = route.params || {};
-
+  const { name, email } = route.params || {};
   const handleHomePress = () => {
     // Navigate back to the HomeScreen
     console.log('Home button pressed');
-    navigation.navigate('Home');
+    navigation.navigate('Home', {email: email});
   };
 
   return (

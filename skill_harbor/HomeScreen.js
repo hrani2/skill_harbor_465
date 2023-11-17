@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import { Image } from 'react-native'
+import { queryUserByName } from './firebase/utils';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, SafeAreaView , ScrollView, Modal} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Make sure to install this package
 
@@ -67,26 +68,40 @@ const JoinOrg = ({modalVisible, setModalVisible, navigation}) => (
 );
 
 
-const HomeScreen = ({text, count, navigation}) => {
+const HomeScreen = ({text, count, route, navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const {email} = route.params || {}; 
+  const profileScreen = async (email) => {
+      user_dat = await queryUserByName(email);  
+      try {
+        console.log('Navigating to Profile...');
+        navigation.navigate('Profile', {name: user_dat["name"], email: email, 
+                                        age: user_dat["age"], skills: user_dat["skills"]});
+      } catch (error) {
+        console.error('Navigation error:', error);
+      }
+  }
+
   return (
     <View style={styles.container}>
       <ScrollView>
       <View style={styles.header}>
-      <TouchableOpacity style={styles.headerIcon}>
-          <Icon name="user" size={30} color="#FFF"/> 
-          </TouchableOpacity>
+      <TouchableOpacity style={styles.headerIcon}
+          onPress={() => profileScreen(email)}
+      >
+          <Icon name="user" size={30} color="#FFF"/>
+      </TouchableOpacity>
       <Text style={styles.headerTitle}>Skill Harbor</Text>
       <TouchableOpacity style={styles.headerIcon}>
           <Icon name="gear" size={30} color="#FFF"/> 
-          </TouchableOpacity>
+      </TouchableOpacity>
       </View>
 
 
 
       <View style={styles.menu}>
         <TouchableOpacity style={styles.menuItem} 
-        onPress={() => navigation.navigate('Create')}>
+        onPress={() => navigation.navigate('Create', {email: email})}>
           <View style={styles.icon}>
             <Icon name="plus" size={30} color="#FFF"/>
           </View>
