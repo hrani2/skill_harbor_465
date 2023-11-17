@@ -6,6 +6,7 @@ import HomeScreen from './HomeScreen';
 import Create from './Create';
 import Browse from './Browse';
 import Search from './Search';
+import Learn from './LearnMore';
 import SignUpScreen from './SignUp';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
@@ -65,6 +66,8 @@ function App() {
           options={{ headerShown: false }}/>
          <Stack.Screen name="Browse" component={Browse}/>
          <Stack.Screen name="SignUp" component={SignUpScreen}
+        options={{ headerShown: false }} />
+        <Stack.Screen name="LearnMore" component={Learn}
         options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>

@@ -78,7 +78,7 @@ const Search = ( {navigation}) => {
                 by intelligently matching individuals based on their skills, experience, and 
                 interpersonal compatibility. Currently, Font-astic Six is on the lookout for
                 enthusiastic members who possess expertise in UI/UX design. </Text>
-              <TouchableOpacity style={styles.learnMoreButton}>
+              <TouchableOpacity style={styles.learnMoreButton} onPress={() =>  {navigation.navigate('LearnMore')}}>
                 <Text style={styles.learnMoreText}>Learn More</Text>
               </TouchableOpacity>
               </View>
@@ -99,7 +99,7 @@ const Search = ( {navigation}) => {
                 by intelligently matching individuals based on their skills, experience, and 
                 interpersonal compatibility. Currently, Font-astic Six is on the lookout for
                 enthusiastic members who possess expertise in UI/UX design. </Text>
-              <TouchableOpacity style={styles.learnMoreButton}>
+              <TouchableOpacity style={styles.learnMoreButton} onPress={() =>  {navigation.navigate('LearnMore')}}>
                 <Text style={styles.learnMoreText}>Learn More</Text>
               </TouchableOpacity>
               </View>
@@ -120,7 +120,7 @@ const Search = ( {navigation}) => {
                 by intelligently matching individuals based on their skills, experience, and 
                 interpersonal compatibility. Currently, Font-astic Six is on the lookout for
                 enthusiastic members who possess expertise in UI/UX design. </Text>
-              <TouchableOpacity style={styles.learnMoreButton}>
+              <TouchableOpacity style={styles.learnMoreButton} onPress={() =>  {navigation.navigate('LearnMore')}}>
                 <Text style={styles.learnMoreText}>Learn More</Text>
               </TouchableOpacity>
               </View>
@@ -141,7 +141,7 @@ const Search = ( {navigation}) => {
                 by intelligently matching individuals based on their skills, experience, and 
                 interpersonal compatibility. Currently, Font-astic Six is on the lookout for
                 enthusiastic members who possess expertise in UI/UX design. </Text>
-              <TouchableOpacity style={styles.learnMoreButton}>
+              <TouchableOpacity style={styles.learnMoreButton} onPress={() =>  {navigation.navigate('LearnMore')}}>
                 <Text style={styles.learnMoreText}>Learn More</Text>
               </TouchableOpacity>
               </View>
