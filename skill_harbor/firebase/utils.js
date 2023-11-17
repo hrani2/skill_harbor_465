@@ -80,7 +80,6 @@ export const checkUserLogin = async (email, password) => {
 }
 
 
-
 export const queryData = async () => {
   try {
     const cityRef = ref(realtimeDb, "user/"+email);
