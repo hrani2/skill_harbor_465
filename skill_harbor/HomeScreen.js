@@ -4,7 +4,9 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, SafeAre
 import Icon from 'react-native-vector-icons/FontAwesome'; // Make sure to install this package
 
 //Pop-up for Join a Team (asks to search all teams or Join Organization)
-const MyModal = ({modalVisible, setModalVisible, navigation}) => (
+const MyModal = ({modalVisible, setModalVisible, navigation}) => {
+
+  return(
   <Modal
     animationType="fade"
     transparent={true}
@@ -37,6 +39,7 @@ const MyModal = ({modalVisible, setModalVisible, navigation}) => (
     </View>
   </Modal>
 );
+  }
 
 const JoinOrg = ({modalVisible, setModalVisible, navigation}) => (
   <Modal
