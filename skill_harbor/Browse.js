@@ -7,15 +7,19 @@ const Browse = ({ route, navigation }) => {
   // This data would typically come from your application's state or props
   const { teamname } = route.params;
   const matches = [
-    { name: 'Ric', rating: 8.8 },
-    { name: 'Dawn', rating: 7.8 },
-    { name: 'Mirra', rating: 7.6 },
+    { name: 'Ric', rating: 8.8 , age:22, skills:['Java', 'C++', 'C']},
+    { name: 'Dawn', rating: 7.8, age: 20, skills:['Python', 'JavaScript', 'C']},
+    { name: 'Mirra', rating: 7.6 , age:21, skills:['React', 'HTML', 'CSS']},
   ];
 
   const recommended = [
-    { name: 'Adelia', rating: 8.6 },
-    { name: 'Jason', rating: 8.4 },
+    { name: 'Adelia', rating: 8.6, age:20, skills:['Python', 'Git', 'Linux'] },
+    { name: 'Jason', rating: 8.4, age: 22, skills:['R', 'C++', 'C'] },
   ];
+
+  // const age = {
+  //   'Ric':19, 'Dawn':20, 'Mirra':21, 'Adelia':22, 'Jason':21
+  // };
 
   const confirmAddition = (name) => {
     Alert.alert(
@@ -48,13 +52,35 @@ const Browse = ({ route, navigation }) => {
     );
   };
 
+  const handleHomePress = () => {
+    // Show a confirmation dialog before navigating to the HomeScreen
+    Alert.alert(
+      'Confirmation',
+      'Are you sure you want to go to the home? Your progress will not be saved.',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => {
+            console.log('Home button pressed - confirmed');
+            navigation.navigate('Home');
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>{teamname}</Text>
       <Text style={styles.subheader}>Potential matches:</Text>
       <ScrollView style={styles.scrollView}>
         {matches.map((match, index) => (
-          <TouchableOpacity key={index} style={styles.item} onPress={() => navigation.navigate('Profile', { name: match.name,  age: 20, location: 'Champaign', email: 'abc@illinois.edu', school: 'UIUC'})} >
+          <TouchableOpacity key={index} style={styles.item} onPress={() => navigation.navigate('Profile', { name: match.name,  email: match.name + '@illinois.edu', age: match.age, skills: match.skills})} >
             <Text style={styles.name}>{match.name}</Text>
             <View style={styles.matchInfo}>
               <Text style={styles.rating}>{match.rating}</Text>
@@ -72,7 +98,7 @@ const Browse = ({ route, navigation }) => {
     style={styles.scrollView}
     contentContainerStyle={styles.scrollViewContent}>
           {recommended.map((recommendation, index) => (
-            <TouchableOpacity key={index} style={styles.recommendation}onPress={() => navigation.navigate('Profile', { name: recommendation.name,  age: 20, location: 'Champaign', email: 'abc@illinois.edu', school: 'UIUC'})} >
+            <TouchableOpacity key={index} style={styles.recommendation}onPress={() => navigation.navigate('Profile', { name: recommendation.name,  email: recommendation.name + '@illinois.edu', age: recommendation.age, skills: recommendation.skills})} >
               <Text style={styles.name}>{recommendation.name}</Text>
               <View style={styles.matchInfo}>
                 <Text style={styles.rating}>{recommendation.rating}</Text>
@@ -85,7 +111,12 @@ const Browse = ({ route, navigation }) => {
         </ScrollView>
       </View>
       {/* Add navigation and other controls as necessary */}
-    </View>
+
+      {/* Home Button */}
+      <TouchableOpacity style={styles.homeButton} onPress={handleHomePress}>
+          <Icon name="home" size={30} color="#00507B" />
+        </TouchableOpacity>
+      </View>
   );
 };
 
@@ -157,6 +188,16 @@ const styles = StyleSheet.create({
   scrollViewContent: {
     alignItems: 'center', // Centers items on the cross axis
     // You can add more styles as needed
+  },
+  homeButton: {
+    position: 'absolute',
+    bottom: 20,
+    left: 20,
+    backgroundColor: '#FFF', // White button color
+    padding: 20,
+    borderRadius: 50, // Make it a circle
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

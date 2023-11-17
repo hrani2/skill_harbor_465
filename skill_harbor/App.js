@@ -66,8 +66,7 @@ function App() {
         options={{ headerShown: false }}/>
         <Stack.Screen name="Home" component={HomeScreen}
         options={{ headerShown: false }} />
-        <Stack.Screen name="Profile" component={ProfileScreen}
-        options={{ headerShown: false }} />
+        <Stack.Screen name="Profile" component={ProfileScreen}/>
          <Stack.Screen name="Create" component={Create} />
          <Stack.Screen name="CreateTeam" component={CreateTeam} />
          <Stack.Screen name="TeamRequestPosted" component={TeamRequestPosted} />
