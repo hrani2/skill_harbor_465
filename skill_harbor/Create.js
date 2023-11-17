@@ -2,14 +2,16 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const Create = ({ navigation }) => {
+const Create = ({ route, navigation }) => {
+  const {email} = route.params; 
+
   return (
     <View style={styles.container}>
       <TouchableOpacity
         style={styles.button}
         onPress={() => {
           console.log('Create Team button pressed');
-          navigation.navigate('CreateTeam');
+          navigation.navigate('CreateTeam', {email: email});
         }}
       >
         <Text style={styles.buttonText}>Create Team</Text>
