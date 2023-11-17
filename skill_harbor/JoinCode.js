@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 const JoinCode = ({ navigation }) => {
   const [organization, setOrganization] = useState('');
+  const [course, setCourse] = useState('');
 
   const handleCompletePress = () => {
     if (organization.trim() === '') {
@@ -24,7 +25,10 @@ const JoinCode = ({ navigation }) => {
             onPress: () => {
               // Add any necessary logic before navigating
               console.log('Complete button pressed - confirmed');
-              navigation.navigate('ReceiveJoinCode');
+              navigation.navigate('ReceiveJoinCode', {
+                organization,
+                course,
+              });
             },
           },
         ],
@@ -75,7 +79,12 @@ const JoinCode = ({ navigation }) => {
       {/* Course (Optional) */}
       <View style={styles.textBoxContainer}>
         <Text style={styles.labelText}>COURSE (OPTIONAL)</Text>
-        <TextInput style={styles.textBox} placeholder="Enter course (optional)" />
+        <TextInput
+          style={styles.textBox}
+          placeholder="Enter course (optional)"
+          value={course}
+          onChangeText={(text) => setCourse(text)}
+        />
       </View>
 
       {/* Additional Info (Optional) */}

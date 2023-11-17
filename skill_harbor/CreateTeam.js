@@ -249,9 +249,7 @@ const styles = StyleSheet.create({
     width: 50,  // Adjust the width as needed
     textAlign: 'center',
   },
-
-  // 
-
+  //
   addSkillContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -301,16 +299,16 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   skillModalCloseButton: {
-    flex: 1,
-    backgroundColor: '#4CAF50',
+    width:'40%',
+    backgroundColor: '#00507B',
     padding: 10,
     borderRadius: 5,
     marginRight: 5,
     alignItems: 'center',
   },
   skillModalAddButton: {
-    flex: 1,
-    backgroundColor: '#4CAF50',
+    width:'40%',
+    backgroundColor: '#00507B',
     padding: 10,
     borderRadius: 5,
     marginLeft: 5,

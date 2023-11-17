@@ -18,7 +18,10 @@ const fetchFonts = () => {
   });
 };
 
-const ReceiveJoinCode = ({ navigation }) => {
+const ReceiveJoinCode = ({ route , navigation }) => {
+
+  const { organization, course } = route.params || {};
+
   const handleHomePress = () => {
     // Navigate back to the HomeScreen
     console.log('Home button pressed');
@@ -36,7 +39,8 @@ const ReceiveJoinCode = ({ navigation }) => {
       {/* Additional information paragraphs */}
       <View style={styles.infoContainer}>
         <Text style={styles.infoText}>
-          Save this join code and provide it to the members of your organization to allow them to self-invite and create teams within [CS 465] at [UIUC].
+        Save this join code and provide it to the members of your organization to allow them to self-invite and create teams
+          {course ? ` within ${course}` : ''} at {organization}.
         </Text>
         <Text style={styles.infoText}>
           To access this code later, visit the Current Teams section on the home page.
