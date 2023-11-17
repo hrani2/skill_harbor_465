@@ -75,9 +75,8 @@ export const checkUserLogin = async (email, password) => {
 
 export const queryData = async () => {
   try {
-    const cityRef = ref(realtimeDb, "cities/IL");
+    const cityRef = ref(realtimeDb, "user/"+email);
     const snapshot = await get(cityRef);
-
     if (snapshot.exists()) {
       console.log("Retrieved data: ", snapshot.val());
       return snapshot.val();
