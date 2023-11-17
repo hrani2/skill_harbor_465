@@ -18,9 +18,9 @@ const fetchFonts = () => {
   });
 };
 
-const ReceiveJoinCode = ({ route , navigation }) => {
+const TeamRequestPosted = ({ route , navigation }) => {
 
-  const { organization, course } = route.params || {};
+  const { name } = route.params || {};
 
   const handleHomePress = () => {
     // Navigate back to the HomeScreen
@@ -30,23 +30,21 @@ const ReceiveJoinCode = ({ route , navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Here is your join code:</Text>
+      <Text style={styles.congratulationsText}>Congratulations!</Text>
+
+      <Text style={styles.header}>Your team request for:</Text>
 
       <View style={styles.cardContainer}>
-        <Text style={styles.joinCodeText}>BEACH-84</Text>
+        <Text style={styles.joinCodeText}>{name}</Text>
       </View>
+
+      <Text style={styles.header}>has been sent out.</Text>
+
 
       {/* Additional information paragraphs */}
       <View style={styles.infoContainer}>
         <Text style={styles.infoText}>
-          Save this join code and provide it to the members of your organization to allow them to self-invite and create teams
-          <Text style={styles.whiteText}>{course ? ' within ' : ''}</Text>
-          <Text style={styles.organizationText}>{course ? `${course}` : ''}</Text>
-          <Text style={styles.whiteText}> at </Text>
-          <Text style={styles.courseText}>{organization}</Text>.
-        </Text>
-        <Text style={styles.infoText}>
-          To access this code later, visit the Current Teams section on the home page.
+            Make changes and get updates in the Dashboard on the home page.
         </Text>
       </View>
 
@@ -59,6 +57,13 @@ const ReceiveJoinCode = ({ route , navigation }) => {
 };
 
 const styles = StyleSheet.create({
+    congratulationsText: {
+        fontSize: 50,
+        fontWeight: 'bold',
+        fontStyle: 'italic',
+        color: '#FFEB38', // Choose your desired color
+        marginBottom: 50,
+    },
     container: {
       flex: 1,
       backgroundColor: '#00507B',
@@ -66,7 +71,7 @@ const styles = StyleSheet.create({
       alignItems: 'center',
     },
     header: {
-      fontSize: 24,
+      fontSize: 30,
       fontWeight: 'bold',
       color: '#FFF',
       marginBottom: 20,
@@ -76,6 +81,7 @@ const styles = StyleSheet.create({
       padding: 60,
       borderRadius: 20,
       alignItems: 'center',
+      marginBottom: 20,
     },
     joinCodeText: {
       fontSize: 40,
@@ -84,7 +90,7 @@ const styles = StyleSheet.create({
       fontFamily: 'RobotoSlab-Medium',
     },
     infoContainer: {
-      marginTop: 20,
+      marginTop: 80,
       alignItems: 'center',
     },
     infoText: {
@@ -116,4 +122,4 @@ const styles = StyleSheet.create({
   });
   
 
-export default ReceiveJoinCode;
+export default TeamRequestPosted;

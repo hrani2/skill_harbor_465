@@ -11,6 +11,8 @@ const CreateTeam = ({ navigation }) => {
   const [isSkillModalVisible, setSkillModalVisible] = useState(false);
   const [newSkill, setNewSkill] = useState('');
   const [skills, setSkills] = useState([]);
+  const [isAddButtonDisabled, setAddButtonDisabled] = useState(true);
+
   const handleCompletePress = () => {
     if (name.trim() === '' || location.trim() === '' || teamSize.trim() === '' || parseInt(teamSize) < 2 || parseInt(teamSize) >= 1000) {
         // Show an error message if the required fields are empty or teamSize is less than 2 or greater than 1000
@@ -30,7 +32,9 @@ const CreateTeam = ({ navigation }) => {
             onPress: () => {
               // Add any necessary logic before navigating
               console.log('Complete button pressed - confirmed');
-              navigation.navigate('ReceiveJoinCode');
+              navigation.navigate('TeamRequestPosted', {
+                name,
+              });
             },
           },
         ],
@@ -81,6 +85,15 @@ const CreateTeam = ({ navigation }) => {
 
     // Optionally, clear the input field
     setNewSkill('');
+
+    // Disable the button again after adding a skill
+    setAddButtonDisabled(true);
+  };
+
+  const handleSkillInputChange = (text) => {
+    setNewSkill(text);
+    // Enable/disable the button based on whether there is text
+    setAddButtonDisabled(text.trim() === '');
   };
 
   const handleRemoveSkill = (index) => {
@@ -204,13 +217,20 @@ const CreateTeam = ({ navigation }) => {
             style={styles.skillModalInput}
             placeholder="Enter skill"
             value={newSkill}
-            onChangeText={(text) => setNewSkill(text)}
+            onChangeText={handleSkillInputChange}
           />
           <View style={styles.skillModalButtonsContainer}>
-            <TouchableOpacity style={styles.skillModalCloseButton} onPress={handleSkillModalClose}>
+            <TouchableOpacity
+              style={styles.skillModalCloseButton}
+              onPress={handleSkillModalClose}
+            >
               <Text style={styles.skillModalButtonText}>CLOSE</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.skillModalAddButton} onPress={handleAddNewSkill}>
+            <TouchableOpacity
+              style={styles.skillModalAddButton}
+              onPress={handleAddNewSkill}
+              disabled={isAddButtonDisabled}
+            >
               <Text style={styles.skillModalButtonText}>ADD</Text>
             </TouchableOpacity>
           </View>
