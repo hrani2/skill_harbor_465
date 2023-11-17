@@ -26,13 +26,13 @@ export const addNewUser = async (name, email, password, age, skills) => {
   }
 };
 
-export const createNewTeam = async (name, location, max_size, join_code, skills, info) => {
+export const addNewTeam = async (name, location, team_size, join_code, skills, info) => {
   try {
     const teamRef = ref(realtimeDb, "team/" + name);
     await set(teamRef, {
       name: name,
       location: location,
-      max_size: max_size,
+      team_size: team_size,
       join_code: join_code,
       skills: skills,
       info: info, 

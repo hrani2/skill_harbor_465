@@ -43,7 +43,7 @@ const MyModal = ({modalVisible, setModalVisible, navigation}) => (
 
 const HomeScreen = ({text, count, route, navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const {email} = route.params; 
+  const {email} = route.params || {}; 
   const profileScreen = async (email) => {
       user_dat = await queryUserByName(email);  
       try {
@@ -74,7 +74,7 @@ const HomeScreen = ({text, count, route, navigation}) => {
 
       <View style={styles.menu}>
         <TouchableOpacity style={styles.menuItem} 
-        onPress={() => navigation.navigate('Create')}>
+        onPress={() => navigation.navigate('Create', {email: email})}>
           <View style={styles.icon}>
             <Icon name="plus" size={30} color="#FFF"/>
           </View>
