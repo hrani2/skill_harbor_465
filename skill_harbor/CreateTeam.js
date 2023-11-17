@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Modal } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Modal , ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const CreateTeam = ({ navigation }) => {
@@ -104,7 +104,12 @@ const CreateTeam = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView
+    contentContainerStyle={styles.scrollContainer}
+    keyboardShouldPersistTaps="handled"
+    keyboardDismissMode="on-drag" // Set keyboardDismissMode to "on-drag"
+    >
+      <View style={styles.container}>
       {/* Team Name */}
       <View style={styles.textBoxContainer}>
         <Text style={styles.labelText}>
@@ -237,10 +242,14 @@ const CreateTeam = ({ navigation }) => {
         </View>
       </Modal>
     </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    flexGrow: 1, // Adjust the padding as needed
+  },
   container: {
     flex: 1,
     backgroundColor: '#00507B', // Blue background color
