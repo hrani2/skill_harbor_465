@@ -32,6 +32,8 @@ const MyModal = ({modalVisible, setModalVisible, navigation}) => (
     </Modal>
   );
 
+  
+
 const Search = ( {navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
     return (
