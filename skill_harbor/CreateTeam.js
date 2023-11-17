@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Modal , ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { addNewTeam } from './firebase/utils'
 
-const CreateTeam = ({ navigation }) => {
+const CreateTeam = ({ route, navigation }) => {
   const [name, setName] = useState('');
   const [location, setLocation] = useState('');
   const [teamSize, setTeamSize] = useState('');
@@ -12,6 +13,7 @@ const CreateTeam = ({ navigation }) => {
   const [newSkill, setNewSkill] = useState('');
   const [skills, setSkills] = useState([]);
   const [isAddButtonDisabled, setAddButtonDisabled] = useState(true);
+  const {email} = route.params; 
 
   const handleCompletePress = () => {
     if (name.trim() === '' || location.trim() === '' || teamSize.trim() === '' || parseInt(teamSize) < 2 || parseInt(teamSize) >= 1000) {
@@ -32,8 +34,10 @@ const CreateTeam = ({ navigation }) => {
             onPress: () => {
               // Add any necessary logic before navigating
               console.log('Complete button pressed - confirmed');
+              console.log('adding team to db'); 
+              addNewTeam(name,location,teamSize,joinCode,skills,additionalInfo); 
               navigation.navigate('TeamRequestPosted', {
-                name,
+                name, email: email
               });
             },
           },
@@ -202,6 +206,7 @@ const CreateTeam = ({ navigation }) => {
           multiline={true}
           numberOfLines={4}
           textAlignVertical="top"  // Move the placeholder to the top
+          onChangeText={(text) => setAdditionalInfo(text)}
         />
       </View>
 
