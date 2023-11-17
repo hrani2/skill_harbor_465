@@ -10,6 +10,8 @@ const LoginScreen = ({ navigation }) => {
   const [password, setPassword] = useState('');
 
   const handleLogIn = async (email, password) => {
+    console.log(email);
+    console.log(password);
     if (email == ''){
       Alert.alert("Please enter your email")
       return;

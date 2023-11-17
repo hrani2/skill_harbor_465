@@ -37,7 +37,7 @@ export const createNewTeam = async (name, location, max_size, join_code, skills,
   }
 };
 
-export const queryUserByName = async (name) => {
+export const queryUserByName = async (email) => {
     try{
         const userRef = ref(realtimeDb, "user/" + email);
         const snapshot = await get(userRef);
