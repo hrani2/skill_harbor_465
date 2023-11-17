@@ -7,6 +7,7 @@ import Create from './Create';
 import Browse from './Browse';
 import ChooseTeam from './ChooseTeam';
 import Search from './Search';
+import Learn from './LearnMore';
 import SignUpScreen from './SignUp';
 import CreateTeam from './CreateTeam';
 import TeamRequestPosted from './TeamRequestPosted'
@@ -77,6 +78,8 @@ function App() {
          <Stack.Screen name="Browse" component={Browse}/>
          <Stack.Screen name="ChooseTeam" component={ChooseTeam}/>
          <Stack.Screen name="SignUp" component={SignUpScreen}
+        options={{ headerShown: false }} />
+        <Stack.Screen name="LearnMore" component={Learn}
         options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
