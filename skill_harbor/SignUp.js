@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { View, TextInput, Button, Text, StyleSheet, Alert, TouchableOpacity, StatusBar, SafeAreaView, ScrollView } from 'react-native';
 import { Image } from 'react-native'; 
 import HomeScreen from './HomeScreen';
-import { Picker } from '@react-native-picker/picker';
 import { addNewUser } from './firebase/utils'
 
 
@@ -25,15 +24,11 @@ const SignUpScreen = ({ navigation }) => {
 
 
   const handleSignUp = () => {
-    // Here you would add your validation logic and possibly network requests
-    // For this example, we'll just show an alert
     if (password !== confirmPassword) {
       Alert.alert("Passwords don't match");
       return;
     }
-    // Proceed with backend sign-up process...
-    // Alert.alert('Sign Up Successful', 'Welcome ' + fullName);
-    // After sign up, you can navigate to another screen
+    
     const ageNumber = parseInt(age);
     if (isNaN(ageNumber) || ageNumber < 14 || ageNumber > 80) {
       Alert.alert("Invalid Age", "Age must be a number between 14 and 80.");
@@ -45,7 +40,8 @@ const SignUpScreen = ({ navigation }) => {
     try {
         // Your sign-up logic...
         console.log('Navigating to Home...');
-        navigation.navigate('Home');
+        Alert.alert('Sign Up Successful', 'Welcome ' + fullName);
+        navigation.navigate('Home', {email: email});
       } catch (error) {
         console.error('Navigation error:', error);
       }

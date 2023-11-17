@@ -1,46 +1,103 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Image } from 'react-native'
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, SafeAreaView , ScrollView} from 'react-native';
+import { queryUserByName } from './firebase/utils';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, SafeAreaView , ScrollView, Modal} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Make sure to install this package
-import { useNavigation } from '@react-navigation/native';
 
-const HomeScreen = ({text, count, navigation}) => {
+//Pop-up for Join a Team (asks to search all teams or Join Organization)
+const MyModal = ({modalVisible, setModalVisible, navigation}) => (
+  <Modal
+    animationType="fade"
+    transparent={true}
+    visible={modalVisible}
+    onRequestClose={() => {
+      setModalVisible(!modalVisible);
+    }}>
+    <View style={styles.centeredView}>
+      <View style={styles.modalView}>
+        <View style={styles.iconview}>
+        <TouchableOpacity style = {styles.helpicon}>
+          <Icon name="question-circle" size={25}  color="#00507B"/> 
+         </TouchableOpacity>
+          <TouchableOpacity style = {styles.closeicon}
+          onPress={() => setModalVisible(false)}>
+          <Icon name="times" size={25} color="#00507B"/> 
+         </TouchableOpacity>
+        </View>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() =>  {navigation.navigate('Search'); setModalVisible(false);}}>
+          <Text style={styles.textStyle}>Search All Teams</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {/* Your action for second option */}}>
+          <Text style={styles.textStyle}>Join Organization</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  </Modal>
+);
+
+
+
+const HomeScreen = ({text, count, route, navigation}) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const {email} = route.params || {}; 
+  const profileScreen = async (email) => {
+      user_dat = await queryUserByName(email);  
+      try {
+        console.log('Navigating to Profile...');
+        navigation.navigate('Profile', {name: user_dat["name"], email: email, 
+                                        age: user_dat["age"], skills: user_dat["skills"]});
+      } catch (error) {
+        console.error('Navigation error:', error);
+      }
+  }
+
   return (
     <View style={styles.container}>
       <ScrollView>
       <View style={styles.header}>
-      <TouchableOpacity style={styles.headerIcon}>
-          <Icon name="user" size={30} color="#FFF"/> 
-          </TouchableOpacity>
+      <TouchableOpacity style={styles.headerIcon}
+          onPress={() => profileScreen(email)}
+      >
+          <Icon name="user" size={30} color="#FFF"/>
+      </TouchableOpacity>
       <Text style={styles.headerTitle}>Skill Harbor</Text>
       <TouchableOpacity style={styles.headerIcon}>
           <Icon name="gear" size={30} color="#FFF"/> 
-          </TouchableOpacity>
+      </TouchableOpacity>
       </View>
 
 
 
       <View style={styles.menu}>
         <TouchableOpacity style={styles.menuItem} 
-        onPress={() => navigation.navigate('Create')}>
+        onPress={() => navigation.navigate('Create', {email: email})}>
           <View style={styles.icon}>
             <Icon name="plus" size={30} color="#FFF"/>
           </View>
           <Text style={styles.menuItemText}>CREATE</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Browse')} >
+        <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('ChooseTeam')} >
           <View style={styles.icon}>
             <Icon name="book" size={30} color="#FFF" />
           </View>
           <Text style={styles.menuItemText}>BROWSE</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Search')} >
+        <TouchableOpacity style={styles.menuItem} onPress={() => setModalVisible(true)} >
           <View style={styles.icon}>
             <Icon name="search" size={30} color="#FFF" />
           </View>
           <Text style={styles.menuItemText}>JOIN</Text>
+          <MyModal 
+              modalVisible={modalVisible}
+              setModalVisible={setModalVisible}
+              navigation={navigation}
+          />
         </TouchableOpacity>
 
       </View>
@@ -63,9 +120,12 @@ const HomeScreen = ({text, count, navigation}) => {
         </TouchableOpacity>
 
         <TouchableOpacity  style={styles.pillButton}>
-        <Text style={styles.pillButtonText}>Pending Invites</Text>
+          <Icon name="chevron-right" size={20} color="#000" style={styles.pillButtonIcon} />
+          <Text style={styles.pillButtonText}>Pending Invites</Text>
+          <View style={styles.badgeContainer}>
+            <Text style={styles.badgeText}>{count}</Text>
+          </View>
         </TouchableOpacity>
-
         {/* <TouchableOpacity>
         <View style={styles.pillButton} />
         </TouchableOpacity> */}
@@ -90,6 +150,62 @@ const HomeScreen = ({text, count, navigation}) => {
 };
 
 const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalView: {
+    backgroundColor: "white",
+    borderRadius: 20,
+    width: "80%",
+    height: 170,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 9,
+    elevation: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+  },
+  button: {
+    borderRadius: 15,
+    backgroundColor: '#00507B',
+    width: "80%",
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    marginBottom: 10,
+
+  },
+  iconview: {
+    flexDirection: 'row',
+  },
+  helpicon: {
+    top: -5,
+    right: 120,
+    paddingBottom: -70,
+  },
+  closeicon: {
+    top: -5,
+    left: 120,
+    paddingBottom: -70,
+  },
+  textStyle: {
+    color: "white",
+    fontFamily: 'RobotoSlab-Medium',
+    fontSize: 21,
+    textAlignVertical: 'center',
+    textAlign: 'center',
+    alignContent: 'center',
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
@@ -189,7 +305,6 @@ const styles = StyleSheet.create({
   },
   pillButtonText: {
     alignSelf: 'flex-start',
-    paddingHorizontal: 30,
     paddingTop: 8,
     justifyContent: "center",
     fontFamily: 'RobotoSlab-Medium',
@@ -201,9 +316,7 @@ const styles = StyleSheet.create({
     borderRadius: 15, // Half of the width and height to make it circular
     width: 30, // Badge width
     height: 30, // Badge heigh
-    justifyContent: 'center',
-    alignItems: 'center',
-    
+    right: 6,
   },
   badgeText: {
     color: '#FFF',

@@ -24,8 +24,9 @@ const LoginScreen = ({ navigation }) => {
     flag = await checkUserLogin(email, password);
     if (flag == true){
       try {
+        console.log(email); 
         console.log('Navigating to Home...');
-        navigation.navigate('Home');
+        navigation.navigate('Home', {email: email});
       } catch (error) {
         console.error('Navigation error:', error);
       }
