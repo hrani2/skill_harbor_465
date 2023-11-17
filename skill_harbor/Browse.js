@@ -37,8 +37,6 @@ const Browse = ({ route, navigation }) => {
       ]
     );
   };
-  
-  export default Browse;
 
   const additionSuccessful = (name) => {
     Alert.alert(
