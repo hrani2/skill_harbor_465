@@ -149,7 +149,7 @@ const Search = ( {navigation}) => {
           </ScrollView>
           <TouchableOpacity style={styles.floatButton} onPress={() => navigation.navigate('Home')}>
           <View style = {styles.homeicon}>
-            <Icon name="home" size={40} color="#00507B" />
+            <Icon name="home" size={30} color="#00507B" />
           </View>
           </TouchableOpacity>
         </View>

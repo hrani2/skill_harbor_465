@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import { Image } from 'react-native'
+import { queryUserByName } from './firebase/utils';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, SafeAreaView , ScrollView, Modal} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Make sure to install this package
 
@@ -69,34 +70,94 @@ const JoinOrg = ({modalVisible, setModalVisible, navigation}) => (
   </Modal>
 );
 
+const Create = ({modalVisible, setModalVisible, navigation, email}) => (
+  <Modal
+    animationType="fade"
+    transparent={true}
+    visible={modalVisible}
+    onRequestClose={() => {
+      setModalVisible(!modalVisible);
+    }}>
+    <View style={styles.centeredView}>
+      <View style={styles.modalView}>
+        <View style={styles.iconview}>
+        <TouchableOpacity style = {styles.helpicon}>
+          <Icon name="question-circle" size={25}  color="#00507B"/> 
+         </TouchableOpacity>
+          <TouchableOpacity style = {styles.closeicon}
+          onPress={() => setModalVisible(false)}>
+          <Icon name="times" size={25} color="#00507B"/> 
+         </TouchableOpacity>
+        </View>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            console.log('Create Team button pressed');
+            navigation.navigate('CreateTeam', {email: email}); setModalVisible(false);}}>
+          <Text style={styles.textStyle}>Create Teams</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            console.log('Create Join Code button pressed');
+            navigation.navigate('JoinCode'); setModalVisible(false);}}>
+          <Text style={styles.textStyle}>Create Join Code</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  </Modal>
+);
 
-const HomeScreen = ({text, count, navigation}) => {
+
+const HomeScreen = ({text, count, route, navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [createModalVisible, setCreateModalVisible] = useState(false);
+  const {email} = route.params || {}; 
+  const profileScreen = async (email) => {
+      user_dat = await queryUserByName(email);  
+      try {
+        console.log('Navigating to Profile...');
+        navigation.navigate('Profile', {name: user_dat["name"], email: email, 
+                                        age: user_dat["age"], skills: user_dat["skills"]});
+      } catch (error) {
+        console.error('Navigation error:', error);
+      }
+  }
+
   return (
     <View style={styles.container}>
       <ScrollView>
       <View style={styles.header}>
-      <TouchableOpacity style={styles.headerIcon}>
-          <Icon name="user" size={30} color="#FFF"/> 
-          </TouchableOpacity>
+      <TouchableOpacity style={styles.headerIcon}
+          onPress={() => profileScreen(email)}
+      >
+          <Icon name="user" size={30} color="#FFF"/>
+      </TouchableOpacity>
       <Text style={styles.headerTitle}>Skill Harbor</Text>
       <TouchableOpacity style={styles.headerIcon}>
           <Icon name="gear" size={30} color="#FFF"/> 
-          </TouchableOpacity>
+      </TouchableOpacity>
       </View>
 
 
 
       <View style={styles.menu}>
         <TouchableOpacity style={styles.menuItem} 
-        onPress={() => navigation.navigate('Create')}>
+        onPress={() => setCreateModalVisible(true)}>
+        {/* \\onPress={() => navigation.navigate('Create', {email: email})}> */}
           <View style={styles.icon}>
             <Icon name="plus" size={30} color="#FFF"/>
           </View>
           <Text style={styles.menuItemText}>CREATE</Text>
+          <Create 
+              modalVisible={createModalVisible} 
+              setModalVisible={setCreateModalVisible} 
+              navigation={navigation} 
+              email={email} 
+          />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Browse')} >
+        <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('ChooseTeam')} >
           <View style={styles.icon}>
             <Icon name="book" size={30} color="#FFF" />
           </View>
