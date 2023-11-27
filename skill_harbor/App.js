@@ -66,16 +66,24 @@ function App() {
         options={{ headerShown: false }}/>
         <Stack.Screen name="Home" component={HomeScreen}
         options={{ headerShown: false }} />
-        <Stack.Screen name="Profile" component={ProfileScreen}/>
-         <Stack.Screen name="Create" component={Create} />
-         <Stack.Screen name="CreateTeam" component={CreateTeam} />
-         <Stack.Screen name="TeamRequestPosted" component={TeamRequestPosted} />
-         <Stack.Screen name="JoinCode" component={JoinCode} />
-         <Stack.Screen name="ReceiveJoinCode" component={ReceiveJoinCode} />
+        <Stack.Screen name="Profile" component={ProfileScreen}  
+        options={{ headerShown: false }}/>
+         <Stack.Screen name="Create" component={Create}
+          options={{ headerShown: false }} />
+         <Stack.Screen name="CreateTeam" component={CreateTeam}
+          options={{ headerShown: false }} />
+         <Stack.Screen name="TeamRequestPosted" component={TeamRequestPosted} 
+          options={{ headerShown: false }}/>
+         <Stack.Screen name="JoinCode" component={JoinCode} 
+          options={{ headerShown: false }}/>
+         <Stack.Screen name="ReceiveJoinCode" component={ReceiveJoinCode} 
+          options={{ headerShown: false }}/>
          <Stack.Screen name="Search" component={Search} 
           options={{ headerShown: false }}/>
-         <Stack.Screen name="Browse" component={Browse}/>
-         <Stack.Screen name="ChooseTeam" component={ChooseTeam}/>
+         <Stack.Screen name="Browse" component={Browse}
+          options={{ headerShown: false }}/>
+         <Stack.Screen name="ChooseTeam" component={ChooseTeam}
+          options={{ headerShown: false }}/>
          <Stack.Screen name="SignUp" component={SignUpScreen}
         options={{ headerShown: false }} />
         <Stack.Screen name="LearnMore" component={Learn}

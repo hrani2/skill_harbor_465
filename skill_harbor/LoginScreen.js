@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Image, Alert} from 'react-native'
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, SafeAreaView, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, SafeAreaView, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { onPressTest, checkUserLogin, deleteData } from './firebase/utils'
 
 
@@ -34,7 +34,9 @@ const LoginScreen = ({ navigation }) => {
 
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
+      <ScrollView style={styles.scrollView} >
+      <KeyboardAvoidingView>
       <StatusBar barStyle="dark-content" />
       <View style={styles.logoContainer}>
         <Image
@@ -81,10 +83,13 @@ const LoginScreen = ({ navigation }) => {
         onPress={() => {navigation.navigate('SignUp')}}
         style={styles.signUpButton}
       >
-        <Text style={styles.signUpButtonText}>Don’t have account? Sign Up</Text>
+        <Text style={styles.signUpButtonText}>Don’t have account? 
+        <Text style={styles.SignInText}> SIGN UP</Text>
+        </Text>
       </TouchableOpacity>
-      
-    </SafeAreaView>
+      </KeyboardAvoidingView>
+      </ScrollView>
+    </View>
   );
 };
 
@@ -94,16 +99,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
-    
+  }, 
+  scrollView: {
+    width: '100%',
   },
   logoContainer: {
-    marginBottom: 40,
+    marginBottom: 20,
     alignItems: 'center',
     paddingHorizontal: 16.877,
     flexShrink: 0,
   },
   logo: {
     // If you want to specify the size of the logo or any other style:
+    marginTop: 90,
     width: 200, // Set the width as needed
     height: 100, // Set the height as needed
     resizeMode: 'contain', // Ensures the image is scaled to fit within the container
@@ -126,6 +134,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     width: '90%',
+    alignSelf: 'center',
   },
   input: {
     borderWidth: 1,
@@ -152,6 +161,7 @@ const styles = StyleSheet.create({
     width: '90%',
     alignItems: 'center',
     marginTop: 20,
+    alignSelf: 'center',
   },
   signInButtonText: {
     color: '#fff',
@@ -164,7 +174,12 @@ const styles = StyleSheet.create({
   },
   signUpButtonText: {
     color: 'black',
-    fontFamily: 'RobotoSlab-Regular'
+    fontFamily: 'RobotoSlab-Regular',
+    alignSelf: 'center',
+  },
+  SignInText: {
+    fontFamily: 'RobotoSlab-Bold',
+    left: 20,
   },
 });
 
