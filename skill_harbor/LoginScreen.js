@@ -8,7 +8,7 @@ const LoginScreen = ({ navigation }) => {
       <StatusBar barStyle="dark-content" />
       <View style={styles.logoContainer}>
         <Image
-        source={require('skill_harbor/assets/logo.png')} // Replace with the correct path to your local image
+        source={require('./assets/logo.png')} // Replace with the correct path to your local image
         style={styles.logo} // You may need additional styling for your image
         />
         <Text style={styles.logoText}>Skill Harbor</Text>
