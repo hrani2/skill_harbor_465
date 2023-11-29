@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Image } from 'react-native'
+import { Alert, Image } from 'react-native'
 import { queryUserByName } from './firebase/utils';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, SafeAreaView , ScrollView, Modal} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Make sure to install this package
@@ -124,7 +124,24 @@ const HomeScreen = ({text, count, route, navigation}) => {
   const handleLogOut = () => {
     try {
       console.log('Navigating to Login Screen'); 
-      navigation.navigate('Log In'); 
+      Alert.alert(
+        'Confirmation',
+        'Are you sure you want to go to log out?',
+        [
+          {
+            text: 'Cancel',
+            style: 'cancel',
+          },
+          {
+            text: 'OK',
+            onPress: () => {
+              console.log('Log out Button Pressed');
+              navigation.navigate('Log In');
+            },
+          },
+        ],
+        { cancelable: false }
+      );
     } catch (error) {
       console.error('Navigation Error: ', error); 
     }
