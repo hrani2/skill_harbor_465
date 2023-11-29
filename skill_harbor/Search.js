@@ -53,7 +53,7 @@ const Search = ( {navigation}) => {
         <TouchableOpacity style={styles.filterButton} onPress={() => setModalVisible(true)}>
             <Text style={styles.filterText}>Filters</Text>
             <View style={styles.filterIcon}>
-                <Icon name="sliders" size={20} color="#FFF" />
+                <Icon name="sliders" size={20} color="#00507B" />
             </View>
             <MyModal 
               modalVisible={modalVisible}
@@ -149,7 +149,7 @@ const Search = ( {navigation}) => {
           </ScrollView>
           <TouchableOpacity style={styles.floatButton} onPress={() => navigation.navigate('Home')}>
           <View style = {styles.homeicon}>
-            <Icon name="home" size={30} color="#00507B" />
+            <Icon name="home" size={30} color="#FFF" />
           </View>
           </TouchableOpacity>
         </View>
@@ -164,7 +164,7 @@ const Search = ( {navigation}) => {
       backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     modalView: {
-      backgroundColor: "white",
+      backgroundColor: "#00507B",
       borderRadius: 20,
       width: "90%",
       height: 170,
@@ -184,7 +184,7 @@ const Search = ( {navigation}) => {
     },
     modalTitle: {
       fontSize: 21,
-      color: '#00507B',
+      color: '#FFF',
       fontFamily: 'RobotoSlab-Bold',
       letterSpacing: 1,
       top: 10,
@@ -209,6 +209,7 @@ const Search = ( {navigation}) => {
     },
     container: {
       flex: 1,
+      backgroundColor: '#00507B',
     },
     searchSection: {
       flexDirection: 'row',
@@ -216,7 +217,7 @@ const Search = ( {navigation}) => {
       backgroundColor: '#FFF',
       borderRadius: 15,
       borderWidth: 1,
-      borderColor: "#00507B",
+      borderColor: "#FFF",
       margin: 10,
       top: 50,
       padding: 5,
@@ -238,8 +239,8 @@ const Search = ( {navigation}) => {
       justifyContent: 'center',
       borderWidth: 2,
       width: 100,
-      backgroundColor: "#00507B",
-      borderColor:  "#00507B",
+      backgroundColor: "#FFF",
+      borderColor:  "#FFF",
       borderRadius: 7,
     },
     filterIcon: {
@@ -250,7 +251,7 @@ const Search = ( {navigation}) => {
     filterText: {
         fontSize: 17,
         fontFamily: 'RobotoSlab-Regular',
-        color: 'white',
+        color: '#00507B',
         alignSelf: 'center',
         right: 5,
     },
@@ -267,7 +268,7 @@ const Search = ( {navigation}) => {
       padding: 10,
     },
     card: {
-      backgroundColor: '#00507B',
+      backgroundColor: '#FFF',
       borderRadius: 10,
       padding: 20,
       marginBottom: 10,
@@ -287,7 +288,7 @@ const Search = ( {navigation}) => {
       fontFamily: 'RobotoSlab-Bold',
       marginBottom: 10,
       top: 10,
-      color: '#FFF',
+      color: '#00507B',
       letterSpacing: 1,
     },
     summary: {
@@ -295,17 +296,17 @@ const Search = ( {navigation}) => {
       fontFamily: 'RobotoSlab-Regular',
       marginBottom: 30,
       top: 20,
-      color: '#FFF',
+      color: '#00507B',
       alignSelf: 'center',
     },
     learnMoreButton: {
-      backgroundColor: '#FFF',
+      backgroundColor: '#00507B',
       padding: 10,
       borderRadius: 7,
       alignSelf: 'center',
     },
     learnMoreText: {
-      color: '#00507B',
+      color: '#FFF',
       fontSize: 16,
       fontFamily: 'RobotoSlab-Regular',
     },
@@ -313,7 +314,7 @@ const Search = ( {navigation}) => {
       width: 60,
       height: 60,
       borderRadius: 30,
-      backgroundColor: "#FFF",
+      backgroundColor: "#00507B",
       alignItems: 'center',
       justifyContent: 'center',
       shadowColor: "#000",

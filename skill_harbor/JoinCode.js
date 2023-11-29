@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#FFF', // Blue background color
+    backgroundColor: '#00507B', // Blue background color
     padding: 20,
     paddingTop: 60,
     position: 'relative',
@@ -163,22 +163,22 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   labelText: {
-    color: '#00507B', // White text color
+    color: '#FFF', // White text color
     marginBottom: 5,
     fontFamily: 'RobotoSlab-Bold',
     letterSpacing: 1,
   },
   requiredStar: {
-    color: 'red',
+    color: '#FFEB38',
   },
   textBox: {
-    backgroundColor: '#ABAFD0',
+    backgroundColor: '#FFF', // White text box background color
     padding: 10,
     borderRadius: 5,
     fontFamily: 'RobotoSlab-Regular',
   },
   largeTextBox: {
-    backgroundColor: '#ABAFD0', // White text box background color
+    backgroundColor: '#FFF', // White text box background color
     padding: 10,
     borderRadius: 5,
     height: 120,

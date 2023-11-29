@@ -40,7 +40,7 @@ const ChooseTeam = ({navigation}) => {
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.homeButton} onPress={handleHomePress}>
-          <Icon name="home" size={30} color="#FFF" />
+          <Icon name="home" size={30} color="#00507B" />
         </TouchableOpacity>
 
         </View>
@@ -55,16 +55,16 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FFF', // Assuming a navy blue background
+    backgroundColor: '#00507B', // Assuming a navy blue background
   },
   header: {
     fontSize: 24,
     fontFamily: 'RobotoSlab-Bold',
     marginBottom: 40,
-    color: '#00507B',
+    color: '#FFF',
   },
   button: {
-    backgroundColor: '#00507B',
+    backgroundColor: '#FFF',
     padding: 10,
     marginVertical: 10,
     borderRadius: 15,
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     textAlign: 'center',
-    color: '#FFF',
+    color: '#00507B',
     fontFamily: 'RobotoSlab-Regular',
     fontSize: 20,
     // Add additional styling to match the design
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 20,
     left: 20,
-    backgroundColor: '#00507B', // White button color
+    backgroundColor: '#FFF', // White button color
     padding: 20,
     borderRadius: 50, // Make it a circle
     alignItems: 'center',

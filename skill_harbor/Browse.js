@@ -78,7 +78,7 @@ const Browse = ({ route, navigation }) => {
     <View style={styles.container}>
       {/* Back Button */}
       <TouchableOpacity style={styles.backButton} onPress={handleBackPress}>
-        <Icon name="arrow-left" size={24} color="#FFF" />
+        <Icon name="arrow-left" size={24} color="#00507B" />
       </TouchableOpacity>
 
       <Text style={styles.header}>{teamname}</Text>
@@ -101,7 +101,7 @@ const Browse = ({ route, navigation }) => {
 
       {/* Home Button */}
       <TouchableOpacity style={styles.homeButton} onPress={handleHomePress}>
-          <Icon name="home" size={30} color="#FFF" />
+          <Icon name="home" size={30} color="#00507B" />
         </TouchableOpacity>
       </View>
   );
@@ -112,12 +112,12 @@ const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF', // Dark blue background
+    backgroundColor: '#00507B', // Dark blue background
   },
   header: {
     fontSize: 30,
     fontWeight: 'bold',
-    color: '#00507B',
+    color: '#FFF',
     textAlign: 'center',
     padding: 20,
     marginTop: 40,
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
   subheader: {
     fontSize: 22,
     fontFamily: 'RobotoSlab-Bold',
-    color: '#00507B',
+    color: '#FFF',
     paddingLeft: 20,
     paddingBottom: 10,
   },
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#00507B',
+    backgroundColor: '#FFF',
     borderRadius: 15,
     marginHorizontal: 20,
     marginBottom: 20,
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 20,
     fontFamily: 'RobotoSlab-Regular',
-    color: '#FFF',
+    color: '#00507B',
   },
   rating: {
     fontSize: 20,
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     marginBottom: 50,
   },
   recommendation: {
-    backgroundColor: '#00507B',
+    backgroundColor: '#FFF',
     borderRadius: 15,
     padding: 10,
     width: width * 0.4, // Adjust the width as per your design requirement
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 20,
     left: 20,
-    backgroundColor: '#00507B', // White button color
+    backgroundColor: '#FFF', // White button color
     padding: 20,
     borderRadius: 50, // Make it a circle
     alignItems: 'center',
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     top: 20, // Adjust top and left as per your UI requirements
     marginTop: 40,
     left: 20,
-    backgroundColor: '#00507B',
+    backgroundColor: '#FFF',
     padding: 10,
     borderRadius: 50,
     alignItems: 'center',

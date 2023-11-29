@@ -76,15 +76,14 @@ const SentRequests = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
+    backgroundColor: '#00507B',
   },
   header: {
     fontSize: 40,
-    color: '#00507B',
+    color: '#FFF',
     textAlign: 'center',
     padding: 20,
     fontFamily: 'RobotoSlab-Black',
-    marginTop: 40,
   },
   headerContainer: {
     flexDirection: 'row',
@@ -94,7 +93,7 @@ const styles = StyleSheet.create({
   lineone: {
     flex: 1,
     height: 2,
-    backgroundColor: '#00507B',
+    backgroundColor: '#FFF',
     marginRight: -30,
     maxWidth: 40,
     marginLeft: 15,
@@ -102,7 +101,7 @@ const styles = StyleSheet.create({
   contentHeader: {
     fontFamily: 'RobotoSlab-Black',
     fontSize: 17,
-    color: '#00507B',
+    color: '#FFF',
     paddingVertical: 10,
     letterSpacing: 1,
     alignSelf: 'flex-start',
@@ -111,7 +110,7 @@ const styles = StyleSheet.create({
   line: {
     flex: 1,
     height: 2,
-    backgroundColor: '#00507B',
+    backgroundColor: '#FFF',
     marginLeft: -30,
     marginRight: 15,
   },
@@ -123,7 +122,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#00507B',
+    backgroundColor: '#FFF',
     borderRadius: 15,
     paddingVertical: 15,
     paddingHorizontal: 20,
@@ -131,7 +130,7 @@ const styles = StyleSheet.create({
   cardText: {
     fontSize: 18,
     fontFamily: 'RobotoSlab-Regular',
-    color: '#FFF',
+    color: '#00507B',
   },
 });
 

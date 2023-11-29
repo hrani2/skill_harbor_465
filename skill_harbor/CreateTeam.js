@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#FFF', // Blue background color
+    backgroundColor: '#00507B', // Blue background color
     padding: 20,
     position: 'relative',
     paddingTop: 60,
@@ -262,22 +262,22 @@ const styles = StyleSheet.create({
     fontFamily: 'RobotoSlab-Regular',
   },
   labelText: {
-    color: '#000', // White text color
+    color: '#FFF', // White text color
     marginBottom: 5,
     fontFamily: 'RobotoSlab-Bold',
     letterSpacing: 1,
   },
   requiredStar: {
-    color: 'red',
+    color: '#FFEB38',
   },
   textBox: {
-    backgroundColor: '#ABAFD0', // White text box background color
+    backgroundColor: '#FFF', // White text box background color
     padding: 10,
     borderRadius: 5,
     fontFamily: 'RobotoSlab-Regular',
   },
   squareTextBox: {
-    backgroundColor: '#ABAFD0',
+    backgroundColor: '#FFF',
     padding: 10,
     borderRadius: 5,
     width: 50,  // Adjust the width as needed
@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   addSkillTitle: {
-    color: '#00507B',
+    color: '#FFF',
     fontSize: 16,
     fontFamily: 'RobotoSlab-Bold',
   },
@@ -389,7 +389,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   largeTextBox: {
-    backgroundColor: '#ABAFD0', // White text box background color
+    backgroundColor: '#FFF', // White text box background color
     padding: 10,
     borderRadius: 5,
     height: 120,
