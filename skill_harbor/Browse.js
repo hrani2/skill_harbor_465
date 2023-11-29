@@ -17,10 +17,6 @@ const Browse = ({ route, navigation }) => {
     { name: 'Jason', rating: 8.4, age: 22, skills:['R', 'C++', 'C'] },
   ];
 
-  // const age = {
-  //   'Ric':19, 'Dawn':20, 'Mirra':21, 'Adelia':22, 'Jason':21
-  // };
-
   const confirmAddition = (name) => {
     Alert.alert(
       "Confirmation",
@@ -74,8 +70,17 @@ const Browse = ({ route, navigation }) => {
     );
   };
 
+  const handleBackPress = () => {
+    navigation.goBack();
+  };
+
   return (
     <View style={styles.container}>
+      {/* Back Button */}
+      <TouchableOpacity style={styles.backButton} onPress={handleBackPress}>
+        <Icon name="arrow-left" size={24} color="#FFF" />
+      </TouchableOpacity>
+
       <Text style={styles.header}>{teamname}</Text>
       <Text style={styles.subheader}>Potential matches:</Text>
       <ScrollView style={styles.scrollView}>
@@ -91,25 +96,7 @@ const Browse = ({ route, navigation }) => {
           </TouchableOpacity>
         ))}
       </ScrollView>
-      <Text style={styles.subheader}>Recommended:</Text>
-      <View style={styles.recommendedContainer}>
-        <ScrollView horizontal={true}
-    showsHorizontalScrollIndicator={false}
-    style={styles.scrollView}
-    contentContainerStyle={styles.scrollViewContent}>
-          {recommended.map((recommendation, index) => (
-            <TouchableOpacity key={index} style={styles.recommendation}onPress={() => navigation.navigate('Profile', { name: recommendation.name,  email: recommendation.name + '@illinois.edu', age: recommendation.age, skills: recommendation.skills})} >
-              <Text style={styles.name}>{recommendation.name}</Text>
-              <View style={styles.matchInfo}>
-                <Text style={styles.rating}>{recommendation.rating}</Text>
-                <TouchableOpacity onPress={() => confirmAddition(recommendation.name)}>
-                  <Icon name="check" size={30} color="green" />
-                </TouchableOpacity>
-              </View>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
-      </View>
+
       {/* Add navigation and other controls as necessary */}
 
       {/* Home Button */}
@@ -133,6 +120,7 @@ const styles = StyleSheet.create({
     color: '#00507B',
     textAlign: 'center',
     padding: 20,
+    marginTop: 40,
   },
   subheader: {
     fontSize: 22,
@@ -206,6 +194,18 @@ const styles = StyleSheet.create({
       height: 2
     },
     shadowOpacity: 0.25,
+  },
+  backButton: {
+    position: 'absolute',
+    top: 20, // Adjust top and left as per your UI requirements
+    marginTop: 40,
+    left: 20,
+    backgroundColor: '#00507B',
+    padding: 10,
+    borderRadius: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 10, // Make sure it's above other elements
   },
 });
 
