@@ -43,6 +43,7 @@ export const addNewTeam = async (name, location, team_size, join_code, skills, i
       join_code: join_code,
       skills: skills,
       info: info, 
+      members: "None"
     });
     console.log("Document successfully written!");
   } catch (e) {
