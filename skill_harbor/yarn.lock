@@ -3795,7 +3795,7 @@ expo@*, expo@^49.0.0, expo@>=47.0.0:
   integrity sha512-BrPtTxBlE7pFG1ZDi1fqq4pGbS5IcTg4bH9TTeUbJOTTs43W+QkXzsylmT0omf8nADOHGx9EFgufPneBcU1F1w==
   dependencies:
     "@babel/runtime" "^7.20.0"
-    "@expo/cli" "0.10.14"
+    "@expo/cli" "0.10.15"
     "@expo/config" "8.1.2"
     "@expo/config-plugins" "7.2.5"
     "@expo/vector-icons" "^13.0.0"

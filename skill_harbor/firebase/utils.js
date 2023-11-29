@@ -9,16 +9,23 @@ function removeSpecialCharacters(str) {
 }
 
 
+// 
+export const searchTeambyName = async (email) => {
+  // triverse 
+}
+
 export const addNewUser = async (name, email, password, age, skills) => {
   path_email = removeSpecialCharacters(email); 
   try {
     const userRef = ref(realtimeDb, "user/" + path_email);
+    // add a empty list of teams
     await set(userRef, {
       name: name,
       email: email,
       password: password,
       age: age,
-      skills: skills
+      skills: skills,
+      teams: "None"
     });
     console.log("Document successfully written!");
   } catch (e) {

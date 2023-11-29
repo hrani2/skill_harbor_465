@@ -2,7 +2,8 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { queryTeamDb } from './firebase/utils';
 
-const ChooseTeam = ({navigation}) => {
+const ChooseTeam = ({route, navigation}) => {
+    const { email } = route.params;
     return (
         <View style={styles.container}>
         <Text style={styles.header}>CURRENT TEAMS:</Text>
