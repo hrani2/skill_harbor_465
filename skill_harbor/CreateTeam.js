@@ -205,6 +205,7 @@ const CreateTeam = ({ navigation }) => {
           multiline={true}
           numberOfLines={4}
           textAlignVertical="top"  // Move the placeholder to the top
+          onChangeText={(text) => setAdditionalInfo(text)}
         />
       </View>
 
