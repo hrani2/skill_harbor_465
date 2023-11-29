@@ -100,6 +100,7 @@ const styles = StyleSheet.create({
     color: '#FFF',
     textAlign: 'center',
     padding: 20,
+    marginTop: 40,
     fontFamily: 'RobotoSlab-Black',
   },
   headerContainer: {

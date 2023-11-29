@@ -22,7 +22,7 @@ const MyModal = ({modalVisible, setModalVisible, navigation}) => (
           <Text style={styles.modalTitle}>FILTERS</Text>
             <TouchableOpacity style = {styles.closeicon}
             onPress={() => setModalVisible(false)}>
-            <Icon name="times" size={25} color="#00507B"/> 
+            <Icon name="times" size={25} color="#FFF"/> 
            </TouchableOpacity>
           </View>
           <View style={styles.lineone} />

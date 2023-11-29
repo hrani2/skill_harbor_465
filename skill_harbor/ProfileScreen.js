@@ -1,16 +1,29 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Text, StyleSheet, Alert, TouchableOpacity, StatusBar, SafeAreaView, ScrollView } from 'react-native';
+import { View, TextInput, Button, Text, StyleSheet, Alert, TouchableOpacity, StatusBar, SafeAreaView, ScrollView, Dimensions} from 'react-native';
 import { Image } from 'react-native'; 
 import HomeScreen from './HomeScreen';
 import Icon from 'react-native-vector-icons/FontAwesome'; 
+
+const screenWidth = Dimensions.get('window').width;
 
 const ProfileScreen = ({ route, navigation }) => {
     const { name, email, age, skills = ['Python', 'R', 'C++'] } = route.params;
     return (
       <View style={styles.container}>
+         <View style={styles.header}>
+        <Text style={styles.headerText}>Your Profile</Text>
+      </View>
+
+
+       <TouchableOpacity style={styles.menuItem}>
+          <View style={styles.icon}>
+            <Icon name="user" size={50} color='#00507B' />
+          </View>
+        </TouchableOpacity>
+
         <Text style={styles.name}>{name}</Text>
         <TouchableOpacity style={styles.ageButton}>
-            <Text>Age: {age}</Text>
+            <Text style={styles.input}>Age: {age}</Text>
         </TouchableOpacity>
         {/* <Text style={styles.input}>Location: {location}</Text> */}
         <Text style={styles.input}>Email: {email}</Text>
@@ -18,13 +31,13 @@ const ProfileScreen = ({ route, navigation }) => {
         <View style={styles.skillsContainer}>
             {skills.map((skill, index) => (
             <TouchableOpacity key={index} style={styles.skillButton}>
-                <Text>{skill}</Text>
+                <Text style={styles.input}>{skill}</Text>
             </TouchableOpacity>
             ))}
         </View>
         <TouchableOpacity style={styles.floatButton} onPress={() => navigation.navigate('Home', {email: email})}>
           <View style = {styles.homeicon}>
-            <Icon name="home" size={40} color="#FFF" />
+            <Icon name="home" size={30} color='#FFF' />
           </View>
         </TouchableOpacity>
       </View>
@@ -34,33 +47,67 @@ const ProfileScreen = ({ route, navigation }) => {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
+    },
+    header: {
       backgroundColor: '#00507B',
-      alignItems: 'center',
+      height: 250,
       justifyContent: 'center',
-      padding: 20,
+      alignItems: 'center',
+      borderBottomLeftRadius: 450 / 2,
+    },
+    headerText: {
+      color: '#FFF',
+      fontSize: 24,
+      position: 'absolute',
+      top: 40, // Adjust this value as needed
+      fontFamily: 'RobotoSlab-Medium',
+      alignSelf: "center",
+      margin: 40,
+    },
+    menuItem: {
+      alignItems: 'center',
+      justifyContent: 'center', // This ensures the icon is centered vertically  
+    },
+    icon: {
+      justifyContent: 'center',// You must set a height for borderRadius to work as expected
+      alignItems: 'center',
+      width: 100,
+      height: 100,
+      borderColor: '#00507B',
+      borderWidth: 2,
+      backgroundColor: '#FFF', 
+      borderRadius: 50, 
+      top: -110,
+      right: 110,
     },
     name: {
-      fontSize: 24,
+      fontSize: 40,
       fontWeight: 'bold',
+      fontFamily: 'RobotoSlab-Bold',
       color: 'white',
       marginBottom: 10,
+      left: 160,
+      top: -200,
     },
     ageButton: {
-      backgroundColor: 'white',
+      backgroundColor: '#00507B',
+      fontFamily: 'RobotoSlab-Medium',
+      width: "40%",
       paddingHorizontal: 15,
       paddingVertical: 5,
       borderRadius: 15,
       marginBottom: 20,
+      alignItems: 'center',
+      alignSelf: 'center',
+      justifyContent: 'center',
     },
     input: {
       width: '100%',
-      backgroundColor: 'white',
-      paddingHorizontal: 15,
-      paddingVertical: 10,
-      borderRadius: 5,
-      color: 'black',
-      fontSize: 16,
-      marginBottom: 15,
+      fontSize: 17,
+      fontFamily: 'RobotoSlab-Medium',
+      color: 'white',
+      alignItems: 'center',
+      alignSelf: 'center',
     },
     skillsContainer: {
       flexDirection: 'row',
