@@ -78,7 +78,7 @@ const Search = ( {navigation}) => {
                 by intelligently matching individuals based on their skills, experience, and 
                 interpersonal compatibility. Currently, Font-astic Six is on the lookout for
                 enthusiastic members who possess expertise in UI/UX design. </Text>
-              <TouchableOpacity style={styles.learnMoreButton}>
+              <TouchableOpacity style={styles.learnMoreButton} onPress={() =>  {navigation.navigate('LearnMore')}}>
                 <Text style={styles.learnMoreText}>Learn More</Text>
               </TouchableOpacity>
               </View>
@@ -92,14 +92,13 @@ const Search = ( {navigation}) => {
                   />
                   <Text style={styles.cardTitle}>UI Utopia</Text>
               </View>
-              <Text style={styles.summary}> We are a dynamic group dedicated 
-                to developing a groundbreaking team-forming app, designed to transform the 
-                way teams are created and managed. With a focus on leveraging advanced algorithms 
-                and user-friendly interfaces, this app seeks to facilitate the team formation process 
-                by intelligently matching individuals based on their skills, experience, and 
-                interpersonal compatibility. Currently, Font-astic Six is on the lookout for
-                enthusiastic members who possess expertise in UI/UX design. </Text>
-              <TouchableOpacity style={styles.learnMoreButton}>
+              <Text style={styles.summary}> We are an energetic and inventive collective, committed to pioneering a 
+              unique web application that promises to redefine user experience in a distinctive domain. Our mission 
+              centers on harnessing cutting-edge technology and intuitive design principles to deliver a web app that 
+              not only engages but also inspires its users.  We are currently expanding our talented team and are eager to welcome 
+              individuals with a passion for web development and a flair for creative problem-solving. Our ideal candidates are those 
+              who are skilled in modern web technologies and have a keen eye for aesthetic and functional design. </Text>
+              <TouchableOpacity style={styles.learnMoreButton} onPress={() =>  {navigation.navigate('LearnMore')}}>
                 <Text style={styles.learnMoreText}>Learn More</Text>
               </TouchableOpacity>
               </View>
@@ -120,7 +119,7 @@ const Search = ( {navigation}) => {
                 by intelligently matching individuals based on their skills, experience, and 
                 interpersonal compatibility. Currently, Font-astic Six is on the lookout for
                 enthusiastic members who possess expertise in UI/UX design. </Text>
-              <TouchableOpacity style={styles.learnMoreButton}>
+              <TouchableOpacity style={styles.learnMoreButton} onPress={() =>  {navigation.navigate('LearnMore')}}>
                 <Text style={styles.learnMoreText}>Learn More</Text>
               </TouchableOpacity>
               </View>
@@ -141,7 +140,7 @@ const Search = ( {navigation}) => {
                 by intelligently matching individuals based on their skills, experience, and 
                 interpersonal compatibility. Currently, Font-astic Six is on the lookout for
                 enthusiastic members who possess expertise in UI/UX design. </Text>
-              <TouchableOpacity style={styles.learnMoreButton}>
+              <TouchableOpacity style={styles.learnMoreButton} onPress={() =>  {navigation.navigate('LearnMore')}}>
                 <Text style={styles.learnMoreText}>Learn More</Text>
               </TouchableOpacity>
               </View>
@@ -150,7 +149,7 @@ const Search = ( {navigation}) => {
           </ScrollView>
           <TouchableOpacity style={styles.floatButton} onPress={() => navigation.navigate('Home')}>
           <View style = {styles.homeicon}>
-            <Icon name="home" size={40} color="#00507B" />
+            <Icon name="home" size={30} color="#00507B" />
           </View>
           </TouchableOpacity>
         </View>
