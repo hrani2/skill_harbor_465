@@ -1,63 +1,23 @@
 import React, {useState} from 'react';
 import { Image } from 'react-native'
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, SafeAreaView , ScrollView, Modal} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, SafeAreaView , ScrollView, Modal, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; 
 import Explosion from 'react-native-confetti-cannon'; 
 
 const MyModal = ({modalVisible, setModalVisible, navigation}) => {
-    const [secondModalVisible, setSecondModalVisible] = useState(false);
-
-  const handleYesPress = () => {
-    // Close the first modal and open the second modal
-    setModalVisible(false);
-    setSecondModalVisible(true);
-  };
   return (
-    <>
-    <Modal
-      animationType="fade"
-      transparent={true}
-      visible={modalVisible}
-      onRequestClose={() => {
-        setModalVisible(!modalVisible);
-      }}>
-      <View style={styles.centeredView}>
-        <View style={styles.modalView}>
-
-          <View style={styles.iconview}>
-            <TouchableOpacity style = {styles.closeicon}
-            onPress={() => setModalVisible(false)}>
-            <Icon name="times" size={25} color="#00507B"/> 
-           </TouchableOpacity>
-          </View>
-          <Text style={styles.question}>Are you sure you want to send a request to Font-astic Six?</Text>
-
-          <View style={styles.answerview}>
-            <TouchableOpacity style = {styles.noback}
-            onPress={() => setModalVisible(false)}>
-            <Text style={styles.answer}>NO, GO BACK</Text>
-           </TouchableOpacity>
-           <TouchableOpacity style = {styles.yes} onPress={handleYesPress}>
-            <Text style={styles.answer}>YES</Text>
-           </TouchableOpacity>
-          </View>
-         </View>
-      </View>
-    </Modal>
-
-    {/* Second modal */}
     <Modal
         animationType="fade"
         transparent={true}
-        visible={secondModalVisible}
+        visible={modalVisible}
         onRequestClose={() => {
-          setSecondModalVisible(!secondModalVisible);
+          setModalVisible(!modalVisible);
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView2}>
             <Text style={styles.paragraph}>Thank you for your interest in joining Font-astic Six. 
             Your request has been successfully sent. You can click on the pending requests tab on the home page to see your pending requests. 
-</Text>
+            </Text>
             <TouchableOpacity
               style={styles.close}
               onPress={() => navigation.navigate('Home')}>
@@ -66,12 +26,34 @@ const MyModal = ({modalVisible, setModalVisible, navigation}) => {
           </View>
         </View>
       </Modal>
-    </>
   );
 }
 
 const LearnMore = ({navigation}) => {
     const [modalVisible, setModalVisible] = useState(false);
+
+    const Request = () => {
+        Alert.alert(
+          'Confirmation',
+          'Are you sure you want to a send a request to Font-astic Six?',
+          [
+            {
+              text: 'Cancel',
+              style: 'cancel',
+            },
+            {
+              text: 'Yes',
+              onPress: () => {
+                // Add any necessary logic before navigating
+                setModalVisible(true);
+              },
+            },
+          ],
+          { cancelable: false }
+        );
+      }
+
+
     return (
         <View style={styles.container}>
             <ScrollView>
@@ -116,13 +98,12 @@ const LearnMore = ({navigation}) => {
           <View style={styles.infoPlaceholder} />
         </View>
   
-        <TouchableOpacity style={styles.button} onPress={() => setModalVisible(true)}>
+        <TouchableOpacity style={styles.button} onPress={(Request)}>
           <Text style={styles.buttonText}>REQUEST</Text>
           <MyModal 
-              modalVisible={modalVisible}
-              setModalVisible={setModalVisible}
-              navigation={navigation}
-          />
+          modalVisible={modalVisible} 
+          setModalVisible={setModalVisible}
+           navigation={navigation} />
         </TouchableOpacity>
       </ScrollView>
       <TouchableOpacity style={styles.floatButton} onPress={() => navigation.navigate('Home')}>
@@ -203,8 +184,8 @@ const LearnMore = ({navigation}) => {
       modalView2: {
         backgroundColor: "white",
         borderRadius: 20,
-        width: "60%",
-        height: 210,
+        width: "90%",
+        height: 140,
         alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {
@@ -219,7 +200,7 @@ const LearnMore = ({navigation}) => {
       paragraph : {
         color: '#00507B',
         fontFamily: 'RobotoSlab-Regular',
-        width: '80%',
+        width: '90%',
         alignSelf: 'center',
         paddingTop: 14,
         fontSize: 15,

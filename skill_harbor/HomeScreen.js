@@ -67,9 +67,48 @@ const JoinOrg = ({modalVisible, setModalVisible, navigation}) => (
   </Modal>
 );
 
+const Create = ({modalVisible, setModalVisible, navigation, email}) => (
+  <Modal
+    animationType="fade"
+    transparent={true}
+    visible={modalVisible}
+    onRequestClose={() => {
+      setModalVisible(!modalVisible);
+    }}>
+    <View style={styles.centeredView}>
+      <View style={styles.modalView}>
+        <View style={styles.iconview}>
+        <TouchableOpacity style = {styles.helpicon}>
+          <Icon name="question-circle" size={25}  color="#00507B"/> 
+         </TouchableOpacity>
+          <TouchableOpacity style = {styles.closeicon}
+          onPress={() => setModalVisible(false)}>
+          <Icon name="times" size={25} color="#00507B"/> 
+         </TouchableOpacity>
+        </View>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            console.log('Create Team button pressed');
+            navigation.navigate('CreateTeam', {email: email}); setModalVisible(false);}}>
+          <Text style={styles.textStyle}>Create Teams</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            console.log('Create Join Code button pressed');
+            navigation.navigate('JoinCode'); setModalVisible(false);}}>
+          <Text style={styles.textStyle}>Create Join Code</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  </Modal>
+);
+
 
 const HomeScreen = ({text, count, route, navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [createModalVisible, setCreateModalVisible] = useState(false);
   const {email} = route.params || {}; 
   const profileScreen = async (email) => {
       user_dat = await queryUserByName(email);  
@@ -101,11 +140,18 @@ const HomeScreen = ({text, count, route, navigation}) => {
 
       <View style={styles.menu}>
         <TouchableOpacity style={styles.menuItem} 
-        onPress={() => navigation.navigate('Create', {email: email})}>
+        onPress={() => setCreateModalVisible(true)}>
+        {/* \\onPress={() => navigation.navigate('Create', {email: email})}> */}
           <View style={styles.icon}>
             <Icon name="plus" size={30} color="#FFF"/>
           </View>
           <Text style={styles.menuItemText}>CREATE</Text>
+          <Create 
+              modalVisible={createModalVisible} 
+              setModalVisible={setCreateModalVisible} 
+              navigation={navigation} 
+              email={email} 
+          />
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('ChooseTeam')} >

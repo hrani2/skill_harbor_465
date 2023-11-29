@@ -183,7 +183,7 @@ const CreateTeam = ({ navigation }) => {
             <TouchableOpacity key={index} style={styles.skillItemContainer}>
               <Text style={styles.skillItemText}>{skill}</Text>
               <TouchableOpacity style={styles.removeSkillButtonContainer} onPress={() => handleRemoveSkill(index)}>
-                <Icon name="times" size={22} color="#00507B" />
+                <Icon name="times" size={22} color="#FFF" />
               </TouchableOpacity>
             </TouchableOpacity>
           ))}
@@ -207,7 +207,7 @@ const CreateTeam = ({ navigation }) => {
 
       {/* Home Button */}
       <TouchableOpacity style={styles.homeButton} onPress={handleHomePress}>
-        <Icon name="home" size={30} color="#00507B" />
+        <Icon name="home" size={30} color="#FFF" />
       </TouchableOpacity>
 
       {/* Complete Button */}
@@ -252,27 +252,32 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#00507B', // Blue background color
+    backgroundColor: '#FFF', // Blue background color
     padding: 20,
     position: 'relative',
+    paddingTop: 60,
   },
   textBoxContainer: {
     marginBottom: 20,
+    fontFamily: 'RobotoSlab-Regular',
   },
   labelText: {
-    color: '#FFF', // White text color
+    color: '#00507B', // White text color
     marginBottom: 5,
+    fontFamily: 'RobotoSlab-Bold',
+    letterSpacing: 1,
   },
   requiredStar: {
     color: 'red',
   },
   textBox: {
-    backgroundColor: '#FFF', // White text box background color
+    backgroundColor: '#B2BCC1', // White text box background color
     padding: 10,
     borderRadius: 5,
+    fontFamily: 'RobotoSlab-Regular',
   },
   squareTextBox: {
-    backgroundColor: '#FFF',
+    backgroundColor: '#B2BCC1',
     padding: 10,
     borderRadius: 5,
     width: 50,  // Adjust the width as needed
@@ -289,8 +294,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   addSkillTitle: {
-    color: '#FFF',
+    color: '#00507B',
     fontSize: 16,
+    fontFamily: 'RobotoSlab-Bold',
   },
   addSkillButton: {
     backgroundColor: '#4CAF50',
@@ -298,16 +304,18 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   addSkillButtonText: {
-    color: '#FFF',
+    color: '#00507B',
     fontSize: 16,
+    fontFamily: 'RobotoSlab-Regular',
   },
   skillsTitle: {
-    color: '#FFF',
+    color: '#00507B',
     fontSize: 16,
     marginBottom: 5,
+    fontFamily: 'RobotoSlab-Bold',
   },
   skillItem: {
-    color: '#FFF',
+    color: '#00507B',
     fontSize: 16,
   },
   skillModalContainer: {
@@ -322,6 +330,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     color: '#000', // Set text color to black
     width: '80%', // Adjust the width as needed
+    fontFamily: 'RobotoSlab-Regular',
   },
   skillModalButtonsContainer: {
     flexDirection: 'row',
@@ -334,6 +343,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginRight: 5,
     alignItems: 'center',
+    fontFamily: 'RobotoSlab-Bold',
   },
   skillModalAddButton: {
     width:'40%',
@@ -346,25 +356,28 @@ const styles = StyleSheet.create({
   skillModalButtonText: {
     color: '#FFF',
     fontSize: 16,
+    fontFamily: 'RobotoSlab-Bold',
+    letterSpacing: 1,
   },
   skillItemContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FFF', // White background color
+    backgroundColor: '#00507B', // White background color
     borderRadius: 20, // Adjust the border radius for an oval shape
     padding: 10,
     marginVertical: 5,
   },
   skillItemText: {
     flex: 1, // Take up remaining space
-    color: '#00507B',
+    color: '#FFF',
     fontSize: 16,
-    marginRight: 10,
+    marginRight: 30,
+    fontFamily: 'RobotoSlab-Regular',
   },
   removeSkillButtonContainer: {
-    backgroundColor: '#FFF', // White background color
-    borderRadius: 15,
-    padding: 5, // Adjust the padding as needed
+    // backgroundColor: '#FFF', // White background color
+    // borderRadius: 15,
+    // padding: 5, // Adjust the padding as needed
   },
   removeSkillButton: {
     color: '#00507B',
@@ -376,21 +389,28 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   largeTextBox: {
-    backgroundColor: '#FFF', // White text box background color
+    backgroundColor: '#B2BCC1', // White text box background color
     padding: 10,
     borderRadius: 5,
     height: 120,
     textAlignVertical: 'top',  // Move the placeholder to the top
+    fontFamily: 'RobotoSlab-Regular',
   },
   homeButton: {
     position: 'absolute',
     bottom: 20,
     left: 20,
-    backgroundColor: '#FFF', // White button color
+    backgroundColor: '#00507B', // White button color
     padding: 20,
     borderRadius: 50, // Make it a circle
     alignItems: 'center',
     justifyContent: 'center',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
   },
   completeButton: {
     position: 'absolute',
@@ -405,6 +425,7 @@ const styles = StyleSheet.create({
   completeButtonText: {
     color: '#FFF', // White text color
     fontSize: 16,
+    fontFamily: 'RobotoSlab-Regular',
   },
 });
 

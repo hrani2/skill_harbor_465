@@ -52,7 +52,7 @@ const ReceiveJoinCode = ({ route , navigation }) => {
 
       {/* Home Button */}
       <TouchableOpacity style={styles.homeButton} onPress={handleHomePress}>
-        <Icon name="home" size={30} color="#00507B" />
+        <Icon name="home" size={30} color="#FFF" />
       </TouchableOpacity>
     </View>
   );
@@ -61,26 +61,26 @@ const ReceiveJoinCode = ({ route , navigation }) => {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#00507B',
+      backgroundColor: '#FFF',
       padding: 20,
+      paddingTop: 60,
       alignItems: 'center',
     },
     header: {
       fontSize: 24,
-      fontWeight: 'bold',
-      color: '#FFF',
+      fontFamily: 'RobotoSlab-Bold',
+      color: '#00507B',
       marginBottom: 20,
     },
     cardContainer: {
-      backgroundColor: '#FFF',
+      backgroundColor: '#00507B',
       padding: 60,
       borderRadius: 20,
       alignItems: 'center',
     },
     joinCodeText: {
       fontSize: 40,
-      fontWeight: 'bold',
-      color: '#00507B',
+      color: '#FFF',
       fontFamily: 'RobotoSlab-Medium',
     },
     infoContainer: {
@@ -88,30 +88,36 @@ const styles = StyleSheet.create({
       alignItems: 'center',
     },
     infoText: {
-      color: '#FFF',
+      color: '#00507B',
       fontSize: 20,
+      fontFamily: 'RobotoSlab-Regular',
       marginBottom: 10,
-      textAlign: 'center',
-      fontWeight: 'bold', // Bold the text
+      textAlign: 'center',// Bold the text
     },
     organizationText: {
-      color: '#FFEB38', // Add your desired color here
+      color: '#CF12AF', // Add your desired color here
       fontWeight: 'bold',
     },
     courseText: {
-      color: '#FFEB38', // Add your desired color here
+      color: '#CF12AF', // Add your desired color here
       fontWeight: 'bold',
     },
     homeButton: {
       position: 'absolute',
-      bottom: 20,
+      bottom: 40,
       left: '50%', // Center the button horizontally
-      transform: [{ translateX: -25 }], // Adjust position to center
-      backgroundColor: '#FFF',
+      transform: [{ translateX: -20 }], // Adjust position to center
+      backgroundColor: '#00507B',
       padding: 20,
       borderRadius: 50,
       alignItems: 'center',
       justifyContent: 'center',
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2
+      },
+      shadowOpacity: 0.25,
     },
   });
   

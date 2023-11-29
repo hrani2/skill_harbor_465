@@ -5,7 +5,7 @@ import { queryTeamDb } from './firebase/utils';
 const ChooseTeam = ({navigation}) => {
     return (
         <View style={styles.container}>
-        <Text style={styles.header}>Current Teams:</Text>
+        <Text style={styles.header}>CURRENT TEAMS:</Text>
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Browse', { teamname: 'Fantastic Six' })} >
             <Text style={styles.buttonText}>Fantastic Six</Text>
         </TouchableOpacity>
@@ -25,18 +25,19 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#00507B', // Assuming a navy blue background
+    backgroundColor: '#FFF', // Assuming a navy blue background
   },
   header: {
     fontSize: 24,
-    marginBottom: 80,
-    color: 'white',
+    fontFamily: 'RobotoSlab-Bold',
+    marginBottom: 40,
+    color: '#00507B',
   },
   button: {
-    backgroundColor: 'white',
+    backgroundColor: '#00507B',
     padding: 10,
     marginVertical: 10,
-    borderRadius: 20,
+    borderRadius: 15,
     width: '80%', // Assuming the buttons take up 80% of container width
     shadowOpacity: 0.2,
     shadowRadius: 3,
@@ -46,7 +47,9 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     textAlign: 'center',
-    color: '#00507B',
+    color: '#FFF',
+    fontFamily: 'RobotoSlab-Regular',
+    fontSize: 20,
     // Add additional styling to match the design
   },
 });

@@ -49,7 +49,7 @@ const TeamRequestPosted = ({ route , navigation }) => {
 
       {/* Home Button */}
       <TouchableOpacity style={styles.homeButton} onPress={handleHomePress}>
-        <Icon name="home" size={30} color="#00507B" />
+        <Icon name="home" size={30} color="#FFF" />
       </TouchableOpacity>
     </View>
   );
@@ -57,26 +57,26 @@ const TeamRequestPosted = ({ route , navigation }) => {
 
 const styles = StyleSheet.create({
     congratulationsText: {
-        fontSize: 50,
-        fontWeight: 'bold',
-        fontStyle: 'italic',
-        color: '#FFEB38', // Choose your desired color
+        fontSize: 40,
+        fontFamily: 'RobotoSlab-ExtraBold',
+        color: '#BAC25D', // Choose your desired color
         marginBottom: 50,
     },
     container: {
       flex: 1,
-      backgroundColor: '#00507B',
+      backgroundColor: '#FFF',
       padding: 20,
+      paddingTop: 60,
       alignItems: 'center',
     },
     header: {
       fontSize: 30,
-      fontWeight: 'bold',
-      color: '#FFF',
+      fontFamily: 'RobotoSlab-Bold',
+      color: '#00507B',
       marginBottom: 20,
     },
     cardContainer: {
-      backgroundColor: '#FFF',
+      backgroundColor:'#00507B',
       padding: 60,
       borderRadius: 20,
       alignItems: 'center',
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     joinCodeText: {
       fontSize: 40,
       fontWeight: 'bold',
-      color: '#00507B',
+      color: '#FFF',
       fontFamily: 'RobotoSlab-Medium',
     },
     infoContainer: {
@@ -93,11 +93,11 @@ const styles = StyleSheet.create({
       alignItems: 'center',
     },
     infoText: {
-      color: '#FFF',
+      color: '#00507B',
       fontSize: 20,
       marginBottom: 10,
       textAlign: 'center',
-      fontWeight: 'bold', // Bold the text
+      fontFamily: 'RobotoSlab-Medium', // Bold the text
     },
     organizationText: {
       color: '#FFEB38', // Add your desired color here
@@ -109,10 +109,10 @@ const styles = StyleSheet.create({
     },
     homeButton: {
       position: 'absolute',
-      bottom: 20,
+      bottom: 40,
       left: '50%', // Center the button horizontally
       transform: [{ translateX: -25 }], // Adjust position to center
-      backgroundColor: '#FFF',
+      backgroundColor: '#00507B',
       padding: 20,
       borderRadius: 50,
       alignItems: 'center',

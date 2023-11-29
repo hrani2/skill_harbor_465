@@ -101,7 +101,7 @@ const JoinCode = ({ navigation }) => {
 
       {/* Home Button */}
       <TouchableOpacity style={styles.homeButton} onPress={handleHomePress}>
-        <Icon name="home" size={30} color="#00507B" />
+        <Icon name="home" size={30} color="#FFF" />
       </TouchableOpacity>
 
       {/* Complete Button */}
@@ -115,27 +115,31 @@ const JoinCode = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#00507B', // Blue background color
+    backgroundColor: '#FFF', // Blue background color
     padding: 20,
+    paddingTop: 60,
     position: 'relative',
   },
   textBoxContainer: {
     marginBottom: 20,
   },
   labelText: {
-    color: '#FFF', // White text color
+    color: '#00507B', // White text color
     marginBottom: 5,
+    fontFamily: 'RobotoSlab-Bold',
+    letterSpacing: 1,
   },
   requiredStar: {
     color: 'red',
   },
   textBox: {
-    backgroundColor: '#FFF', // White text box background color
+    backgroundColor: '#B2BCC1', // White text box background color
     padding: 10,
     borderRadius: 5,
+    fontFamily: 'RobotoSlab-Regular',
   },
   largeTextBox: {
-    backgroundColor: '#FFF', // White text box background color
+    backgroundColor: '#B2BCC1', // White text box background color
     padding: 10,
     borderRadius: 5,
     height: 120,
@@ -145,11 +149,17 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 20,
     left: 20,
-    backgroundColor: '#FFF', // White button color
+    backgroundColor: '#00507B', // White button color
     padding: 20,
     borderRadius: 50, // Make it a circle
     alignItems: 'center',
     justifyContent: 'center',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
   },
   completeButton: {
     position: 'absolute',
@@ -164,6 +174,7 @@ const styles = StyleSheet.create({
   completeButtonText: {
     color: '#FFF', // White text color
     fontSize: 16,
+    fontFamily: 'RobotoSlab-Regular',
   },
 });
 

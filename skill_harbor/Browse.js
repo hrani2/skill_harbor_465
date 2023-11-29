@@ -114,7 +114,7 @@ const Browse = ({ route, navigation }) => {
 
       {/* Home Button */}
       <TouchableOpacity style={styles.homeButton} onPress={handleHomePress}>
-          <Icon name="home" size={30} color="#00507B" />
+          <Icon name="home" size={30} color="#FFF" />
         </TouchableOpacity>
       </View>
   );
@@ -125,18 +125,19 @@ const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#00507B', // Dark blue background
+    backgroundColor: '#FFF', // Dark blue background
   },
   header: {
-    fontSize: 24,
+    fontSize: 30,
     fontWeight: 'bold',
-    color: 'white',
+    color: '#00507B',
     textAlign: 'center',
     padding: 20,
   },
   subheader: {
-    fontSize: 18,
-    color: 'white',
+    fontSize: 22,
+    fontFamily: 'RobotoSlab-Bold',
+    color: '#00507B',
     paddingLeft: 20,
     paddingBottom: 10,
   },
@@ -147,8 +148,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: 'white',
-    borderRadius: 5,
+    backgroundColor: '#00507B',
+    borderRadius: 15,
     marginHorizontal: 20,
     marginBottom: 20,
     paddingVertical: 30,
@@ -156,11 +157,12 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 20,
-    color: 'black',
+    fontFamily: 'RobotoSlab-Regular',
+    color: '#FFF',
   },
   rating: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontFamily: 'RobotoSlab-Bold',
     color: 'green',
     marginLeft: 10,
     marginRight: 30,
@@ -173,8 +175,8 @@ const styles = StyleSheet.create({
     marginBottom: 50,
   },
   recommendation: {
-    backgroundColor: 'white',
-    borderRadius: 5,
+    backgroundColor: '#00507B',
+    borderRadius: 15,
     padding: 10,
     width: width * 0.4, // Adjust the width as per your design requirement
     alignItems: 'center',
@@ -193,11 +195,17 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 20,
     left: 20,
-    backgroundColor: '#FFF', // White button color
+    backgroundColor: '#00507B', // White button color
     padding: 20,
     borderRadius: 50, // Make it a circle
     alignItems: 'center',
     justifyContent: 'center',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
   },
 });
 
