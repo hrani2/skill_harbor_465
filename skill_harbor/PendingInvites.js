@@ -93,13 +93,14 @@ const PendingInvites = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#00507B',
+    backgroundColor: '#FFF',
   },
   header: {
     fontSize: 40,
-    color: '#FFF',
+    color: '#00507B',
     textAlign: 'center',
     padding: 20,
+    marginTop: 40,
     fontFamily: 'RobotoSlab-Black',
   },
   headerContainer: {
@@ -110,7 +111,7 @@ const styles = StyleSheet.create({
   lineone: {
     flex: 1,
     height: 2,
-    backgroundColor: '#FFF',
+    backgroundColor: '#00507B',
     marginRight: -30,
     maxWidth: 40,
     marginLeft: 15,
@@ -118,7 +119,7 @@ const styles = StyleSheet.create({
   contentHeader: {
     fontFamily: 'RobotoSlab-Black',
     fontSize: 17,
-    color: '#FFF',
+    color: '#00507B',
     paddingVertical: 10,
     letterSpacing: 1,
     alignSelf: 'flex-start',
@@ -127,7 +128,7 @@ const styles = StyleSheet.create({
   line: {
     flex: 1,
     height: 2,
-    backgroundColor: '#FFF',
+    backgroundColor: '#00507B',
     marginLeft: -30,
     marginRight: 15,
   },
@@ -139,7 +140,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#FFF',
+    backgroundColor: '#00507B',
     borderRadius: 15,
     paddingVertical: 15,
     paddingHorizontal: 20,
@@ -147,7 +148,7 @@ const styles = StyleSheet.create({
   cardText: {
     fontSize: 18,
     fontFamily: 'RobotoSlab-Regular',
-    color: '#00507B',
+    color: '#FFF',
   },
 });
 
