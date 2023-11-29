@@ -94,7 +94,13 @@ const LearnMore = ({navigation}) => {
   
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Additional Info:</Text>
-          {/* Placeholder for additional info */}
+          <Text style={styles.summary}> We are a dynamic group dedicated 
+                to developing a groundbreaking team-forming app, designed to transform the 
+                way teams are created and managed. With a focus on leveraging advanced algorithms 
+                and user-friendly interfaces, this app seeks to facilitate the team formation process 
+                by intelligently matching individuals based on their skills, experience, and 
+                interpersonal compatibility. Currently, Font-astic Six is on the lookout for
+                enthusiastic members who possess expertise in UI/UX design. </Text>
           <View style={styles.infoPlaceholder} />
         </View>
   
@@ -256,11 +262,14 @@ const LearnMore = ({navigation}) => {
       color: '#00507B',
       fontFamily: 'RobotoSlab-Regular',
     },
-    infoPlaceholder: {
-      height: 60, // Adjust as needed
-      backgroundColor: '#00507B', // Placeholder color
-      marginTop: 10,
-    },
+    summary: {
+        fontSize: 16,
+        fontFamily: 'RobotoSlab-Regular',
+        marginBottom: 30,
+        top: 15,
+        color: '#00507B',
+        alignSelf: 'center',
+      },
     button: {
       backgroundColor: '#097969', // Adjust your button color
       borderRadius: 7,

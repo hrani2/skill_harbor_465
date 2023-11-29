@@ -13,11 +13,13 @@ import Learn from './LearnMore';
 import SignUpScreen from './SignUp';
 import CreateTeam from './CreateTeam';
 import TeamRequestPosted from './TeamRequestPosted'
+import SearchOrg from './SearchOrg';
 import JoinCode from './JoinCode';
 import ReceiveJoinCode  from './ReceiveJoinCode';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import ProfileScreen from './ProfileScreen';
+
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -93,6 +95,8 @@ function App() {
          <Stack.Screen name="SignUp" component={SignUpScreen}
         options={{ headerShown: false }} />
         <Stack.Screen name="LearnMore" component={Learn}
+        options={{ headerShown: false }} />
+        <Stack.Screen name="SearchOrg" component={SearchOrg}
         options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
