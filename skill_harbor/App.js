@@ -7,6 +7,8 @@ import Create from './Create';
 import Browse from './Browse';
 import ChooseTeam from './ChooseTeam';
 import Search from './Search';
+import SentRequests from './SentRequests.js'
+import PendingInvites from './PendingInvites.js'
 import Learn from './LearnMore';
 import SignUpScreen from './SignUp';
 import CreateTeam from './CreateTeam';
@@ -77,6 +79,10 @@ function App() {
          <Stack.Screen name="JoinCode" component={JoinCode} 
           options={{ headerShown: false }}/>
          <Stack.Screen name="ReceiveJoinCode" component={ReceiveJoinCode} 
+          options={{ headerShown: false }}/>
+         <Stack.Screen name="SentRequests" component={SentRequests} 
+          options={{ headerShown: false }}/>
+         <Stack.Screen name="PendingInvites" component={PendingInvites} 
           options={{ headerShown: false }}/>
          <Stack.Screen name="Search" component={Search} 
           options={{ headerShown: false }}/>

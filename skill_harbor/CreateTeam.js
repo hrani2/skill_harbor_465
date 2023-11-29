@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Modal , ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { addNewTeam } from './firebase/utils'
-
 
 const CreateTeam = ({ navigation }) => {
   const [name, setName] = useState('');
@@ -18,7 +16,7 @@ const CreateTeam = ({ navigation }) => {
   const handleCompletePress = () => {
     if (name.trim() === '' || location.trim() === '' || teamSize.trim() === '' || parseInt(teamSize) < 2 || parseInt(teamSize) >= 1000) {
         // Show an error message if the required fields are empty or teamSize is less than 2 or greater than 1000
-        Alert.alert('Error', 'Please complete all required fields (marked with a red star) and ensure that the team size is 2 or greater.');
+        Alert.alert('Error', 'Please complete all required fields (marked with a yellow star) and ensure that the team size is 2 or greater.');
       } else {
       // Show a confirmation dialog before completing the form
       Alert.alert(
@@ -33,7 +31,6 @@ const CreateTeam = ({ navigation }) => {
             text: 'OK',
             onPress: () => {
               // Add any necessary logic before navigating
-              addNewTeam(name,location,teamSize,joinCode,skills,additionalInfo);
               console.log('Complete button pressed - confirmed');
               navigation.navigate('TeamRequestPosted', {
                 name,
@@ -198,20 +195,19 @@ const CreateTeam = ({ navigation }) => {
 
       {/* Additional Info (Optional) */}
       <View style={styles.textBoxContainer}>
-        <Text style={styles.labelText}>ADDITIONAL INFO (OPTIONAL)</Text>
+        <Text style={styles.labelText}>ADDITIONAL INFO </Text>
         <TextInput
           style={styles.largeTextBox}
-          placeholder="Enter additional information (optional)"
+          placeholder="A short description about your team and/or project goals..."
           multiline={true}
           numberOfLines={4}
           textAlignVertical="top"  // Move the placeholder to the top
-          onChangeText={(text) => setAdditionalInfo(text)}
         />
       </View>
 
       {/* Home Button */}
       <TouchableOpacity style={styles.homeButton} onPress={handleHomePress}>
-        <Icon name="home" size={30} color="#FFF" />
+        <Icon name="home" size={30} color="#00507B" />
       </TouchableOpacity>
 
       {/* Complete Button */}
@@ -256,7 +252,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#FFF', // Blue background color
+    backgroundColor: '#00507B', // Blue background color
     padding: 20,
     position: 'relative',
     paddingTop: 60,
@@ -266,22 +262,22 @@ const styles = StyleSheet.create({
     fontFamily: 'RobotoSlab-Regular',
   },
   labelText: {
-    color: '#00507B', // White text color
+    color: '#FFF', // White text color
     marginBottom: 5,
     fontFamily: 'RobotoSlab-Bold',
     letterSpacing: 1,
   },
   requiredStar: {
-    color: 'red',
+    color: '#FFEB38',
   },
   textBox: {
-    backgroundColor: '#B2BCC1', // White text box background color
+    backgroundColor: '#FFF', // White text box background color
     padding: 10,
     borderRadius: 5,
     fontFamily: 'RobotoSlab-Regular',
   },
   squareTextBox: {
-    backgroundColor: '#B2BCC1',
+    backgroundColor: '#FFF',
     padding: 10,
     borderRadius: 5,
     width: 50,  // Adjust the width as needed
@@ -298,7 +294,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   addSkillTitle: {
-    color: '#00507B',
+    color: '#FFF',
     fontSize: 16,
     fontFamily: 'RobotoSlab-Bold',
   },
@@ -308,7 +304,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   addSkillButtonText: {
-    color: '#00507B',
+    color: '#FFF',
     fontSize: 16,
     fontFamily: 'RobotoSlab-Regular',
   },
@@ -393,7 +389,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   largeTextBox: {
-    backgroundColor: '#B2BCC1', // White text box background color
+    backgroundColor: '#FFF', // White text box background color
     padding: 10,
     borderRadius: 5,
     height: 120,
@@ -404,7 +400,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 20,
     left: 20,
-    backgroundColor: '#00507B', // White button color
+    backgroundColor: '#FFF', // White button color
     padding: 20,
     borderRadius: 50, // Make it a circle
     alignItems: 'center',

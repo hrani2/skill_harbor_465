@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert , ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { addNewJoinCode } from './firebase/utils'
 
@@ -91,6 +91,11 @@ const JoinCode = ({ navigation }) => {
   };
 
   return (
+    <ScrollView
+      contentContainerStyle={styles.scrollContainer}
+      keyboardShouldPersistTaps="handled"
+      keyboardDismissMode="on-drag"
+    >
     <View style={styles.container}>
       {/* Organization/School */}
       <View style={styles.textBoxContainer}>
@@ -131,7 +136,7 @@ const JoinCode = ({ navigation }) => {
 
       {/* Home Button */}
       <TouchableOpacity style={styles.homeButton} onPress={handleHomePress}>
-        <Icon name="home" size={30} color="#FFF" />
+        <Icon name="home" size={30} color="#00507B" />
       </TouchableOpacity>
 
       {/* Complete Button */}
@@ -139,13 +144,17 @@ const JoinCode = ({ navigation }) => {
         <Text style={styles.completeButtonText}>Complete</Text>
       </TouchableOpacity>
     </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    flexGrow: 1,
+  },
   container: {
     flex: 1,
-    backgroundColor: '#FFF', // Blue background color
+    backgroundColor: '#00507B', // Blue background color
     padding: 20,
     paddingTop: 60,
     position: 'relative',
@@ -154,22 +163,22 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   labelText: {
-    color: '#00507B', // White text color
+    color: '#FFF', // White text color
     marginBottom: 5,
     fontFamily: 'RobotoSlab-Bold',
     letterSpacing: 1,
   },
   requiredStar: {
-    color: 'red',
+    color: '#FFEB38',
   },
   textBox: {
-    backgroundColor: '#B2BCC1', // White text box background color
+    backgroundColor: '#FFF', // White text box background color
     padding: 10,
     borderRadius: 5,
     fontFamily: 'RobotoSlab-Regular',
   },
   largeTextBox: {
-    backgroundColor: '#B2BCC1', // White text box background color
+    backgroundColor: '#FFF', // White text box background color
     padding: 10,
     borderRadius: 5,
     height: 120,
@@ -179,7 +188,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 20,
     left: 20,
-    backgroundColor: '#00507B', // White button color
+    backgroundColor: '#FFF', // White button color
     padding: 20,
     borderRadius: 50, // Make it a circle
     alignItems: 'center',

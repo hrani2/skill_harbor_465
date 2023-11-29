@@ -106,7 +106,7 @@ const Create = ({modalVisible, setModalVisible, navigation, email}) => (
 );
 
 
-const HomeScreen = ({text, count, route, navigation}) => {
+const HomeScreen = ({text, request_count, invite_count, route, navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [createModalVisible, setCreateModalVisible] = useState(false);
   const {email} = route.params || {}; 
@@ -212,24 +212,23 @@ const HomeScreen = ({text, count, route, navigation}) => {
         </View>
 
       
-        <TouchableOpacity  style={styles.pillButton}>
-          <Icon name="chevron-right" size={20} color="#000" style={styles.pillButtonIcon} />
+        <TouchableOpacity style={styles.pillButton} onPress={() => navigation.navigate('SentRequests')}> 
           <Text style={styles.pillButtonText}>Sent Requests</Text>
-          <View style={styles.badgeContainer}>
-            <Text style={styles.badgeText}>{count}</Text>
-          </View>
+          {request_count  && request_count > 0 && (
+            <View style={styles.badgeContainer}>
+            <Text style={styles.badgeText}>{request_count}</Text>
+            </View>
+          )}
         </TouchableOpacity>
 
-        <TouchableOpacity  style={styles.pillButton}>
-          <Icon name="chevron-right" size={20} color="#000" style={styles.pillButtonIcon} />
+        <TouchableOpacity style={styles.pillButton} onPress={() => navigation.navigate('PendingInvites')}>
           <Text style={styles.pillButtonText}>Pending Invites</Text>
-          <View style={styles.badgeContainer}>
-            <Text style={styles.badgeText}>{count}</Text>
-          </View>
+          {invite_count && invite_count > 0 && (
+            <View style={styles.badgeContainer}>
+            <Text style={styles.badgeText}>{invite_count}</Text>
+            </View>
+          )}
         </TouchableOpacity>
-        {/* <TouchableOpacity>
-        <View style={styles.pillButton} />
-        </TouchableOpacity> */}
 
         <View style={styles.headerContainer}>
           <View style={styles.lineone} />
@@ -399,10 +398,11 @@ const styles = StyleSheet.create({
     height: 40, // Height of the pill-shaped buttons
     backgroundColor: '#00507B', // Button color
     borderRadius: 20, // Half of the height to make it pill-shaped
-    marginBottom: 10, // Space between pill buttons
+    marginBottom: 20, // Space between pill buttons
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     width: '90%',
+    position: 'relative', // Added for absolute positioning of badge
   },
   pillButtonText: {
     alignSelf: 'flex-start',
@@ -410,18 +410,22 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     fontFamily: 'RobotoSlab-Medium',
     fontSize: 17,
-    color: "#FFF"
+    color: "#FFF",
   },
   badgeContainer: {
-    backgroundColor: '#007AFF', // Change to your preferred badge color
-    borderRadius: 15, // Half of the width and height to make it circular
-    width: 30, // Badge width
-    height: 30, // Badge heigh
-    right: 6,
+    backgroundColor: '#E38E20', // Change to your preferred badge color
+    borderRadius: 12.5, // Half of the width and height to make it circular
+    width: 25, // Badge width
+    height: 25, // Badge height
+    position: 'absolute', // Absolute positioning
+    top: -10,
+    right: 5, // Adjust as needed to position the badge to the right
   },
   badgeText: {
     color: '#FFF',
-    fontSize: 12,
+    fontSize: 18,
+    textAlign: 'center', // Center the text horizontally
+    textAlignVertical: 'center', // Center the text vertically
   },
   pillButtonIcon: {
     color: '#FFF',

@@ -55,7 +55,7 @@ const ReceiveJoinCode = ({ route , navigation }) => {
 
       {/* Home Button */}
       <TouchableOpacity style={styles.homeButton} onPress={handleHomePress}>
-        <Icon name="home" size={30} color="#FFF" />
+        <Icon name="home" size={30} color="#00507B" />
       </TouchableOpacity>
     </View>
   );
@@ -64,7 +64,7 @@ const ReceiveJoinCode = ({ route , navigation }) => {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#FFF',
+      backgroundColor: '#00507B',
       padding: 20,
       paddingTop: 60,
       alignItems: 'center',
@@ -72,18 +72,18 @@ const styles = StyleSheet.create({
     header: {
       fontSize: 24,
       fontFamily: 'RobotoSlab-Bold',
-      color: '#00507B',
+      color: '#FFF',
       marginBottom: 20,
     },
     cardContainer: {
-      backgroundColor: '#00507B',
+      backgroundColor: '#FFF',
       padding: 60,
       borderRadius: 20,
       alignItems: 'center',
     },
     joinCodeText: {
       fontSize: 40,
-      color: '#FFF',
+      color: '#00507B',
       fontFamily: 'RobotoSlab-Medium',
     },
     infoContainer: {
@@ -91,18 +91,18 @@ const styles = StyleSheet.create({
       alignItems: 'center',
     },
     infoText: {
-      color: '#00507B',
+      color: '#FFF',
       fontSize: 20,
       fontFamily: 'RobotoSlab-Regular',
       marginBottom: 10,
       textAlign: 'center',// Bold the text
     },
     organizationText: {
-      color: '#CF12AF', // Add your desired color here
+      color: '#FFEB38', // Add your desired color here
       fontWeight: 'bold',
     },
     courseText: {
-      color: '#CF12AF', // Add your desired color here
+      color: '#FFEB38', // Add your desired color here
       fontWeight: 'bold',
     },
     homeButton: {
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
       bottom: 40,
       left: '50%', // Center the button horizontally
       transform: [{ translateX: -20 }], // Adjust position to center
-      backgroundColor: '#00507B',
+      backgroundColor: '#FFF',
       padding: 20,
       borderRadius: 50,
       alignItems: 'center',
