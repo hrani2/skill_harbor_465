@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { queryTeamDb } from './firebase/utils';
 
 const ChooseTeam = ({navigation}) => {
     return (
