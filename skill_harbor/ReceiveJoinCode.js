@@ -1,5 +1,5 @@
 // ReceiveJoinCode.js
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 // import * as Font from 'expo-font';
@@ -20,7 +20,7 @@ const fetchFonts = () => {
 
 const ReceiveJoinCode = ({ route , navigation }) => {
 
-  const { organization, course } = route.params || {};
+  const { organization, course, joinCode } = route.params || {};
 
   const handleHomePress = () => {
     // Navigate back to the HomeScreen
@@ -28,12 +28,15 @@ const ReceiveJoinCode = ({ route , navigation }) => {
     navigation.navigate('Home');
   };
 
+
+
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Here is your join code:</Text>
 
       <View style={styles.cardContainer}>
-        <Text style={styles.joinCodeText}>BEACH-84</Text>
+        <Text style={styles.joinCodeText}>{joinCode}</Text>
       </View>
 
       {/* Additional information paragraphs */}

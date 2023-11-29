@@ -1,10 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { addNewJoinCode } from './firebase/utils'
 
 const JoinCode = ({ navigation }) => {
   const [organization, setOrganization] = useState('');
   const [course, setCourse] = useState('');
+  const [joinCode, setJoinCode] = useState('');
+
+  const generateJoinCode = () => {
+    let code = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    
+    for (let i = 0; i < 6; i++) {
+      code += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    setJoinCode(code); 
+  };
+  
+  useEffect(() => {
+    if (joinCode) {
+      console.log('Join Code updated:', joinCode);
+      // Perform the navigation here
+      addNewJoinCode(organization, course, joinCode); 
+      navigation.navigate('ReceiveJoinCode', {
+        organization,
+        course, 
+        joinCode
+      });
+    }
+  }, [joinCode]);
 
   const handleCompletePress = () => {
     if (organization.trim() === '') {
@@ -24,11 +50,15 @@ const JoinCode = ({ navigation }) => {
             text: 'OK',
             onPress: () => {
               // Add any necessary logic before navigating
-              console.log('Complete button pressed - confirmed');
-              navigation.navigate('ReceiveJoinCode', {
-                organization,
-                course,
-              });
+              console.log("creating join code"); 
+              generateJoinCode(); 
+              // console.log("Join Code: ", joinCode);
+              // console.log('Complete button pressed - confirmed');
+              // navigation.navigate('ReceiveJoinCode', {
+              //   organization,
+              //   course, 
+              //   joinCode
+              // });
             },
           },
         ],

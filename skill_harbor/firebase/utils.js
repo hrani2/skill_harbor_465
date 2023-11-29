@@ -8,6 +8,16 @@ function removeSpecialCharacters(str) {
   return str.replace(/[.#$[\]]/g, '');
 }
 
+function generateJoinCode() {
+  let code = '';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+  
+  for (let i = 0; i < 6; i++) {
+    code += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return code; 
+};
 
 export const addNewUser = async (name, email, password, age, skills) => {
   path_email = removeSpecialCharacters(email); 
@@ -25,6 +35,20 @@ export const addNewUser = async (name, email, password, age, skills) => {
     console.error("Error adding document: ", e);
   }
 };
+
+export const addNewJoinCode = async (organization, course, code) => {
+  try {
+    const codeRef = ref(realtimeDb, "code/" + organization + course);
+    await set(codeRef, {
+      organization: organization, 
+      course: course, 
+      join_code: code, 
+    }); 
+    console.log("Join Code written successfully"); 
+  } catch (e) {
+    console.error("Error adding join code: ", e); 
+  }
+}
 
 export const addNewTeam = async (name, location, team_size, join_code, skills, info) => {
   try {
