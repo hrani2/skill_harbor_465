@@ -121,6 +121,15 @@ const HomeScreen = ({text, count, route, navigation}) => {
       }
   }
 
+  const handleLogOut = () => {
+    try {
+      console.log('Navigating to Login Screen'); 
+      navigation.navigate('Log In'); 
+    } catch (error) {
+      console.error('Navigation Error: ', error); 
+    }
+  }
+
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -131,8 +140,10 @@ const HomeScreen = ({text, count, route, navigation}) => {
           <Icon name="user" size={30} color="#FFF"/>
       </TouchableOpacity>
       <Text style={styles.headerTitle}>Skill Harbor</Text>
-      <TouchableOpacity style={styles.headerIcon}>
-          <Icon name="gear" size={30} color="#FFF"/> 
+      <TouchableOpacity style={styles.headerIcon}
+          onPress={() => handleLogOut()}
+      >
+          <Icon name="sign-out" size={30} color="#FFF"/>
       </TouchableOpacity>
       </View>
 
