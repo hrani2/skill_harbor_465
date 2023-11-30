@@ -6,7 +6,19 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 const screenWidth = Dimensions.get('window').width;
 const ProfileScreen = ({ route, navigation }) => {
-    const { name, email, age, skills = ['Python', 'R', 'C++'] } = route.params;
+    const { name, profile_email, age, skills = ['Python', 'R', 'C++'], user_email = "" } = route.params;
+
+    const handleHomePress = () => {
+      console.log('got to function');
+      if (user_email=="") { 
+        console.log('if home press'); 
+        navigation.navigate('Home', {email: profile_email});
+      } else { 
+        console.log('else home press'); 
+        navigation.navigate('Home', {email: user_email}); 
+      }
+    }
+
     return (
       
       <View style={styles.container}>
@@ -34,7 +46,7 @@ const ProfileScreen = ({ route, navigation }) => {
           <View style={styles.Containered}>
           <Text style={styles.title}>E-mail: </Text>
           <View style={styles.tagContainer}>
-          <Text style={styles.tag}>{email}</Text>
+          <Text style={styles.tag}>{profile_email}</Text>
           </View>
           {/* <Text style={styles.input}>School: {school}</Text> */}
           </View>
@@ -48,7 +60,7 @@ const ProfileScreen = ({ route, navigation }) => {
               ))}
           </ScrollView>
         </View>
-        <TouchableOpacity style={styles.floatButton} onPress={() => navigation.navigate('Home', {email: email})}>
+        <TouchableOpacity style={styles.floatButton} onPress={handleHomePress}>
           <View style = {styles.homeicon}>
             <Icon name="home" size={30} color='#00507B' />
           </View>

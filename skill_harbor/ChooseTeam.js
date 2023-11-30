@@ -33,7 +33,7 @@ const ChooseTeam = ({route, navigation}) => {
             text: 'OK',
             onPress: () => {
               console.log('Home button pressed - confirmed');
-              navigation.navigate('Home');
+              navigation.navigate('Home', {email: email});
             },
           },
         ],
@@ -50,7 +50,7 @@ const ChooseTeam = ({route, navigation}) => {
             <TouchableOpacity 
               key={team}  
               style={styles.button} 
-              onPress={() => navigation.navigate('Browse', { teamname: team })}
+              onPress={() => navigation.navigate('Browse', { teamname: team, user_email: email })}
             >
               <Text style={styles.buttonText}>{team}</Text>
             </TouchableOpacity>

@@ -1,11 +1,11 @@
-import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const SentRequests = ({ navigation }) => {
+const SentRequests = ({ navigation, route }) => {
 
   // Your component logic goes here
-
+  const { email } = route.params; 
   const getStatusIcon = (status) => {
     switch (status) {
       case 'inProgress':
@@ -21,7 +21,8 @@ const SentRequests = ({ navigation }) => {
 
   const handleHomePress = () => {
     try { 
-      navigation.navigate('Home');
+      console.log("email: ", email);
+      navigation.navigate('Home', {email: email});
     } catch (e) {
       console.log("navigation error: ", e); 
     }

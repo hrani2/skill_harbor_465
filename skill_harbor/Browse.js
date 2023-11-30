@@ -6,13 +6,14 @@ import { queryTeamByName, queryAllUsers} from './firebase/utils';
 
 const Browse = ({ route, navigation }) => {
   // This data would typically come from your application's state or props
-  const { teamname } = route.params;
+  const { teamname, user_email } = route.params;
   const [score, setScore] = useState(0);
   const [matches, setMatches] = useState([]);
 
 
   useEffect(() => { 
     const calculateScore = async () => {
+      console.log('user email', user_email); 
       allUserInfos = await queryAllUsers();
       teamInfos = await queryTeamByName(teamname);
 
@@ -20,18 +21,19 @@ const Browse = ({ route, navigation }) => {
       const newMatches = Object.values(allUserInfos).map(userInfo => {
         // Calculate score
         const userSkills = userInfo.skills;
-        let skillMatcheCounter = 0;
+        let skillMatchCounter = 0;
         for (let i = 0; i < userSkills.length; i++) {
           if (teamSkills.map(skill => skill.toLowerCase()).includes(userSkills[i].toLowerCase())) {
-            skillMatcheCounter += 1;
+            skillMatchCounter += 1;
           }
         }
-        const score = (skillMatcheCounter / teamSkills.length) * 10;
+        const score = (skillMatchCounter / teamSkills.length) * 10;
         
         // Return new object with calculated rating
         return {
           name: userInfo.name,
-          rating: score,
+          email: userInfo.email, 
+          rating: Number((score).toFixed(1)),
           age: userInfo.age,
           skills: userInfo.skills,
         };
@@ -43,10 +45,10 @@ const Browse = ({ route, navigation }) => {
   }, []);
 
 
-  const recommended = [
-    { name: 'Adelia', rating: 8.6, age:20, skills:['Python', 'Git', 'Linux'] },
-    { name: 'Jason', rating: 8.4, age: 22, skills:['R', 'C++', 'C'] },
-  ];
+  // const recommended = [
+  //   { name: 'Adelia', rating: 8.6, age:20, skills:['Python', 'Git', 'Linux'] },
+  //   { name: 'Jason', rating: 8.4, age: 22, skills:['R', 'C++', 'C'] },
+  // ];
 
   const confirmAddition = (name) => {
     Alert.alert(
@@ -78,6 +80,7 @@ const Browse = ({ route, navigation }) => {
         { text: "OK", onPress: () => console.log('OK Pressed') }
       ]
     );
+    navigation.navigate('Home',{name: name});
   };
 
   const handleHomePress = () => {
@@ -117,7 +120,7 @@ const Browse = ({ route, navigation }) => {
       <Text style={styles.subheader}>Potential matches:</Text>
       <ScrollView style={styles.scrollView}>
         {matches.map((match, index) => (
-          <TouchableOpacity key={index} style={styles.item} onPress={() => navigation.navigate('Profile', { name: match.name,  email: match.name + '@illinois.edu', age: match.age, skills: match.skills})} >
+          <TouchableOpacity key={index} style={styles.item} onPress={() => navigation.navigate('Profile', { name: match.name,  profile_email: match.email, age: match.age, skills: match.skills, user_email: user_email})} >
             <Text style={styles.name}>{match.name}</Text>
             <View style={styles.matchInfo}>
               <Text style={styles.rating}>{match.rating}</Text>

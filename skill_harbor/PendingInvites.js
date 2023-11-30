@@ -2,10 +2,10 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const PendingInvites = ({ navigation }) => {
+const PendingInvites = ({ navigation, route }) => {
 
   // Your component logic goes here
-
+  const { email } = route.params; 
   const handleCheckPress = (type, inviteType) => {
     // Handle check press based on the type and inviteType
     console.log(`Check pressed for ${type} - ${inviteType}`);
@@ -18,7 +18,7 @@ const PendingInvites = ({ navigation }) => {
 
   const handleHomePress = () => {
     try { 
-      navigation.navigate('Home');
+      navigation.navigate('Home', {email: email});
     } catch (e) {
       console.log("navigation error: ", e); 
     }

@@ -243,6 +243,7 @@ const Create = ({modalVisible, setModalVisible, navigation, email}) => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
+            console.log("email: ", email); 
             console.log('Create Team button pressed');
             navigation.navigate('CreateTeam', {email: email}); setModalVisible(false);}}>
           <Text style={styles.textStyle}>Create Teams</Text>
@@ -306,7 +307,7 @@ const HomeScreen = ({text, request_count, invite_count, route, navigation}) => {
       user_dat = await queryUserByName(email);  
       try {
         console.log('Navigating to Profile...');
-        navigation.navigate('Profile', {name: user_dat["name"], email: email, 
+        navigation.navigate('Profile', {name: user_dat["name"], profile_email: email, 
                                         age: user_dat["age"], skills: user_dat["skills"]});
       } catch (error) {
         console.error('Navigation error:', error);
@@ -411,7 +412,7 @@ const HomeScreen = ({text, request_count, invite_count, route, navigation}) => {
         </View>
 
       
-        <TouchableOpacity style={styles.pillButton} onPress={() => navigation.navigate('SentRequests')}> 
+        <TouchableOpacity style={styles.pillButton} onPress={() => navigation.navigate('SentRequests', {email: email})}> 
           <Text style={styles.pillButtonText}>Sent Requests</Text>
           {request_count  && request_count > 0 && (
             <View style={styles.badgeContainer}>
@@ -420,7 +421,7 @@ const HomeScreen = ({text, request_count, invite_count, route, navigation}) => {
           )}
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.pillButton} onPress={() => navigation.navigate('PendingInvites')}>
+        <TouchableOpacity style={styles.pillButton} onPress={() => navigation.navigate('PendingInvites', {email: email})}>
           <Text style={styles.pillButtonText}>Pending Invites</Text>
           {invite_count && invite_count > 0 && (
             <View style={styles.badgeContainer}>
