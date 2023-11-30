@@ -1,7 +1,9 @@
 // import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { queryTeamDb, queryUserByName } from './firebase/utils';
 import React, { useEffect, useState } from 'react';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 
 const ChooseTeam = ({route, navigation}) => {
     const { email } = route.params;
@@ -42,7 +44,7 @@ const ChooseTeam = ({route, navigation}) => {
     
     return (
         <View style={styles.container}>
-          
+
         <Text style={styles.header}>CURRENT TEAMS:</Text>
           {userInfo && userInfo["teams"] && userInfo["teams"].map((team) => (
             <TouchableOpacity 

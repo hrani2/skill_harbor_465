@@ -4,7 +4,7 @@ import { ref, set, get, remove } from "firebase/database";
 import { Alert } from 'react-native';
 
 
-function removeSpecialCharacters(str) {
+export function removeSpecialCharacters(str) {
   return str.replace(/[.#$[\]]/g, '');
 }
 

@@ -1,6 +1,8 @@
+import { get, set, ref } from 'firebase/database';
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
-import { addNewUser, queryUserByName } from './firebase/utils';
+import { realtimeDb } from './firebase/config';
+import { removeSpecialCharacters } from './firebase/utils';
 
 const ForgotPasswordScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -13,8 +15,11 @@ const ForgotPasswordScreen = ({ navigation }) => {
       alert('Please fill all the fields.');
       return;
     }
-    user_dat = await queryUserByName(email);
-    if (user_dat == null) {
+    const cleaned_email = removeSpecialCharacters(email); 
+    const userRef = ref(realtimeDb, "user/" + cleaned_email); 
+    const passRef = ref(realtimeDb, "user/" + cleaned_email + "/password"); 
+    const snapshot = await get(userRef); 
+    if (!(snapshot.exists())) {
         Alert.alert("There is no account with this username. Wrong email address!")
         return; 
     }
@@ -24,11 +29,10 @@ const ForgotPasswordScreen = ({ navigation }) => {
     }
     // Implement your password reset logic here
     console.log("querying db for user data")
-    if (user_dat !== null) {
+    if (snapshot.exists()) {
         console.log("New Password: ", password); 
-        addNewUser(user_dat["name"],email,password,user_dat["age"],user_dat["skills"]);
-        user = await queryUserByName(email); 
-        console.log("Password from db: ", user["password"]);
+        await set(passRef, password); 
+        console.log("Password updated successfully");
     }
     try {
         console.log(email); 

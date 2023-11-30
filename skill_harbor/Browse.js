@@ -26,7 +26,7 @@ const Browse = ({ route, navigation }) => {
             skillMatcheCounter += 1;
           }
         }
-        const score = skillMatcheCounter / teamSkills.length;
+        const score = (skillMatcheCounter / teamSkills.length) * 10;
         
         // Return new object with calculated rating
         return {
@@ -69,10 +69,11 @@ const Browse = ({ route, navigation }) => {
     );
   };
 
+  // when i request a person for my team, they need to show up in my sent requests.  
   const additionSuccessful = (name) => {
     Alert.alert(
       "Success",
-      `You have added ${name} successfully!`,
+      `You have sent a request to ${name} successfully!`,
       [
         { text: "OK", onPress: () => console.log('OK Pressed') }
       ]
