@@ -1,51 +1,66 @@
-import React from 'react';
-import { Alert, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+// import React from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { queryTeamDb, queryUserByName } from './firebase/utils';
+import React, { useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const ChooseTeam = ({navigation}) => {
 
-  const handleHomePress = () => {
-    // Show a confirmation dialog before navigating to the HomeScreen
-    Alert.alert(
-      'Confirmation',
-      'Are you sure you want to go to the home? Your progress will not be saved.',
-      [
-        {
-          text: 'Cancel',
-          style: 'cancel',
-        },
-        {
-          text: 'OK',
-          onPress: () => {
-            console.log('Home button pressed - confirmed');
-            navigation.navigate('Home');
+const ChooseTeam = ({route, navigation}) => {
+    const { email } = route.params;
+    const [userInfo, setUserInfo] = useState();
+    useEffect(() => { 
+      const fetchUser = async () => {
+        // print email
+        console.log("email: ", email);
+        const info = await queryUserByName(email);
+        console.log("info: ", info);
+        setUserInfo(info);
+      };
+      fetchUser();
+    }, []);
+
+    const handleHomePress = () => {
+      // Show a confirmation dialog before navigating to the HomeScreen
+      Alert.alert(
+        'Confirmation',
+        'Are you sure you want to go to the home? Your progress will not be saved.',
+        [
+          {
+            text: 'Cancel',
+            style: 'cancel',
           },
-        },
-      ],
-      { cancelable: false }
-    );
-  };
+          {
+            text: 'OK',
+            onPress: () => {
+              console.log('Home button pressed - confirmed');
+              navigation.navigate('Home');
+            },
+          },
+        ],
+        { cancelable: false }
+      );
+    };
 
+    
     return (
         <View style={styles.container}>
+
         <Text style={styles.header}>CURRENT TEAMS:</Text>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Browse', { teamname: 'Fantastic Six' })} >
-            <Text style={styles.buttonText}>Fantastic Six</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Browse', { teamname: 'TeamWin' })} >
-            <Text style={styles.buttonText}>TeamWin</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Browse', { teamname: 'AMAZ' })} >
-            <Text style={styles.buttonText}>AMAZ</Text>
-        </TouchableOpacity>
+          {userInfo && userInfo["teams"] && userInfo["teams"].map((team) => (
+            <TouchableOpacity 
+              key={team}  
+              style={styles.button} 
+              onPress={() => navigation.navigate('Browse', { teamname: team })}
+            >
+              <Text style={styles.buttonText}>{team}</Text>
+            </TouchableOpacity>
+          ))}
 
         <TouchableOpacity style={styles.homeButton} onPress={handleHomePress}>
           <Icon name="home" size={30} color="#00507B" />
         </TouchableOpacity>
 
         </View>
-
-        
     );
 };
 

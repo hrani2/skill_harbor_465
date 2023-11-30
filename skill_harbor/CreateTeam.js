@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Modal , ScrollView, KeyboardAvoidingView } from 'react-native';
+
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Modal , ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { addNewTeam } from './firebase/utils';
 
-const CreateTeam = ({ navigation }) => {
+const CreateTeam = ({ navigation, route }) => {
   const [name, setName] = useState('');
   const [location, setLocation] = useState('');
   const [teamSize, setTeamSize] = useState('');
@@ -13,6 +14,8 @@ const CreateTeam = ({ navigation }) => {
   const [newSkill, setNewSkill] = useState('');
   const [skills, setSkills] = useState([]);
   const [isAddButtonDisabled, setAddButtonDisabled] = useState(true);
+  const { email } = route.params; 
+  const [userInfo, setUserInfo] = useState(); 
 
   const handleCompletePress = () => {
     if (name.trim() === '' || location.trim() === '' || teamSize.trim() === '' || parseInt(teamSize) < 2 || parseInt(teamSize) >= 1000) {

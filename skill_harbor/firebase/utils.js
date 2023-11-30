@@ -4,31 +4,39 @@ import { ref, set, get, remove } from "firebase/database";
 import { Alert } from 'react-native';
 
 
-function removeSpecialCharacters(str) {
+export function removeSpecialCharacters(str) {
   return str.replace(/[.#$[\]]/g, '');
 }
 
-function generateJoinCode() {
-  let code = '';
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  const charactersLength = characters.length;
-  
-  for (let i = 0; i < 6; i++) {
-    code += characters.charAt(Math.floor(Math.random() * charactersLength));
+export const queryAllUsers = async () => {
+  try {
+    const userRef = ref(realtimeDb, "user/");
+    const snapshot = await get(userRef);
+    if (snapshot.exists()) {
+      console.log("Retrieved data: ", snapshot.val());
+      return snapshot.val();
+    } else {
+      console.log("No data available");
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching data: ", error);
   }
-  return code; 
 };
+
 
 export const addNewUser = async (name, email, password, age, skills) => {
   path_email = removeSpecialCharacters(email); 
   try {
     const userRef = ref(realtimeDb, "user/" + path_email);
+    // add a empty list of teams
     await set(userRef, {
       name: name,
       email: email,
       password: password,
       age: age,
-      skills: skills
+      skills: skills,
+      teams: "None"
     });
     console.log("Document successfully written!");
   } catch (e) {
@@ -60,6 +68,7 @@ export const addNewTeam = async (name, location, team_size, join_code, skills, i
       join_code: join_code,
       skills: skills,
       info: info, 
+      members: "None"
     });
     console.log("Document successfully written!");
   } catch (e) {
@@ -73,7 +82,7 @@ export const queryUserByName = async (email) => {
         const userRef = ref(realtimeDb, "user/" + path_email);
         const snapshot = await get(userRef);
         if (snapshot.exists()){
-          console.log(snapshot.val()); 
+          // console.log(snapshot.val()); 
             return snapshot.val();
         }
         else{
@@ -99,6 +108,21 @@ export const queryTeamDb = async () => {
   }
 }
 
+export const queryTeamByName = async (name) => {
+    try{
+        const teamRef = ref(realtimeDb, "team/" + name);
+        const snapshot = await get(teamRef);
+        if (snapshot.exists()){
+            return snapshot.val();
+        }
+        else{
+            return null;
+        };
+    } catch (error) {
+        console.error("Error fetching data: ", error);
+    }
+}
+
 export const checkUserLogin = async (email, password) => {
     try{
         snapshot = await queryUserByName(email);
@@ -119,12 +143,10 @@ export const checkUserLogin = async (email, password) => {
 }
 
 
-
 export const queryData = async () => {
   try {
-    const cityRef = ref(realtimeDb, "cities/IL");
+    const cityRef = ref(realtimeDb, "user/"+email);
     const snapshot = await get(cityRef);
-
     if (snapshot.exists()) {
       console.log("Retrieved data: ", snapshot.val());
       return snapshot.val();

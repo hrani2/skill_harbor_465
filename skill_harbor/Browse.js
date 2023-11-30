@@ -1,16 +1,47 @@
-import React from 'react';
 import { Alert, View, Text, ScrollView, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import React, { useEffect, useState } from 'react';
+import { queryTeamByName, queryAllUsers} from './firebase/utils';
 
 
 const Browse = ({ route, navigation }) => {
   // This data would typically come from your application's state or props
   const { teamname } = route.params;
-  const matches = [
-    { name: 'Ric', rating: 8.8 , age:22, skills:['Java', 'C++', 'C']},
-    { name: 'Dawn', rating: 7.8, age: 20, skills:['Python', 'JavaScript', 'C']},
-    { name: 'Mirra', rating: 7.6 , age:21, skills:['React', 'HTML', 'CSS']},
-  ];
+  const [score, setScore] = useState(0);
+  const [matches, setMatches] = useState([]);
+
+
+  useEffect(() => { 
+    const calculateScore = async () => {
+      allUserInfos = await queryAllUsers();
+      teamInfos = await queryTeamByName(teamname);
+
+      const teamSkills = teamInfos.skills;
+      const newMatches = Object.values(allUserInfos).map(userInfo => {
+        // Calculate score
+        const userSkills = userInfo.skills;
+        let skillMatcheCounter = 0;
+        for (let i = 0; i < userSkills.length; i++) {
+          if (teamSkills.map(skill => skill.toLowerCase()).includes(userSkills[i].toLowerCase())) {
+            skillMatcheCounter += 1;
+          }
+        }
+        const score = (skillMatcheCounter / teamSkills.length) * 10;
+        
+        // Return new object with calculated rating
+        return {
+          name: userInfo.name,
+          rating: score,
+          age: userInfo.age,
+          skills: userInfo.skills,
+        };
+      });
+      const sortedMatches = [...newMatches].sort((a, b) => b.rating - a.rating);
+      setMatches(sortedMatches);
+    };
+    calculateScore(); 
+  }, []);
+
 
   const recommended = [
     { name: 'Adelia', rating: 8.6, age:20, skills:['Python', 'Git', 'Linux'] },
@@ -38,10 +69,11 @@ const Browse = ({ route, navigation }) => {
     );
   };
 
+  // when i request a person for my team, they need to show up in my sent requests.  
   const additionSuccessful = (name) => {
     Alert.alert(
       "Success",
-      `You have added ${name} successfully!`,
+      `You have sent a request to ${name} successfully!`,
       [
         { text: "OK", onPress: () => console.log('OK Pressed') }
       ]
