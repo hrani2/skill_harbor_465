@@ -1,21 +1,38 @@
-import React from 'react';
+// import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { queryTeamDb } from './firebase/utils';
+import { queryTeamDb, queryUserByName } from './firebase/utils';
+import React, { useEffect, useState } from 'react';
+
+
+
 
 const ChooseTeam = ({route, navigation}) => {
     const { email } = route.params;
+    const [userInfo, setUserInfo] = useState();
+    useEffect(() => { 
+      const fetchUser = async () => {
+        // print email
+        console.log("email: ", email);
+        const info = await queryUserByName(email);
+        console.log("info: ", info);
+        setUserInfo(info);
+      };
+      fetchUser();
+    }, []);
+
+    
     return (
         <View style={styles.container}>
         <Text style={styles.header}>CURRENT TEAMS:</Text>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Browse', { teamname: 'Fantastic Six' })} >
-            <Text style={styles.buttonText}>Fantastic Six</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Browse', { teamname: 'TeamWin' })} >
-            <Text style={styles.buttonText}>TeamWin</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Browse', { teamname: 'AMAZ' })} >
-            <Text style={styles.buttonText}>AMAZ</Text>
-        </TouchableOpacity>
+          {userInfo && userInfo["teams"] && userInfo["teams"].map((team) => (
+            <TouchableOpacity 
+              key={team}  
+              style={styles.button} 
+              onPress={() => navigation.navigate('Browse', { teamname: team })}
+            >
+              <Text style={styles.buttonText}>{team}</Text>
+            </TouchableOpacity>
+          ))}
         </View>
     );
 };
