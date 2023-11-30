@@ -1,7 +1,7 @@
 import React, {useState, useRef, useEffect } from 'react';
 import { Image } from 'react-native'
 import { queryUserByName } from './firebase/utils';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, SafeAreaView , ScrollView, Modal, PanResponder } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, SafeAreaView , ScrollView, Modal, PanResponder, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Make sure to install this package
 
 //Pop-up for Join a Team (asks to search all teams or Join Organization)
@@ -98,6 +98,7 @@ const MyModal = ({modalVisible, setModalVisible, navigation, openJoinModal}) => 
               style={styles.input}
               value={code}
               onChangeText={setCode}
+              placeholderTextColor = "#00507B"
             />
           </View>
           <TouchableOpacity  onPress={() =>{navigation.navigate('SearchOrg'), setModalVisible(false);}}>
@@ -708,12 +709,14 @@ const styles = StyleSheet.create({
     color: 'red',
   },
   input: {
-    backgroundColor: '#B2BCC1', // White text box background color
+    backgroundColor: '#D3D3D3', // White text box background color
     padding: 10,
     borderRadius: 5,
     fontFamily: 'RobotoSlab-Regular',
     width: "100%",
     alignSelf: 'flex-start',
+    borderColor: '#00507B',
+    borderWidth: 1,
   },
   closeicon4: {
     top: 0,
