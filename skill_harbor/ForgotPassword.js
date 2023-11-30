@@ -32,23 +32,11 @@ const ForgotPasswordScreen = ({ navigation }) => {
     }
     try {
         console.log(email); 
-        console.log('Navigating to Home...');
         navigation.navigate('Log In');
       } catch (error) {
         console.error('Navigation error:', error);
       }
   };
-
-  const profileScreen = async (email) => {
-    user_dat = await queryUserByName(email);  
-    try {
-      console.log('Navigating to Profile...');
-      navigation.navigate('Profile', {name: user_dat["name"], email: email, 
-                                      age: user_dat["age"], skills: user_dat["skills"]});
-    } catch (error) {
-      console.error('Navigation error:', error);
-    }
-}
 
   return (
     <View style={styles.container}>

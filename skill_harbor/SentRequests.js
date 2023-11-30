@@ -19,6 +19,14 @@ const SentRequests = ({ navigation }) => {
     }
   };
 
+  const handleHomePress = () => {
+    try { 
+      navigation.navigate('Home');
+    } catch (e) {
+      console.log("navigation error: ", e); 
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Sent Requests</Text>
@@ -68,6 +76,10 @@ const SentRequests = ({ navigation }) => {
           {getStatusIcon('inProgress')}
         </TouchableOpacity>
       </View>
+
+      <TouchableOpacity style={styles.homeButton} onPress={handleHomePress}>
+        <Icon name="home" size={30} color="#00507B" />
+      </TouchableOpacity>
 
     </View>
   );
@@ -132,6 +144,22 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: 'RobotoSlab-Regular',
     color: '#00507B',
+  },
+  homeButton: {
+    position: 'absolute',
+    bottom: 20,
+    left: 20,
+    backgroundColor: '#FFF', // White button color
+    padding: 20,
+    borderRadius: 50, // Make it a circle
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
   },
 });
 
