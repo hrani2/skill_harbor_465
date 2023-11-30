@@ -260,6 +260,36 @@ const Create = ({modalVisible, setModalVisible, navigation, email}) => {
   );
 };
 
+const getMemberCountForTeam = (teamId) => {
+  // Replace this with the actual logic to fetch the member count for the given teamId
+  // For now, let's assume you have a hardcoded value
+  return Math.floor(Math.random() * 10) + 1; // Replace this with the actual member count
+};
+
+const TeamCard = ({ teamName, teamOrganization, teamCourse, onPress }) => {
+  const memberCount = getMemberCountForTeam(teamName); // Use teamName or teamId as per your data structure
+
+  return (
+    <TouchableOpacity onPress={onPress}>
+      <View style={styles.teamCard}>
+        <Text style={styles.teamName}>{teamName}</Text>
+        {teamCourse && teamOrganization && (
+          <Text style={styles.teamOrganization}>{`${teamCourse} at ${teamOrganization}`}</Text>
+        )}
+        {!teamCourse && teamOrganization && (
+          <Text style={styles.teamOrganization}>{teamOrganization}</Text>
+        )}
+        {memberCount === 1 ? (
+          <Text style={styles.teamMembers}>{`${memberCount} member`}</Text>
+        ) : (
+          <Text style={styles.teamMembers}>{`${memberCount} members`}</Text>
+        )}
+      </View>
+    </TouchableOpacity>
+  );
+};
+
+
 
 const HomeScreen = ({text, request_count, invite_count, route, navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -353,7 +383,7 @@ const HomeScreen = ({text, request_count, invite_count, route, navigation}) => {
 
         <TouchableOpacity style={styles.menuItem} onPress={() => setModalVisible(true)} >
           <View style={styles.icon}>
-            <Icon name="search" size={30} color="#FFF" />
+            <Icon name="group" size={30} color="#FFF" />
           </View>
           <Text style={styles.menuItemText}>TEAMS</Text>
           <MyModal
@@ -404,6 +434,22 @@ const HomeScreen = ({text, request_count, invite_count, route, navigation}) => {
           <Text style={styles.contentHeader}>CURRENT TEAMS</Text>
           <View style={styles.line} />
         </View>
+
+        {/* Render team cards here */}
+        <TeamCard
+          teamName="Font-astic Six"
+          teamOrganization="UIUC"
+          teamCourse="CS 465"
+          teamDescription="Description for Team 1"
+          onPress={() => console.log("Team 1 pressed")}
+        />
+        <TeamCard
+          teamName="Team 2"
+          // teamOrganization="Organization B"
+          teamDescription="Description for Team 2"
+          onPress={() => console.log("Team 2 pressed")}
+        />
+          {/* Add more TeamCard components for each team */}
 
         {/* <TouchableOpacity>
         <View style={styles.pillButton} />
@@ -730,6 +776,31 @@ const styles = StyleSheet.create({
     color: '#00507B',
     top: 2,
     left: 100,
+  },
+  teamCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 10,
+    padding: 15,
+    marginVertical: 10,
+    borderWidth: 2,
+    borderColor: '#E0E0E0',
+    width: '90%',
+    alignSelf: 'center', // Center the TeamCard horizontally
+  },
+  teamName: {
+    fontFamily: 'RobotoSlab-Bold',
+    fontSize: 18,
+    color: '#00507B',
+  },
+  teamOrganization: {
+    fontFamily: 'RobotoSlab-Bold',
+    fontSize: 14,
+    color: '#707070',
+  },
+  teamMembers: {
+    fontFamily: 'RobotoSlab-Regular',
+    fontSize: 14,
+    color: '#707070',
   },
 });
 
