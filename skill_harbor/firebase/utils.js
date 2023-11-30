@@ -8,6 +8,37 @@ export function removeSpecialCharacters(str) {
   return str.replace(/[.#$[\]]/g, '');
 }
 
+export const updateUserTeams = async (email, newTeam) => {
+  const path_email = removeSpecialCharacters(email);
+  const userRef = ref(realtimeDb, "user/" + path_email);
+
+  try {
+    // Check if the user exists
+    const snapshot = await get(userRef);
+    if (snapshot.exists()) {
+      let userData = snapshot.val();
+      let teams = userData.teams || []; 
+
+      if (Array.isArray(teams)) {
+        teams.push(newTeam); 
+      } else {
+        console.error("Expected 'teams' to be an array, but found:", teams);
+        return;
+      }
+
+      const teamsRef = ref(realtimeDb, "user/" + path_email + "/teams");
+      await set(teamsRef, teams); // Update the database with the new teams array
+      console.log("Teams successfully updated!");
+    } else {
+      console.log("User does not exist.");
+    }
+  } catch (e) {
+    console.error("Error: ", e);
+  }
+};
+
+
+
 export const queryAllUsers = async () => {
   try {
     const userRef = ref(realtimeDb, "user/");
@@ -36,7 +67,7 @@ export const addNewUser = async (name, email, password, age, skills) => {
       password: password,
       age: age,
       skills: skills,
-      teams: "None"
+      teams: [],
     });
     console.log("Document successfully written!");
   } catch (e) {
@@ -68,7 +99,7 @@ export const addNewTeam = async (name, location, team_size, join_code, skills, i
       join_code: join_code,
       skills: skills,
       info: info, 
-      members: "None"
+      members: [],
     });
     console.log("Document successfully written!");
   } catch (e) {

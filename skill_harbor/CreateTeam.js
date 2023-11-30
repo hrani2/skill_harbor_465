@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Modal , ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { addNewTeam } from './firebase/utils';
+import { addNewTeam, updateUserTeams } from './firebase/utils';
 
 const CreateTeam = ({ navigation, route }) => {
   const [name, setName] = useState('');
@@ -14,7 +14,6 @@ const CreateTeam = ({ navigation, route }) => {
   const [skills, setSkills] = useState([]);
   const [isAddButtonDisabled, setAddButtonDisabled] = useState(true);
   const { email } = route.params; 
-  const [userInfo, setUserInfo] = useState(); 
 
   const handleCompletePress = () => {
     if (name.trim() === '' || location.trim() === '' || teamSize.trim() === '' || parseInt(teamSize) < 2 || parseInt(teamSize) >= 1000) {
@@ -35,10 +34,9 @@ const CreateTeam = ({ navigation, route }) => {
             onPress: () => {
               // Add any necessary logic before navigating
               addNewTeam(name,location,teamSize,joinCode,skills,additionalInfo);
+              updateUserTeams(email, name); 
               console.log('Complete button pressed - confirmed');
-              navigation.navigate('TeamRequestPosted', {
-                name,
-              });
+              navigation.navigate('TeamRequestPosted', {name: name, email: email});
             },
           },
         ],
