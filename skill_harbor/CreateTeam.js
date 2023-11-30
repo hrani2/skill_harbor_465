@@ -16,7 +16,7 @@ const CreateTeam = ({ navigation, route }) => {
   const { email } = route.params; 
 
   const handleCompletePress = () => {
-    if (name.trim() === '' || location.trim() === '' || teamSize.trim() === '' || parseInt(teamSize) < 2 || parseInt(teamSize) >= 1000) {
+    if (name.trim() === '' || location.trim() === '' || teamSize.trim() === '' || parseInt(teamSize) < 2 || parseInt(teamSize) >= 1000 || additionalInfo.trim() === '') {
         // Show an error message if the required fields are empty or teamSize is less than 2 or greater than 1000
         Alert.alert('Error', 'Please complete all required fields (marked with a yellow star) and ensure that the team size is 2 or greater.');
       } else {
@@ -185,7 +185,7 @@ const CreateTeam = ({ navigation, route }) => {
             <TouchableOpacity key={index} style={styles.skillItemContainer}>
               <Text style={styles.skillItemText}>{skill}</Text>
               <TouchableOpacity style={styles.removeSkillButtonContainer} onPress={() => handleRemoveSkill(index)}>
-                <Icon name="times" size={22} color="#FFF" />
+                <Icon name="times" size={22} color="#00507B" />
               </TouchableOpacity>
             </TouchableOpacity>
           ))}
@@ -197,13 +197,16 @@ const CreateTeam = ({ navigation, route }) => {
 
       {/* Additional Info (Optional) */}
       <View style={styles.textBoxContainer}>
-        <Text style={styles.labelText}>ADDITIONAL INFO </Text>
+        <Text style={styles.labelText}>ADDITIONAL INFO 
+         <Text style={styles.requiredStar}> *</Text>
+        </Text>
         <TextInput
           style={styles.largeTextBox}
           placeholder="A short description about your team and/or project goals..."
           multiline={true}
           numberOfLines={4}
           textAlignVertical="top"  // Move the placeholder to the top
+          onChangeText={(text) => setAdditionalInfo(text)}
         />
       </View>
 
@@ -364,17 +367,17 @@ const styles = StyleSheet.create({
   skillItemContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#00507B', // White background color
+    backgroundColor: '#FFF', // White background color
     borderRadius: 20, // Adjust the border radius for an oval shape
     padding: 10,
     marginVertical: 5,
   },
   skillItemText: {
     flex: 1, // Take up remaining space
-    color: '#FFF',
+    color: '#00507B',
     fontSize: 16,
     marginRight: 30,
-    fontFamily: 'RobotoSlab-Regular',
+    fontFamily: 'RobotoSlab-Bold',
   },
   removeSkillButtonContainer: {
     // backgroundColor: '#FFF', // White background color
