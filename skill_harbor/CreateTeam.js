@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Modal , ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Modal , ScrollView, KeyboardAvoidingView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const CreateTeam = ({ navigation }) => {
@@ -104,6 +104,7 @@ const CreateTeam = ({ navigation }) => {
   };
 
   return (
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
     <ScrollView
       contentContainerStyle={styles.scrollContainer}
       keyboardShouldPersistTaps="handled"
@@ -243,6 +244,7 @@ const CreateTeam = ({ navigation }) => {
       </Modal>
     </View>
     </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 

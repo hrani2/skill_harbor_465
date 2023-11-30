@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Image } from 'react-native'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, SafeAreaView , ScrollView, Modal} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; 
+import { queryTeamsWithoutJoinCode} from './firebase/utils';
 
 
 const MyModal = ({modalVisible, setModalVisible, navigation}) => (
@@ -36,6 +37,22 @@ const MyModal = ({modalVisible, setModalVisible, navigation}) => (
 
 const Search = ( {navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [teamsWithoutJoinCode, setTeamsWithoutJoinCode] = useState([]);
+
+  const fetchTeamsWithoutJoinCode = async () => {
+    try {
+      const teams = await queryTeamsWithoutJoinCode();
+      setTeamsWithoutJoinCode(teams);
+    } catch (error) {
+      console.error("Error fetching teams: ", error);
+    }
+  };
+
+  // Fetch teams when the component mounts
+  useEffect(() => {
+    fetchTeamsWithoutJoinCode();
+  }, []);
+
     return (
         <View style={styles.container}>
              <ScrollView>
@@ -62,29 +79,25 @@ const Search = ( {navigation}) => {
           </TouchableOpacity>
 
             <View style={styles.cardContainer}>
-
+            {teamsWithoutJoinCode.map((team, index) => ( 
               <View style={styles.card}>
                 <View style={styles.rowformat}>
                   <Image
                     source={{ uri: 'https://via.placeholder.com/50' }} // Replace 
                     style={styles.profilePic}
                   />
-                <Text style={styles.cardTitle}>Font-astic Six</Text>
+                <Text style={styles.cardTitle}>{team.name}</Text>
                 </View>
-                <Text style={styles.summary}> We are a dynamic group dedicated 
-                to developing a groundbreaking team-forming app, designed to transform the 
-                way teams are created and managed. With a focus on leveraging advanced algorithms 
-                and user-friendly interfaces, this app seeks to facilitate the team formation process 
-                by intelligently matching individuals based on their skills, experience, and 
-                interpersonal compatibility. Currently, Font-astic Six is on the lookout for
-                enthusiastic members who possess expertise in UI/UX design. </Text>
+                <Text style={styles.summary}> {team.info} </Text>
               <TouchableOpacity style={styles.learnMoreButton} onPress={() =>  {navigation.navigate('LearnMore')}}>
                 <Text style={styles.learnMoreText}>Learn More</Text>
               </TouchableOpacity>
               </View>
+               ))}
+              </View>
 
               {/* Card 2 */}
-              <View style={styles.card}>
+              {/* <View style={styles.card}>
                 <View style={styles.rowformat}>
                   <Image
                     source={{ uri: 'https://via.placeholder.com/50' }} // Replace 
@@ -102,9 +115,9 @@ const Search = ( {navigation}) => {
                 <Text style={styles.learnMoreText}>Learn More</Text>
               </TouchableOpacity>
               </View>
-
+               */}
               {/* Card 3 */}
-              <View style={styles.card}>
+              {/* <View style={styles.card}>
                 <View style={styles.rowformat}>
                   <Image
                     source={{ uri: 'https://via.placeholder.com/50' }} // Replace 
@@ -123,9 +136,9 @@ const Search = ( {navigation}) => {
                 <Text style={styles.learnMoreText}>Learn More</Text>
               </TouchableOpacity>
               </View>
-
+              */}
               {/* Card 4 */}
-              <View style={styles.card}>
+              {/*<View style={styles.card}>
                 <View style={styles.rowformat}>
                   <Image
                     source={{ uri: 'https://via.placeholder.com/50' }} // Replace 
@@ -146,6 +159,7 @@ const Search = ( {navigation}) => {
               </View>
 
             </View>
+            */}
           </ScrollView>
           <TouchableOpacity style={styles.floatButton} onPress={() => navigation.navigate('Home')}>
           <View style = {styles.homeicon}>
