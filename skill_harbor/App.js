@@ -19,6 +19,7 @@ import ReceiveJoinCode  from './ReceiveJoinCode';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import ProfileScreen from './ProfileScreen';
+import ForgotPasswordScreen from './ForgotPassword';
 
 
 const fetchFonts = () => {
@@ -91,6 +92,8 @@ function App() {
          <Stack.Screen name="Browse" component={Browse}
           options={{ headerShown: false }}/>
          <Stack.Screen name="ChooseTeam" component={ChooseTeam}
+          options={{ headerShown: false }}/>
+          <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen}
           options={{ headerShown: false }}/>
          <Stack.Screen name="SignUp" component={SignUpScreen}
         options={{ headerShown: false }} />

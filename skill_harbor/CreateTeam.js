@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Modal , ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { addNewTeam } from './firebase/utils';
 
 const CreateTeam = ({ navigation }) => {
   const [name, setName] = useState('');
@@ -31,6 +32,7 @@ const CreateTeam = ({ navigation }) => {
             text: 'OK',
             onPress: () => {
               // Add any necessary logic before navigating
+              addNewTeam(name,location,teamSize,joinCode,skills,additionalInfo);
               console.log('Complete button pressed - confirmed');
               navigation.navigate('TeamRequestPosted', {
                 name,
