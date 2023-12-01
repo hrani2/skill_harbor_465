@@ -89,26 +89,13 @@ const Browse = ({ route, navigation }) => {
   };
 
   const handleHomePress = () => {
-    // Show a confirmation dialog before navigating to the HomeScreen
-    Alert.alert(
-      'Confirmation',
-      'Are you sure you want to go to the home? Your progress will not be saved.',
-      [
-        {
-          text: 'Cancel',
-          style: 'cancel',
-        },
-        {
-          text: 'OK',
-          onPress: () => {
-            console.log('Home button pressed - confirmed');
-            navigation.navigate('Home', {email: user_email});
-          },
-        },
-      ],
-      { cancelable: false }
-    );
+    try { 
+      navigation.navigate('Home', {email: user_email});
+    } catch (e) {
+      console.log("navigation error: ", e); 
+    }
   };
+
 
   const handleBackPress = () => {
     navigation.goBack();
