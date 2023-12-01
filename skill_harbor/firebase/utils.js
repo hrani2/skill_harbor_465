@@ -37,7 +37,39 @@ export const updateUserTeams = async (email, newTeam) => {
   }
 };
 
+export const addNewSentRequest = async (name, requesteduser_email, currentuser_email, status) => {
+  path_email = removeSpecialCharacters(currentuser_email); 
+  requser_email = removeSpecialCharacters(requesteduser_email); 
+  try {
+    const userRef = ref(realtimeDb, "sentrequests/" + path_email);
+    // add a empty list of teams
+    await set(userRef, {
+      name: name,
+      email: requser_email,
+      status: status,
+    });
+    console.log("Document successfully written!");
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+};
 
+export const queryUserSentRequests = async (email) => {
+  path_email = removeSpecialCharacters(email); 
+  try {
+    const userRef = ref(realtimeDb, "sentrequests/" + path_email);
+    const snapshot = await get(userRef);
+    if (snapshot.exists()) {
+      console.log("Retrieved data: ", snapshot.val());
+      return snapshot.val();
+    } else {
+      console.log("No data available");
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching data: ", error);
+  }
+};
 
 export const queryAllUsers = async () => {
   try {

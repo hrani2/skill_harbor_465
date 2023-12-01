@@ -1,11 +1,49 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { queryUserSentRequests } from './firebase/utils';
 
 const SentRequests = ({ navigation, route }) => {
 
   // Your component logic goes here
   const { email } = route.params; 
+
+  const [requestsToPeople, setRequestsToPeople] = useState([]);
+
+  useEffect(() => {
+    const fetchRequests = async () => {
+      try {
+        const requestsData = await queryUserSentRequests(email);
+        console.log("requestData", requestsData);
+  
+        // Check if the first property's value is an object - indicating an object of objects
+        const isObjectOfObjects = requestsData && typeof Object.values(requestsData)[0] === 'object';
+  
+        let newRequests;
+        if (isObjectOfObjects) {
+          // If it's an object of objects, process each one
+          newRequests = Object.values(requestsData).map(requestInfo => ({
+            name: requestInfo.name,
+            email: requestInfo.email,
+          }));
+        } else {
+          // If it's a single object, wrap it in an array
+          newRequests = [{
+            name: requestsData.name,
+            email: requestsData.email,
+          }];
+        }
+  
+        console.log('newRequests: ', newRequests);
+        setRequestsToPeople(newRequests);
+      } catch (error) {
+        console.log("Error fetching requests: ", error);
+      }
+    };
+    fetchRequests();
+  }, [email]);
+  
+
   const getStatusIcon = (status) => {
     switch (status) {
       case 'inProgress':
@@ -61,22 +99,14 @@ const SentRequests = ({ navigation, route }) => {
         <Text style={styles.contentHeader}>TO PEOPLE</Text>
         <View style={styles.line} />
       </View>
-
-      {/* Card 1 for Header 2 */}
-      <View style={styles.cardContainer}>
-        <TouchableOpacity style={styles.card} onPress={() => {/* Handle card press for TO PEOPLE */}}>
-          <Text style={styles.cardText}>Person Request 1</Text>
-          {getStatusIcon('rejected')}
-        </TouchableOpacity>
-      </View>
-
-      {/* Card 2 for Header 2 */}
-      <View style={styles.cardContainer}>
-        <TouchableOpacity style={styles.card} onPress={() => {/* Handle card press for TO PEOPLE */}}>
-          <Text style={styles.cardText}>Person Request 2</Text>
-          {getStatusIcon('inProgress')}
-        </TouchableOpacity>
-      </View>
+      {requestsToPeople.map((request, index) => (
+        <View key={index} style={styles.cardContainer}>
+          <TouchableOpacity style={styles.card} onPress={() => {console.log("Data that should display", request)}}>
+            <Text style={styles.cardText}>{request.name}</Text>
+            {getStatusIcon('inProgress')}
+          </TouchableOpacity>
+        </View>
+      ))}
 
       <TouchableOpacity style={styles.homeButton} onPress={handleHomePress}>
         <Icon name="home" size={30} color="#00507B" />
