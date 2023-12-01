@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Image } from 'react-native'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, SafeAreaView , ScrollView, Modal} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; 
+import { queryTeamsWithoutJoinCode} from './firebase/utils';
 
 
 const MyModal = ({modalVisible, setModalVisible, navigation}) => (
@@ -36,6 +37,22 @@ const MyModal = ({modalVisible, setModalVisible, navigation}) => (
 
 const Search = ( {navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [teamsWithoutJoinCode, setTeamsWithoutJoinCode] = useState([]);
+
+  const fetchTeamsWithoutJoinCode = async () => {
+    try {
+      const teams = await queryTeamsWithoutJoinCode();
+      setTeamsWithoutJoinCode(teams);
+    } catch (error) {
+      console.error("Error fetching teams: ", error);
+    }
+  };
+
+  // Fetch teams when the component mounts
+  useEffect(() => {
+    fetchTeamsWithoutJoinCode();
+  }, []);
+
     return (
         <View style={styles.container}>
              <ScrollView>
@@ -62,90 +79,24 @@ const Search = ( {navigation}) => {
           </TouchableOpacity>
 
             <View style={styles.cardContainer}>
-
-              <View style={styles.card}>
+            {teamsWithoutJoinCode.map((team) => ( 
+              <View style={styles.card} key={team.id}>
                 <View style={styles.rowformat}>
                   <Image
                     source={{ uri: 'https://via.placeholder.com/50' }} // Replace 
                     style={styles.profilePic}
                   />
-                <Text style={styles.cardTitle}>Font-astic Six</Text>
+                <Text style={styles.cardTitle}>{team.name}</Text>
                 </View>
-                <Text style={styles.summary}> We are a dynamic group dedicated 
-                to developing a groundbreaking team-forming app, designed to transform the 
-                way teams are created and managed. With a focus on leveraging advanced algorithms 
-                and user-friendly interfaces, this app seeks to facilitate the team formation process 
-                by intelligently matching individuals based on their skills, experience, and 
-                interpersonal compatibility. Currently, Font-astic Six is on the lookout for
-                enthusiastic members who possess expertise in UI/UX design. </Text>
-              <TouchableOpacity style={styles.learnMoreButton} onPress={() =>  {navigation.navigate('LearnMore')}}>
+                <Text style={styles.summary}> {team.info} </Text>
+              <TouchableOpacity style={styles.learnMoreButton} onPress={() => { 
+                console.log("Navigating with team:", team);
+                navigation.navigate('LearnMore', { team: team }) }}>
                 <Text style={styles.learnMoreText}>Learn More</Text>
               </TouchableOpacity>
               </View>
-
-              {/* Card 2 */}
-              <View style={styles.card}>
-                <View style={styles.rowformat}>
-                  <Image
-                    source={{ uri: 'https://via.placeholder.com/50' }} // Replace 
-                    style={styles.profilePic}
-                  />
-                  <Text style={styles.cardTitle}>UI Utopia</Text>
+               ))}
               </View>
-              <Text style={styles.summary}> We are an energetic and inventive collective, committed to pioneering a 
-              unique web application that promises to redefine user experience in a distinctive domain. Our mission 
-              centers on harnessing cutting-edge technology and intuitive design principles to deliver a web app that 
-              not only engages but also inspires its users.  We are currently expanding our talented team and are eager to welcome 
-              individuals with a passion for web development and a flair for creative problem-solving. Our ideal candidates are those 
-              who are skilled in modern web technologies and have a keen eye for aesthetic and functional design. </Text>
-              <TouchableOpacity style={styles.learnMoreButton} onPress={() =>  {navigation.navigate('LearnMore')}}>
-                <Text style={styles.learnMoreText}>Learn More</Text>
-              </TouchableOpacity>
-              </View>
-
-              {/* Card 3 */}
-              <View style={styles.card}>
-                <View style={styles.rowformat}>
-                  <Image
-                    source={{ uri: 'https://via.placeholder.com/50' }} // Replace 
-                    style={styles.profilePic}
-                  />
-                <Text style={styles.cardTitle}>Vision</Text>
-                </View>
-                <Text style={styles.summary}> We are a dynamic group dedicated 
-                to developing a groundbreaking team-forming app, designed to transform the 
-                way teams are created and managed. With a focus on leveraging advanced algorithms 
-                and user-friendly interfaces, this app seeks to facilitate the team formation process 
-                by intelligently matching individuals based on their skills, experience, and 
-                interpersonal compatibility. Currently, Font-astic Six is on the lookout for
-                enthusiastic members who possess expertise in UI/UX design. </Text>
-              <TouchableOpacity style={styles.learnMoreButton} onPress={() =>  {navigation.navigate('LearnMore')}}>
-                <Text style={styles.learnMoreText}>Learn More</Text>
-              </TouchableOpacity>
-              </View>
-
-              {/* Card 4 */}
-              <View style={styles.card}>
-                <View style={styles.rowformat}>
-                  <Image
-                    source={{ uri: 'https://via.placeholder.com/50' }} // Replace 
-                    style={styles.profilePic}
-                  />
-                <Text style={styles.cardTitle}>0(1)</Text>
-                </View>
-                <Text style={styles.summary}> We are a dynamic group dedicated 
-                to developing a groundbreaking team-forming app, designed to transform the 
-                way teams are created and managed. With a focus on leveraging advanced algorithms 
-                and user-friendly interfaces, this app seeks to facilitate the team formation process 
-                by intelligently matching individuals based on their skills, experience, and 
-                interpersonal compatibility. Currently, Font-astic Six is on the lookout for
-                enthusiastic members who possess expertise in UI/UX design. </Text>
-              <TouchableOpacity style={styles.learnMoreButton} onPress={() =>  {navigation.navigate('LearnMore')}}>
-                <Text style={styles.learnMoreText}>Learn More</Text>
-              </TouchableOpacity>
-              </View>
-
-            </View>
           </ScrollView>
           <TouchableOpacity style={styles.floatButton} onPress={() => navigation.navigate('Home')}>
           <View style = {styles.homeicon}>

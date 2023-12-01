@@ -1,5 +1,6 @@
+
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Modal , ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Modal , ScrollView, KeyboardAvoidingView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { addNewTeam, updateUserTeams } from './firebase/utils';
 
@@ -16,7 +17,7 @@ const CreateTeam = ({ navigation, route }) => {
   const { email } = route.params; 
 
   const handleCompletePress = () => {
-    if (name.trim() === '' || location.trim() === '' || teamSize.trim() === '' || parseInt(teamSize) < 2 || parseInt(teamSize) >= 1000 || additionalInfo.trim() === '') {
+    if (name.trim() === '' || location.trim() === '' || teamSize.trim() === '' || additionalInfo.trim() === '' || parseInt(teamSize) < 2 || parseInt(teamSize) >= 1000) {
         // Show an error message if the required fields are empty or teamSize is less than 2 or greater than 1000
         Alert.alert('Error', 'Please complete all required fields (marked with a yellow star) and ensure that the team size is 2 or greater.');
       } else {
@@ -106,6 +107,7 @@ const CreateTeam = ({ navigation, route }) => {
   };
 
   return (
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
     <ScrollView
       contentContainerStyle={styles.scrollContainer}
       keyboardShouldPersistTaps="handled"
@@ -197,16 +199,17 @@ const CreateTeam = ({ navigation, route }) => {
 
       {/* Additional Info (Optional) */}
       <View style={styles.textBoxContainer}>
-        <Text style={styles.labelText}>ADDITIONAL INFO 
-         <Text style={styles.requiredStar}> *</Text>
+        <Text style={styles.labelText}>
+          ADDITIONAL INFO {' '}
+        <Text style={styles.requiredStar}>*</Text>
         </Text>
         <TextInput
           style={styles.largeTextBox}
           placeholder="A short description about your team and/or project goals..."
           multiline={true}
           numberOfLines={4}
-          textAlignVertical="top"  // Move the placeholder to the top
-          onChangeText={(text) => setAdditionalInfo(text)}
+          textAlignVertical="top" 
+          onChangeText={(text) => setAdditionalInfo(text)} // Move the placeholder to the top
         />
       </View>
 
@@ -248,6 +251,7 @@ const CreateTeam = ({ navigation, route }) => {
       </Modal>
     </View>
     </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 

@@ -197,7 +197,7 @@ export const checkUserLogin = async (email, password) => {
             return true;
         }
         else{
-            Alert.alert("incorrect password");
+            Alert.alert("Incorrect Password!");
             return false;
         }
     } catch (e) {
@@ -231,3 +231,52 @@ export const deleteData = async () => {
     console.error("Error deleting data: ", error);
   }
 };
+
+export const queryTeamsWithoutJoinCode = async () => { 
+  console.log("queryTeamsWithJoinCode called");
+  try { 
+    // Fetch all teams
+    const allTeamsRef = ref(realtimeDb, "team/"); 
+    const snapshot = await get(allTeamsRef); 
+
+    if (snapshot.exists()) { 
+      const allTeams = snapshot.val(); 
+      // Filter teams without a join code
+      const teamsWithoutJoinCode = Object.keys(allTeams).filter(key => !allTeams[key].join_code).map(key => allTeams[key]);
+
+      console.log("Teams without join code: ", teamsWithoutJoinCode); 
+      return teamsWithoutJoinCode; 
+    } else {
+      console.log("No team data available"); 
+      return []; 
+    }
+  } catch(error) { 
+    console.error("Error fetching data: ", error);
+    return [];
+  }
+}
+
+export const queryTeamsWithJoinCode = async () => { 
+  try { 
+    // Fetch all teams
+    const allTeamsRef = ref(realtimeDb, "team/"); 
+    const snapshot = await get(allTeamsRef); 
+
+    if (snapshot.exists()) { 
+      const allTeams = snapshot.val(); 
+      // Filter teams with a join code
+      const teamsWithJoinCode = Object.keys(allTeams).filter(key => allTeams[key].join_code).map(key => allTeams[key]);
+      // console.log(Object.keys(allTeams).filter(key => allTeams[key].join_code).map(key => allTeams[key]));
+
+      // console.log("Teams with join code: ", teamsWithJoinCode); 
+      return teamsWithJoinCode; 
+    } else {
+      console.log("No team data available"); 
+      return []; 
+    }
+  } catch(error) { 
+    console.error("Error fetching data: ", error);
+    return [];
+  }
+};
+

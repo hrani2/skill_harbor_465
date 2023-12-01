@@ -4,7 +4,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, SafeAre
 import Icon from 'react-native-vector-icons/FontAwesome'; 
 import Explosion from 'react-native-confetti-cannon'; 
 
-const MyModal = ({modalVisible, setModalVisible, navigation}) => {
+const MyModal = ({modalVisible, setModalVisible, navigation, team}) => {
   return (
     <Modal
         animationType="fade"
@@ -15,8 +15,8 @@ const MyModal = ({modalVisible, setModalVisible, navigation}) => {
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView2}>
-            <Text style={styles.paragraph}>Thank you for your interest in joining Font-astic Six. 
-            Your request has been successfully sent. You can click on the pending requests tab on the home page to see your pending requests. 
+            <Text style={styles.paragraph}>Thank you for your interest in joining {team.name}. 
+            Your request has been successfully sent. You can click on the pending requests tab on the home page to see your search requests. 
             </Text>
             <TouchableOpacity
               style={styles.close}
@@ -29,13 +29,16 @@ const MyModal = ({modalVisible, setModalVisible, navigation}) => {
   );
 }
 
-const LearnMore = ({navigation}) => {
+const LearnMore = ({route, navigation}) => {
     const [modalVisible, setModalVisible] = useState(false);
+
+    console.log("Received in Learn More:", route.params);
+    const team = route.params?.team;
 
     const Request = () => {
         Alert.alert(
           'Confirmation',
-          'Are you sure you want to a send a request to Font-astic Six?',
+          `Are you sure you want to a send a request to ${team.name}?`,
           [
             {
               text: 'Cancel',
@@ -62,7 +65,7 @@ const LearnMore = ({navigation}) => {
                     source={{ uri: 'https://via.placeholder.com/50' }} // Replace 
                     style={styles.profilePic}
                   />
-                <Text style={styles.cardTitle}>Font-astic Six</Text>
+                <Text style={styles.cardTitle}>{team.name}</Text>
                 </View>
   
         <View style={styles.section}>
@@ -77,30 +80,26 @@ const LearnMore = ({navigation}) => {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Skills Desired:</Text>
           <View style={styles.tagContainer}>
-            <Text style={styles.tag}>Python</Text>
-            <Text style={styles.tag}>C++</Text>
-            <Text style={styles.tag}>Kotlin</Text>
-            <Text style={styles.tag}>Java</Text>
-            <Text style={styles.tag}>UI/UX</Text>
+          {team.skills && team.skills.length > 0 ? (
+      team.skills.map((skill, index) => (
+        <Text key={index} style={styles.tag}>{skill}</Text>
+      ))
+    ) : (
+      <Text style={styles.tag}>No skills specified</Text>
+    )}
           </View>
         </View>
   
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Location:</Text>
           <View style={styles.tagContainer}>
-            <Text style={styles.tag}>Champaign, Illinois</Text>
+            <Text style={styles.tag}>{team.location}</Text>
           </View>
         </View>
   
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Additional Info:</Text>
-          <Text style={styles.summary}> We are a dynamic group dedicated 
-                to developing a groundbreaking team-forming app, designed to transform the 
-                way teams are created and managed. With a focus on leveraging advanced algorithms 
-                and user-friendly interfaces, this app seeks to facilitate the team formation process 
-                by intelligently matching individuals based on their skills, experience, and 
-                interpersonal compatibility. Currently, Font-astic Six is on the lookout for
-                enthusiastic members who possess expertise in UI/UX design. </Text>
+          <Text style={styles.summary}> {team.info} </Text>
           <View style={styles.infoPlaceholder} />
         </View>
   
@@ -109,7 +108,8 @@ const LearnMore = ({navigation}) => {
           <MyModal 
           modalVisible={modalVisible} 
           setModalVisible={setModalVisible}
-           navigation={navigation} />
+           navigation={navigation} 
+           team = {team}/>
         </TouchableOpacity>
       </ScrollView>
       <TouchableOpacity style={styles.floatButton} onPress={() => navigation.navigate('Home')}>
