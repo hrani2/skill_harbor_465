@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { queryUserByName, queryTeamByName, removeSpecialCharacters } from './firebase/utils';
+import { queryUserByName, queryTeamByName, removeSpecialCharacters, addTeamMembers } from './firebase/utils';
 import { getDatabase, ref, update, get } from 'firebase/database';
 
 
@@ -42,7 +42,7 @@ const PendingInvites = ({ navigation, route }) => {
 
 
   
-  const handleCheckPress = (type, inviteType) => {
+  const handleCheckPress = (type, teamname) => {
     console.log("handleCheckPress")
     // Handle check press based on the type and inviteType
     // console.log(`Check pressed for ${type} - ${inviteType}`);
@@ -55,12 +55,12 @@ const PendingInvites = ({ navigation, route }) => {
           onPress: () => console.log("Check Pressed"),
           style: "check"
         },
-        { text: "OK", onPress: () => rejectInvite(type, inviteType) }
+        { text: "OK", onPress: () => acceptInvite(email, type, teamname) }
       ]
     );
   };
 
-  const handleCrossPress = (type, inviteType) => {
+  const handleCrossPress = (type, teamname) => {
     console.log("handleCrossPress")
     // Handle cross press based on the type and inviteType
     // console.log(`Cross pressed for ${type} - ${inviteType}`);
@@ -73,7 +73,7 @@ const PendingInvites = ({ navigation, route }) => {
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel"
         },
-        { text: "OK", onPress: () => rejectInvite(type, inviteType) }
+        { text: "OK", onPress: () => rejectInvite(type, teamname) }
       ]
     );
   };
@@ -104,11 +104,11 @@ const removeInviteFromDatabase = async (userId, invite, type) => {
   } 
 };
 
-const acceptInvite = (type,invite) => {
+const acceptInvite = (userID, type,invite) => {
   try {
     if (type === 'Team') {
       //delete invite from user info pending_invites
-
+      addTeamMembers(userID, invite); 
       removeInviteFromDatabase(email, invite, type); 
       setInvitesFromTeams(prevInvites => prevInvites.filter(i => i !== invite));
     } else if (type === 'Person') {

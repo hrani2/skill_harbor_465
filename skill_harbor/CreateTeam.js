@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Modal , ScrollView, KeyboardAvoidingView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { addNewTeam, updateUserTeams } from './firebase/utils';
+import { addNewTeam, queryUserByName, updateUserTeams } from './firebase/utils';
 
 const CreateTeam = ({ navigation, route }) => {
   const [name, setName] = useState('');
@@ -16,7 +16,8 @@ const CreateTeam = ({ navigation, route }) => {
   const [isAddButtonDisabled, setAddButtonDisabled] = useState(true);
   const { email } = route.params; 
 
-  const handleCompletePress = () => {
+  const handleCompletePress = async () => {
+    current_user = await queryUserByName(email); 
     if (name.trim() === '' || location.trim() === '' || teamSize.trim() === '' || additionalInfo.trim() === '' || parseInt(teamSize) < 2 || parseInt(teamSize) >= 1000) {
         // Show an error message if the required fields are empty or teamSize is less than 2 or greater than 1000
         Alert.alert('Error', 'Please complete all required fields (marked with a yellow star) and ensure that the team size is 2 or greater.');
@@ -34,7 +35,9 @@ const CreateTeam = ({ navigation, route }) => {
             text: 'OK',
             onPress: () => {
               // Add any necessary logic before navigating
-              addNewTeam(name,location,teamSize,joinCode,skills,additionalInfo);
+              const members = []; 
+              members.push(current_user.name); 
+              addNewTeam(name,location,teamSize,joinCode,skills,additionalInfo, members);
               updateUserTeams(email, name); 
               console.log('Complete button pressed - confirmed');
               navigation.navigate('TeamRequestPosted', {name: name, email: email});

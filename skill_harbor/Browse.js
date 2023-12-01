@@ -1,7 +1,7 @@
 import { Alert, View, Text, ScrollView, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import React, { useEffect, useState } from 'react';
-import { queryTeamByName, queryAllUsers, updateRequestsTeamSentPeople, updateRequestsPeoplePendingInvites} from './firebase/utils';
+import { queryTeamByName, queryAllUsers, updateRequestsTeamSentPeople, updateRequestsPeoplePendingInvites, queryUserByName} from './firebase/utils';
 import { update } from 'firebase/database';
 
 
@@ -15,9 +15,10 @@ const Browse = ({ route, navigation }) => {
   useEffect(() => { 
     const calculateScore = async () => {
       console.log('user email', user_email); 
+      current_user_info = await queryUserByName(user_email); 
       allUserInfos = await queryAllUsers();
       teamInfos = await queryTeamByName(teamname);
-
+      const userSkills = current_user_info.skills; 
       const teamSkills = teamInfos.skills;
       const newMatches = Object.values(allUserInfos).map(userInfo => {
         // Calculate score
@@ -29,7 +30,7 @@ const Browse = ({ route, navigation }) => {
           }
         }
         const score = (skillMatchCounter / teamSkills.length) * 10;
-        
+
         // Return new object with calculated rating
         return {
           name: userInfo.name,

@@ -213,7 +213,34 @@ export const addNewJoinCode = async (organization, course, code) => {
   }
 }
 
-export const addNewTeam = async (name, location, team_size, join_code, skills, info) => {
+export const addTeamMembers = async (email, teamname) => {
+  const path_email = removeSpecialCharacters(email);
+  const userRef = ref(realtimeDb, "user/" + path_email);
+  const teamRef = ref(realtimeDb, "team/" + teamname + "/members"); // Directly reference the members
+  try {
+    // Check if the user exists
+    const snapshot = await get(userRef);
+    const teamsnapshot = await get(teamRef); 
+    if (snapshot.exists()) {
+      let userData = snapshot.val();
+      let name = userData.name; 
+      let members = teamsnapshot.exists() ? teamsnapshot.val() : []; 
+      if (!members.includes(name)) {
+        members.push(name); // Add the user name to the members array
+        await set(teamRef, members); // Update the database with the new members array
+        console.log("Teams successfully updated!");
+      } else {
+        console.log("User is already a member of the team.");
+      }
+    } else {
+      console.log("User does not exist.");
+    }
+  } catch (e) {
+    console.error("Error: ", e);
+  }
+}
+
+export const addNewTeam = async (name, location, team_size, join_code, skills, info, members) => {
   try {
     const teamRef = ref(realtimeDb, "team/" + name);
     await set(teamRef, {
@@ -223,7 +250,7 @@ export const addNewTeam = async (name, location, team_size, join_code, skills, i
       join_code: join_code,
       skills: skills,
       info: info, 
-      members: null,
+      members: members,
       sent_requests: null, 
       pending_invites: null, 
     });
