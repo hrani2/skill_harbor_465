@@ -170,6 +170,7 @@ export const deleteData = async () => {
 };
 
 export const queryTeamsWithoutJoinCode = async () => { 
+  console.log("queryTeamsWithJoinCode called");
   try { 
     // Fetch all teams
     const allTeamsRef = ref(realtimeDb, "team/"); 
@@ -191,3 +192,28 @@ export const queryTeamsWithoutJoinCode = async () => {
     return [];
   }
 }
+
+export const queryTeamsWithJoinCode = async () => { 
+  try { 
+    // Fetch all teams
+    const allTeamsRef = ref(realtimeDb, "team/"); 
+    const snapshot = await get(allTeamsRef); 
+
+    if (snapshot.exists()) { 
+      const allTeams = snapshot.val(); 
+      // Filter teams with a join code
+      const teamsWithJoinCode = Object.keys(allTeams).filter(key => allTeams[key].join_code).map(key => allTeams[key]);
+      // console.log(Object.keys(allTeams).filter(key => allTeams[key].join_code).map(key => allTeams[key]));
+
+      // console.log("Teams with join code: ", teamsWithJoinCode); 
+      return teamsWithJoinCode; 
+    } else {
+      console.log("No team data available"); 
+      return []; 
+    }
+  } catch(error) { 
+    console.error("Error fetching data: ", error);
+    return [];
+  }
+};
+

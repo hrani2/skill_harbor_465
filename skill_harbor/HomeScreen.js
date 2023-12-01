@@ -1,6 +1,7 @@
 import React, {useState, useRef, useEffect } from 'react';
 import { Image } from 'react-native'
 import { queryUserByName } from './firebase/utils';
+import { queryTeamsWithJoinCode } from './firebase/utils';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, SafeAreaView , ScrollView, Modal, PanResponder, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Make sure to install this package
 
@@ -71,8 +72,47 @@ const MyModal = ({modalVisible, setModalVisible, navigation, openJoinModal}) => 
   };
 
   //Pop-up for Join  Code 
-  const JoinOrg = ({modalVisible, setModalVisible, navigation}) => {
+  const JoinOrg = ({modalVisible, setModalVisible, navigation, onSubmitJoinCode}) => {
     const [code, setCode] = useState('');
+    const [submissionSuccessful, setSubmissionSuccessful] = useState(false);
+    const [filteredTeams, setFilteredTeams] = useState([]);
+
+
+    const handleSubmit = async (code) => {
+      try {
+        const teamsWithCode = await queryTeamsWithJoinCode();
+        console.log("Received code:", code);
+        const filtered = teamsWithCode.filter(team => team.join_code === code);
+        
+        if (filtered.length > 0) {
+          setFilteredTeams(filtered);
+          setSubmissionSuccessful(true);
+        } else {
+          Alert.alert('No Teams Found', 'No teams found with the provided join code.');
+          setSubmissionSuccessful(false);
+        }
+      } catch (error) {
+        console.error('Error fetching teams:', error);
+        Alert.alert('Error', 'An error occurred while fetching teams.');
+        setSubmissionSuccessful(false);
+      }
+  };
+
+  useEffect(() => {
+    if (submissionSuccessful) {
+      navigation.navigate('SearchOrg', { joinCode: code });
+      setModalVisible(false); // if you want to close the modal upon navigation
+      setSubmissionSuccessful(false); // Reset the flag
+    }
+  }, [submissionSuccessful, filteredTeams, navigation]);
+  
+  useEffect(() => {
+    return () => {
+      setFilteredTeams([]);
+      setSubmissionSuccessful(false);
+    };
+  }, []);
+
     return(
     <Modal
       animationType="fade"
@@ -101,7 +141,13 @@ const MyModal = ({modalVisible, setModalVisible, navigation, openJoinModal}) => 
               placeholderTextColor = "#00507B"
             />
           </View>
-          <TouchableOpacity  onPress={() =>{navigation.navigate('SearchOrg'), setModalVisible(false);}}>
+          <TouchableOpacity onPress={() => {
+              handleSubmit(code);
+              // if (submissionSuccessful) {
+              //   navigation.navigate('SearchOrg');
+              //   setModalVisible(false);
+              // }
+            }}>
           <Text style={styles.next}>Next</Text>
            </TouchableOpacity>
         </View>
@@ -309,6 +355,25 @@ const HomeScreen = ({text, request_count, invite_count, route, navigation}) => {
     }
   }
 
+  const handleJoinCodeSubmit = async (code) => {
+    try {
+      const teamsWithCode = await queryTeamsWithJoinCode();
+      console.log("here");
+
+      const filteredTeams = teamsWithCode.filter(team => team.join_code === code);
+      console.log("here");
+      if (filteredTeams.length > 0) {
+        navigation.navigate('SearchOrg', { joinCode: code });
+      } else {
+        // Handle no results found
+        Alert.alert('No Teams Found', 'No teams found with the provided join code.');
+      }
+    } catch (error) {
+      console.error('Error fetching teams:', error);
+      Alert.alert('Error', 'An error occurred while fetching teams.');
+    }
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -366,6 +431,7 @@ const HomeScreen = ({text, request_count, invite_count, route, navigation}) => {
       <JoinOrg
         modalVisible={isJoinModalVisible}
         setModalVisible={setIsJoinModalVisible}
+        onSubmitJoinCode={handleJoinCodeSubmit}
         navigation={navigation}
       />
         </TouchableOpacity>
