@@ -11,11 +11,11 @@ const PendingInvites = ({ navigation, route }) => {
   const { email } = route.params; 
   const [invitesFromTeams, setInvitesFromTeams] = useState([]);
   const [requestsFromPeople, setRequestsFromPeople] = useState([]);
-  // pendingRequest needs to be changed to pending_invites
+
   useEffect(() => {
     const fetchInvites = async () => {
       const userInfo = await queryUserByName(email);
-      const invites = userInfo.pending_invites || [];
+      const invites = userInfo.pending_invites;
       console.log("invites: ", invites); 
       setInvitesFromTeams(invites);
     };
@@ -31,12 +31,9 @@ const PendingInvites = ({ navigation, route }) => {
           // requestsList.push(userInfo.teams[i], teamInfo.pendingRequest[j]);
           requestsList.push(`${teamInfo.pending_invites[j].name} request to join ${userInfo.teams[i]}`)
         }
-        // requestsList.push(requests);
       }
-      console.log("requests list: ", requestsList); 
       setRequestsFromPeople(requestsList);
     };
-
     fetchInvites();
     fetchRequests();
   }, [])
@@ -44,6 +41,7 @@ const PendingInvites = ({ navigation, route }) => {
 
   
   const handleCheckPress = (type, inviteType) => {
+    console.log("handleCheckPress")
     // Handle check press based on the type and inviteType
     // console.log(`Check pressed for ${type} - ${inviteType}`);
     Alert.alert(
@@ -61,6 +59,7 @@ const PendingInvites = ({ navigation, route }) => {
   };
 
   const handleCrossPress = (type, inviteType) => {
+    console.log("handleCrossPress")
     // Handle cross press based on the type and inviteType
     // console.log(`Cross pressed for ${type} - ${inviteType}`);
     Alert.alert(
@@ -165,7 +164,7 @@ const acceptInvite = (type,invite) => {
       {/* Card 1 for Header 1 */}
       {invitesFromTeams.map((team, index) => (
         <View key={index} style={styles.cardContainer}>
-          <TouchableOpacity style={styles.card} onPress={() => {/* Handle card press for FROM TEAMS */}}>
+          <TouchableOpacity style={styles.card} onPress={() => {}}>
             <TouchableOpacity onPress={() => handleCrossPress('Team', team)}>
               <Icon name="times" size={30} color="red" />
             </TouchableOpacity>

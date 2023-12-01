@@ -1,6 +1,6 @@
 import React, {useState, useRef, useEffect } from 'react';
 import { Image } from 'react-native'
-import { queryUserByName } from './firebase/utils';
+import { queryUserByName , queryTeamByName } from './firebase/utils';
 import { queryTeamsWithJoinCode } from './firebase/utils';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, SafeAreaView , ScrollView, Modal, PanResponder, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Make sure to install this package
@@ -300,19 +300,14 @@ const getMemberCountForTeam = (teamId) => {
   return Math.floor(Math.random() * 10) + 1; // Replace this with the actual member count
 };
 
-const TeamCard = ({ teamName, teamOrganization, teamCourse, onPress }) => {
-  const memberCount = getMemberCountForTeam(teamName); // Use teamName or teamId as per your data structure
+const TeamCard = ({ teamName, teamLocation, teamCourse, memberCount, teamSizes, onPress }) => {
+  // const memberCount = getMemberCountForTeam(teamName); // Use teamName or teamId as per your data structure
 
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.teamCard}>
         <Text style={styles.teamName}>{teamName}</Text>
-        {teamCourse && teamOrganization && (
-          <Text style={styles.teamOrganization}>{`${teamCourse} at ${teamOrganization}`}</Text>
-        )}
-        {!teamCourse && teamOrganization && (
-          <Text style={styles.teamOrganization}>{teamOrganization}</Text>
-        )}
+        <Text style={styles.teamLocation}>{`${teamLocation}`}</Text>
         {memberCount === 1 ? (
           <Text style={styles.teamMembers}>{`${memberCount} member`}</Text>
         ) : (
@@ -329,11 +324,75 @@ const HomeScreen = ({text, request_count, invite_count, route, navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [createModalVisible, setCreateModalVisible] = useState(false);
   const [isJoinModalVisible, setIsJoinModalVisible] = useState(false);
+  const [userTeams, setUserTeams] = useState([]);
+  const [teamLocations, setTeamLocations] = useState([]);
+  const [teamSizes, setTeamSizes] = useState([]);
 
   const openJoinModal = () => {
     setModalVisible(false);
     setIsJoinModalVisible(true);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch user teams
+        const user = await queryUserByName(email);
+        const teams = user.teams || [];
+        setUserTeams(teams);
+  
+        // Fetch team information
+        const teamInfoPromises = teams.map(async (teamName) => {
+          const teamInfo = await queryTeamByName(teamName);
+  
+          // Check if teamInfo is not null
+          if (teamInfo) {
+            return {
+              name: teamName,
+              location: teamInfo.location,
+              teamSize: teamInfo.team_size,
+            };
+          } else {
+            // Handle the case where teamInfo is null (team not found)
+            console.warn(`Team not found: ${teamName}`);
+            return null;
+          }
+        });
+  
+        // Wait for all teamInfoPromises to resolve
+        const teamInfoList = await Promise.all(teamInfoPromises);
+  
+        // Filter out null values (teams not found)
+        const validTeamInfoList = teamInfoList.filter((info) => info !== null);
+  
+        // Extract and store team names, locations, and sizes in the state
+        const teamNames = validTeamInfoList.map((teamInfo) => teamInfo.name);
+        const teamLocations = validTeamInfoList.map((teamInfo) => teamInfo.location);
+        const teamSizes = validTeamInfoList.map((teamInfo) => teamInfo.teamSize);
+        
+        setUserTeams(teamNames); // Update userTeams state with team names
+  
+        // Now you have arrays containing team names, locations, and sizes
+        console.log('Team Names:', teamNames);
+        console.log('Locations:', teamLocations);
+        console.log('Team Sizes:', teamSizes);
+
+        setUserTeams(teamNames); // Update userTeams state with team names
+        setTeamLocations(teamLocations)
+        setTeamSizes(teamSizes); // Update teamSizes state
+        // Additional logic or state updates can be added here if needed
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+  
+    fetchData();
+  }, [email]);
+  
+  
+
+
+  
 
   const {email} = route.params || {}; 
   const profileScreen = async (email) => {
@@ -491,19 +550,16 @@ const HomeScreen = ({text, request_count, invite_count, route, navigation}) => {
         </View>
 
         {/* Render team cards here */}
-        <TeamCard
-          teamName="Font-astic Six"
-          teamOrganization="UIUC"
-          teamCourse="CS 465"
-          teamDescription="Description for Team 1"
-          onPress={() => console.log("Team 1 pressed")}
-        />
-        <TeamCard
-          teamName="Team 2"
-          // teamOrganization="Organization B"
-          teamDescription="Description for Team 2"
-          onPress={() => console.log("Team 2 pressed")}
-        />
+
+        {userTeams.map((team, index) => (
+          <TeamCard
+          key={index} // or use a unique identifier from your data, e.g., team.teamId
+          teamName={team}
+          teamLocation={teamLocations[index]}
+            memberCount={teamSizes[index]}  // Pass team size to TeamCard
+            onPress={() => console.log(`${team} pressed`)}
+          />
+        ))}
           {/* Add more TeamCard components for each team */}
 
         {/* <TouchableOpacity>
@@ -847,7 +903,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#00507B',
   },
-  teamOrganization: {
+  teamLocation: {
     fontFamily: 'RobotoSlab-Bold',
     fontSize: 14,
     color: '#707070',

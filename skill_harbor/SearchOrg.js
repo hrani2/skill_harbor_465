@@ -36,14 +36,33 @@ const MyModal = ({modalVisible, setModalVisible, navigation}) => (
   
 
 const SearchOrg = ( {navigation, route}) => {
-  const [modalVisible, setModalVisible] = useState(false);
   const [TeamsWithJoinCode, setTeamsWithJoinCode] = useState([]);
   const { joinCode } = route.params;
+  const [filteredData, setFilteredData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const updateSearchResults = (query) => {
+    setSearchQuery(query);
+  
+    if (query.trim() === '') {
+      setFilteredData(TeamsWithJoinCode);
+    } else {
+      const lowerCaseQuery = query.toLowerCase();
+      const filtered = TeamsWithJoinCode.filter(team =>
+        team.name.toLowerCase().includes(lowerCaseQuery) ||
+        team.location.toLowerCase().includes(lowerCaseQuery) ||
+        team.info.toLowerCase().includes(lowerCaseQuery)
+      );
+      setFilteredData(filtered);
+    }
+  };
+
   const fetchTeamsWithJoinCode = async () => {
     try {
       const teams = await queryTeamsWithJoinCode();
       const filteredTeams = teams.filter(team => team.join_code === joinCode);
       setTeamsWithJoinCode(filteredTeams);
+      setFilteredData(teams);
     } catch (error) {
       console.error("Error fetching teams: ", error);
     }
@@ -63,32 +82,18 @@ const SearchOrg = ( {navigation, route}) => {
           <TextInput
             style={styles.input}
             placeholder="Search teams"
-            // onChangeText
+            value={searchQuery}
+            onChangeText={updateSearchResults}
           />
           <View style = {styles.searchicon}>
             <Icon name="search" size={20} color="#00507B" />
           </View>
         </View>
-        
-        <TouchableOpacity style={styles.filterButton} onPress={() => setModalVisible(true)}>
-            <Text style={styles.filterText}>Filters</Text>
-            <View style={styles.filterIcon}>
-                <Icon name="sliders" size={20} color="#FFF" />
-            </View>
-            <MyModal 
-              modalVisible={modalVisible}
-              setModalVisible={setModalVisible}
-          />
-          </TouchableOpacity>
 
             <View style={styles.cardContainer}>
-            {TeamsWithJoinCode.map((team, index) => ( 
-              <View style={styles.card} key={index}>
+            {filteredData.map((team) => ( 
+              <View style={styles.card}>
                 <View style={styles.rowformat}>
-                  <Image
-                    source={{ uri: 'https://via.placeholder.com/50' }} // Replace 
-                    style={styles.profilePic}
-                  />
                 <Text style={styles.cardTitle}>{team.name}</Text>
                 </View>
                 <Text style={styles.summary}> {team.info} </Text>
@@ -173,6 +178,7 @@ const SearchOrg = ( {navigation, route}) => {
       margin: 10,
       top: 50,
       padding: 5,
+      marginBottom: 60,
     },
     searchicon: {
         right: 10,
@@ -218,12 +224,14 @@ const SearchOrg = ( {navigation, route}) => {
     },
     cardContainer: {
       padding: 10,
+      margintop: 40,
     },
     card: {
       backgroundColor: '#FFF',
       borderRadius: 10,
       padding: 20,
       marginBottom: 10,
+      margintop: 40,
     },
     rowformat: {
       flexDirection: 'row',

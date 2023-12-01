@@ -1,7 +1,7 @@
 import { Alert, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { queryUserSentRequests } from './firebase/utils';
+import { queryUserByName, queryTeamByName } from './firebase/utils';
 
 const SentRequests = ({ navigation, route }) => {
 
@@ -9,8 +9,34 @@ const SentRequests = ({ navigation, route }) => {
   const { email } = route.params; 
 
   const [requestsToPeople, setRequestsToPeople] = useState([]);
+  const [requestsToTeams, setRequestsToTeams] = useState([]);
 
+  useEffect(() => {
+    const fetchRequestsToTeams = async () => {
+      const userInfo = await queryUserByName(email); 
+      const teamRequests = userInfo.sent_requests_to_team;
+      const requestsToTeamsList = [];
+      for (let i = 0; i < teamRequests.length; i++) {
+        requestsToTeamsList.push([teamRequests[i].team_name, teamRequests[i].status])
+      }
+      setRequestsToTeams(requestsToTeamsList);
+    };
 
+    const fetchRequestsToPeople = async () => {
+      const userInfo = await queryUserByName(email);
+      const requestsToPeopleList = [];
+      for (let i = 0; i < userInfo.teams.length; i++) {
+        const teamInfo = await queryTeamByName(userInfo.teams[i]);
+        for (let j = 0; j < teamInfo.sent_requests.length; j++) {
+
+          requestsToPeopleList.push([`Request ${teamInfo.sent_requests[j].name} to join ${userInfo.teams[i]}`, teamInfo.sent_requests[j].status])
+        }
+        setRequestsToPeople(requestsToPeopleList);
+      }
+    };
+    fetchRequestsToTeams();
+    fetchRequestsToPeople();
+  }, [])
 
   const getStatusIcon = (status) => {
     switch (status) {
@@ -58,21 +84,14 @@ const SentRequests = ({ navigation, route }) => {
         <View style={styles.line} />
       </View>
 
-      {/* Card 1 for Header 1 */}
-      <View style={styles.cardContainer}>
-        <TouchableOpacity style={styles.card} onPress={() => {/* Handle card press for TO TEAMS */}}>
-          <Text style={styles.cardText}>Team Request 1</Text>
-          {getStatusIcon('inProgress')}
-        </TouchableOpacity>
-      </View>
-
-      {/* Card 2 for Header 1 */}
-      <View style={styles.cardContainer}>
-        <TouchableOpacity style={styles.card} onPress={() => {/* Handle card press for TO TEAMS */}}>
-          <Text style={styles.cardText}>Team Request 2</Text>
-          {getStatusIcon('completed')}
-        </TouchableOpacity>
-      </View>
+      {requestsToTeams.map((team, index) => (
+        <View style={styles.cardContainer}>
+          <TouchableOpacity style={styles.card} onPress={() => {/* Handle card press for TO TEAMS */}}>
+            <Text style={styles.cardText}>{team[0]}</Text>
+            {getStatusIcon(team[1])}
+          </TouchableOpacity>
+        </View>
+      ))}
 
       {/* Header 2 */}
       <View style={styles.headerContainer}>
@@ -80,6 +99,15 @@ const SentRequests = ({ navigation, route }) => {
         <Text style={styles.contentHeader}>TO PEOPLE</Text>
         <View style={styles.line} />
       </View>
+
+      {requestsToPeople.map((team, index) => (
+        <View style={styles.cardContainer}>
+          <TouchableOpacity style={styles.card} onPress={() => {/* Handle card press for TO TEAMS */}}>
+            <Text style={styles.cardText}>{team[0]}</Text>
+            {getStatusIcon(team[1])}
+          </TouchableOpacity>
+        </View>
+      ))}
 
 
       <TouchableOpacity style={styles.homeButton} onPress={handleHomePress}>
