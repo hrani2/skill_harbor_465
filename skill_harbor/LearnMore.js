@@ -16,7 +16,7 @@ const MyModal = ({modalVisible, setModalVisible, navigation, team}) => {
         <View style={styles.centeredView}>
           <View style={styles.modalView2}>
             <Text style={styles.paragraph}>Thank you for your interest in joining {team.name}. 
-            Your request has been successfully sent. You can click on the pending requests tab on the home page to see your pending requests. 
+            Your request has been successfully sent. You can click on the pending requests tab on the home page to see your search requests. 
             </Text>
             <TouchableOpacity
               style={styles.close}
