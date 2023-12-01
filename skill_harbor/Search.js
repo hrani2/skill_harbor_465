@@ -257,7 +257,7 @@ const Search = ( {navigation, route}) => {
       backgroundColor: '#00507B',
       padding: 10,
       borderRadius: 7,
-      alignSelf: 'center',
+      alignSelf: 'left',
     },
     learnMoreText: {
       color: '#FFF',
