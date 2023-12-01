@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { queryUserByName, queryTeamByName } from './firebase/utils';
+import { queryUserByName, queryTeamByName, removeSpecialCharacters } from './firebase/utils';
+import { getDatabase, ref, update, get } from 'firebase/database';
+
 
 const PendingInvites = ({ navigation, route }) => {
 
@@ -13,7 +15,7 @@ const PendingInvites = ({ navigation, route }) => {
   useEffect(() => {
     const fetchInvites = async () => {
       const userInfo = await queryUserByName(email);
-      const invites = userInfo.pending_invites;
+      const invites = userInfo.pending_invites || [];
       console.log("invites: ", invites); 
       setInvitesFromTeams(invites);
     };
@@ -31,6 +33,7 @@ const PendingInvites = ({ navigation, route }) => {
         }
         // requestsList.push(requests);
       }
+      console.log("requests list: ", requestsList); 
       setRequestsFromPeople(requestsList);
     };
 
@@ -43,19 +46,106 @@ const PendingInvites = ({ navigation, route }) => {
   const handleCheckPress = (type, inviteType) => {
     // Handle check press based on the type and inviteType
     // console.log(`Check pressed for ${type} - ${inviteType}`);
+    Alert.alert(
+      "Confirm",
+      "Are you sure you want to accept this invite?",
+      [
+        {
+          text: "Check",
+          onPress: () => console.log("Check Pressed"),
+          style: "check"
+        },
+        { text: "OK", onPress: () => rejectInvite(type, inviteType) }
+      ]
+    );
   };
 
   const handleCrossPress = (type, inviteType) => {
     // Handle cross press based on the type and inviteType
     // console.log(`Cross pressed for ${type} - ${inviteType}`);
+    Alert.alert(
+      "Confirm",
+      "Are you sure you want to reject this invite?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "OK", onPress: () => rejectInvite(type, inviteType) }
+      ]
+    );
+  };
+
+const removeInviteFromDatabase = async (userId, invite, type) => {
+  const db = getDatabase();
+  if (type == 'Team') {
+    const userRef = ref(db, `user/${removeSpecialCharacters(userId)}`);
+    const snapshot = await get(userRef);
+    if (snapshot.exists()) {
+      const userData = snapshot.val();
+      if (userData.pending_invites) {
+        // Find the index of the invite to be removed
+        const index = userData.pending_invites.indexOf(invite);
+        if (index > -1) {
+          // Remove the invite from the array
+          userData.pending_invites.splice(index, 1);
+  
+          // Update the database
+          const updates = {};
+          updates['/pending_invites'] = userData.pending_invites;
+          await update(userRef, updates);
+        }
+      }
+    } else {
+      console.log("User not found");
+    }
+  } 
+};
+
+const acceptInvite = (type,invite) => {
+  try {
+    if (type === 'Team') {
+      //delete invite from user info pending_invites
+
+      removeInviteFromDatabase(email, invite, type); 
+      setInvitesFromTeams(prevInvites => prevInvites.filter(i => i !== invite));
+    } else if (type === 'Person') {
+      //delete invite from team pending_invites
+      setRequestsFromPeople(prevRequests => prevRequests.filter(r => r !== invite));
+    }
+  } catch (error) {
+    console.error("error accepting invite", error); 
+  }
+}
+
+  const rejectInvite = (type, invite) => {
+    try {
+      // Call a function to update the database
+      // await updateDatabaseToRemoveInvite(type, invite); 
+  
+      // Update state to remove the invite from the UI
+      if (type === 'Team') {
+        //delete invite from user info pending_invites
+        removeInviteFromDatabase(email, invite, type); 
+        setInvitesFromTeams(prevInvites => prevInvites.filter(i => i !== invite));
+      } else if (type === 'Person') {
+        //delete invite from team pending_invites
+        setRequestsFromPeople(prevRequests => prevRequests.filter(r => r !== invite));
+      }
+        
+    } catch (error) {
+      console.error("Error removing invite: ", error);
+      // Handle any errors, e.g., show an error message
+    }
   };
 
   const handleHomePress = () => {
-    // try { 
-    //   navigation.navigate('Home', {email: email});
-    // } catch (e) {
-    //   console.log("navigation error: ", e); 
-    // }
+    try { 
+      navigation.navigate('Home', {email: email});
+    } catch (e) {
+      console.log("navigation error: ", e); 
+    }
   };
 
 

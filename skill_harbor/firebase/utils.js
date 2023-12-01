@@ -187,9 +187,9 @@ export const addNewUser = async (name, email, password, age, skills) => {
       password: password,
       age: age,
       skills: skills,
-      teams: [],
-      pending_invites: [], 
-      sent_requests_to_team: [], 
+      teams: null,
+      pending_invites: null, 
+      sent_requests_to_team: null, 
     });
     console.log("Document successfully written!");
   } catch (e) {
@@ -221,9 +221,9 @@ export const addNewTeam = async (name, location, team_size, join_code, skills, i
       join_code: join_code,
       skills: skills,
       info: info, 
-      members: [],
-      sent_requests: [], 
-      pending_invites: [], 
+      members: null,
+      sent_requests: null, 
+      pending_invites: null, 
     });
     console.log("Document successfully written!");
   } catch (e) {
@@ -314,7 +314,7 @@ export const queryData = async () => {
   }
 };
 
-export const deleteData = async () => {
+export const deleteFromUserDb = async () => {
   try {
     const cityRef = ref(realtimeDb, "cities");
     await remove(cityRef);
