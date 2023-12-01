@@ -338,7 +338,11 @@ const HomeScreen = ({text, request_count, invite_count, route, navigation}) => {
       try {
         // Fetch user teams
         const user = await queryUserByName(email);
+        console.log('Fetched user:', user);
+  
         const teams = user.teams || [];
+        console.log('User teams:', teams);
+  
         setUserTeams(teams);
   
         // Fetch team information
@@ -369,16 +373,13 @@ const HomeScreen = ({text, request_count, invite_count, route, navigation}) => {
         const teamNames = validTeamInfoList.map((teamInfo) => teamInfo.name);
         const teamLocations = validTeamInfoList.map((teamInfo) => teamInfo.location);
         const teamSizes = validTeamInfoList.map((teamInfo) => teamInfo.teamSize);
-        
-        setUserTeams(teamNames); // Update userTeams state with team names
   
-        // Now you have arrays containing team names, locations, and sizes
         console.log('Team Names:', teamNames);
         console.log('Locations:', teamLocations);
         console.log('Team Sizes:', teamSizes);
-
+  
         setUserTeams(teamNames); // Update userTeams state with team names
-        setTeamLocations(teamLocations)
+        setTeamLocations(teamLocations);
         setTeamSizes(teamSizes); // Update teamSizes state
         // Additional logic or state updates can be added here if needed
       } catch (error) {
@@ -387,7 +388,16 @@ const HomeScreen = ({text, request_count, invite_count, route, navigation}) => {
     };
   
     fetchData();
-  }, [email]);
+
+    // Set up auto-refresh every 5 seconds (adjust the interval as needed)
+  const refreshInterval = setInterval(() => {
+    fetchData();
+  }, 5 * 1000); // 5 seconds in milliseconds
+
+  // Clear the interval on component unmount to prevent memory leaks
+  return () => clearInterval(refreshInterval);
+  }, []); // Removed email from the dependency array
+  
   
   
 
