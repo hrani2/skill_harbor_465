@@ -3,9 +3,33 @@ import { Image } from 'react-native'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, SafeAreaView , ScrollView, Modal} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; 
 import { queryTeamsWithoutJoinCode} from './firebase/utils';
+import { Picker } from '@react-native-picker/picker';
 
 
-const MyModal = ({modalVisible, setModalVisible, navigation}) => (
+
+const MyModal = ({modalVisible, setModalVisible, navigation, onApplyFilter}) => {
+  const [selectedCities, setSelectedCities] = useState({});
+
+  const cities = ['Champaign', 'Naperville', 'Remote', 'Chicago', 'Houston', 'Phoenix', 'Philadelphia', 'San Antonio', 'San Diego', 'Dallas', 'San Jose', 'San Francisco'];
+
+  const handleReset = () => {
+    setSelectedCities({});
+    onApplyFilter([]);
+  };
+
+  const toggleCitySelection = (city) => {
+    setSelectedCities(prevCities => ({
+      ...prevCities,
+      [city]: !prevCities[city]
+    }));
+  };
+
+  const handleApplyFilter = () => {
+    onApplyFilter(Object.keys(selectedCities).filter(city => selectedCities[city]));
+    setModalVisible(false);
+  };
+
+  return (
     <Modal
       animationType="fade"
       transparent={true}
@@ -17,7 +41,7 @@ const MyModal = ({modalVisible, setModalVisible, navigation}) => (
         <View style={styles.modalView}>
 
           <View style={styles.iconview}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleReset}>
             <Text style={styles.reseticon}>Reset</Text> 
            </TouchableOpacity>
           <Text style={styles.modalTitle}>FILTERS</Text>
@@ -28,21 +52,72 @@ const MyModal = ({modalVisible, setModalVisible, navigation}) => (
           </View>
           <View style={styles.lineone} />
 
+        <View style={styles.headerContainer}>
+          <View style={styles.linetwo} />
+          <Text style={styles.contentHeader}>Location</Text>
+          <View style={styles.line} />
+        </View>
+
+        <View style={styles.section}>
+            <View style={styles.tagContainer}>
+              {cities.map(city => (
+                <TouchableOpacity key={city} onPress={() => toggleCitySelection(city)}>
+                  <Text style={selectedCities[city] ? styles.selectedTag : styles.tag}>{city}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
+          <TouchableOpacity onPress={handleApplyFilter}>
+            <Text style = {styles.button}>Apply Filter</Text>
+          </TouchableOpacity>
          </View>
       </View>
     </Modal>
   );
+    };
 
   
 
 const Search = ( {navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [teamsWithoutJoinCode, setTeamsWithoutJoinCode] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleApplyFilter = (selectedCities) => {
+    if (selectedCities.length === 0) {
+      setFilteredData(teamsWithoutJoinCode); // Reset to show all teams
+    } else {
+      const filtered = teamsWithoutJoinCode.filter(team => 
+        selectedCities.some(city => 
+          team.location.toLowerCase().includes(city.toLowerCase())
+        )
+      );
+      setFilteredData(filtered);
+    }
+  };
+
+  const updateSearchResults = (query) => {
+    setSearchQuery(query);
+  
+    if (query.trim() === '') {
+      setFilteredData(teamsWithoutJoinCode);
+    } else {
+      const lowerCaseQuery = query.toLowerCase();
+      const filtered = teamsWithoutJoinCode.filter(team =>
+        team.name.toLowerCase().includes(lowerCaseQuery) ||
+        team.location.toLowerCase().includes(lowerCaseQuery) ||
+        team.info.toLowerCase().includes(lowerCaseQuery)
+      );
+      setFilteredData(filtered);
+    }
+  };
 
   const fetchTeamsWithoutJoinCode = async () => {
     try {
       const teams = await queryTeamsWithoutJoinCode();
       setTeamsWithoutJoinCode(teams);
+      setFilteredData(teams);
     } catch (error) {
       console.error("Error fetching teams: ", error);
     }
@@ -60,7 +135,8 @@ const Search = ( {navigation}) => {
           <TextInput
             style={styles.input}
             placeholder="Search teams"
-            // onChangeText
+            value={searchQuery}
+            onChangeText={updateSearchResults}
           />
           <View style = {styles.searchicon}>
             <Icon name="search" size={20} color="#00507B" />
@@ -75,17 +151,14 @@ const Search = ( {navigation}) => {
             <MyModal 
               modalVisible={modalVisible}
               setModalVisible={setModalVisible}
+              onApplyFilter={handleApplyFilter}
           />
           </TouchableOpacity>
 
             <View style={styles.cardContainer}>
-            {teamsWithoutJoinCode.map((team) => ( 
+            {filteredData.map((team) => ( 
               <View style={styles.card} key={team.id}>
                 <View style={styles.rowformat}>
-                  <Image
-                    source={{ uri: 'https://via.placeholder.com/50' }} // Replace 
-                    style={styles.profilePic}
-                  />
                 <Text style={styles.cardTitle}>{team.name}</Text>
                 </View>
                 <Text style={styles.summary}> {team.info} </Text>
@@ -112,13 +185,12 @@ const Search = ( {navigation}) => {
       flex: 1,
       justifyContent: "center",
       alignItems: "center",
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     modalView: {
       backgroundColor: "#00507B",
       borderRadius: 20,
       width: "90%",
-      height: 170,
+      height: 320,
       alignItems: "center",
       shadowColor: "#000",
       shadowOffset: {
@@ -198,6 +270,7 @@ const Search = ( {navigation}) => {
         alignItems: 'center',
         alignSelf: 'center',
         left: 8,
+        color: '#00507B',
     },
     filterText: {
         fontSize: 17,
@@ -274,6 +347,68 @@ const Search = ( {navigation}) => {
         height: 2
       },
       shadowOpacity: 0.25,
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 20,
+  },
+  linetwo: {
+    flex: 1,
+    height: 2,
+    backgroundColor: '#FFF',
+    marginRight: -30,
+    maxWidth: 40,
+    marginLeft: 15,
+  },
+  contentHeader: {
+    fontFamily: 'RobotoSlab-Black',
+    fontSize: 17,
+    color: '#FFF',
+    paddingVertical: 10,
+    letterSpacing: 1,
+    alignSelf: 'flex-start',
+    paddingHorizontal: 40,
+  },
+  line: {
+    flex: 1,
+    height: 2,
+    backgroundColor: '#FFF',
+    marginLeft: -30,
+    marginRight: 15,
+  },
+  tagContainer: {
+    top: -30,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    margin: 10,
+    borderRadius: 7,
+  },
+  tag: {
+    backgroundColor: '#B2BCC1', // Adjust your color
+    borderRadius: 7,
+    padding: 8,
+    margin: 4,
+    color: '#00507B',
+    fontFamily: 'RobotoSlab-Regular',
+    textTransform: 'uppercase',
+  },
+  selectedTag: {
+    backgroundColor: 'green', // Adjust your color
+    borderRadius: 7,
+    padding: 8,
+    margin: 4,
+    color: 'white',
+    fontFamily: 'RobotoSlab-Regular',
+  },
+  button: {
+    backgroundColor: 'black', // Adjust your color
+    borderRadius: 7,
+    padding: 8,
+    margin: 4,
+    color: 'white',
+    fontFamily: 'RobotoSlab-Regular',
+    top: -25,
   },
 });
   export default Search;

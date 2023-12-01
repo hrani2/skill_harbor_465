@@ -29,7 +29,7 @@ const MyModal = ({modalVisible, setModalVisible, navigation, team}) => {
   );
 }
 
-const LearnMore = ({route, navigation}) => {
+const LearnMore = ({navigation, route}) => {
     const [modalVisible, setModalVisible] = useState(false);
 
     console.log("Received in Learn More:", route.params);
@@ -65,7 +65,7 @@ const LearnMore = ({route, navigation}) => {
                     source={{ uri: 'https://via.placeholder.com/50' }} // Replace 
                     style={styles.profilePic}
                   />
-                <Text style={styles.cardTitle}>{team.name}</Text>
+                <Text style={styles.cardTitle}>Font-astic Six</Text>
                 </View>
   
         <View style={styles.section}>
@@ -109,7 +109,8 @@ const LearnMore = ({route, navigation}) => {
           modalVisible={modalVisible} 
           setModalVisible={setModalVisible}
            navigation={navigation} 
-           team = {team}/>
+           team = {team}
+           />
         </TouchableOpacity>
       </ScrollView>
       <TouchableOpacity style={styles.floatButton} onPress={() => navigation.navigate('Home')}>
