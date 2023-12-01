@@ -324,13 +324,13 @@ const Search = ( {navigation, route}) => {
       marginBottom: 30,
       top: 20,
       color: '#00507B',
-      alignSelf: 'center',
+      alignSelf: 'left',
     },
     learnMoreButton: {
       backgroundColor: '#00507B',
       padding: 10,
       borderRadius: 7,
-      alignSelf: 'left',
+      alignSelf: 'center',
     },
     learnMoreText: {
       color: '#FFF',
