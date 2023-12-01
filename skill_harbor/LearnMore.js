@@ -3,8 +3,10 @@ import { Image } from 'react-native'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, SafeAreaView , ScrollView, Modal, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; 
 import Explosion from 'react-native-confetti-cannon'; 
+import { updatePendingInvitesTeam, updateRequestsUserSentTeam } from './firebase/utils';
 
-const MyModal = ({modalVisible, setModalVisible, navigation, team}) => {
+const MyModal = ({modalVisible, setModalVisible, navigation, team, email}) => {
+  console.log("email: ", email); 
   return (
     <Modal
         animationType="fade"
@@ -20,7 +22,7 @@ const MyModal = ({modalVisible, setModalVisible, navigation, team}) => {
             </Text>
             <TouchableOpacity
               style={styles.close}
-              onPress={() => navigation.navigate('Home')}>
+              onPress={() => navigation.navigate('Home', {email: email})}>
               <Text style={styles.home}>GO HOME</Text>
             </TouchableOpacity>
           </View>
@@ -34,7 +36,7 @@ const LearnMore = ({route, navigation}) => {
 
     console.log("Received in Learn More:", route.params);
     const team = route.params?.team;
-
+    const email = route.params?.email; 
     const Request = () => {
         Alert.alert(
           'Confirmation',
@@ -47,7 +49,10 @@ const LearnMore = ({route, navigation}) => {
             {
               text: 'Yes',
               onPress: () => {
+
                 // Add any necessary logic before navigating
+                updatePendingInvitesTeam(team.name, email)
+                updateRequestsUserSentTeam(team.name, email);
                 setModalVisible(true);
               },
             },
@@ -109,7 +114,8 @@ const LearnMore = ({route, navigation}) => {
           modalVisible={modalVisible} 
           setModalVisible={setModalVisible}
            navigation={navigation} 
-           team = {team}/>
+           team = {team}
+           email = {email}/>
         </TouchableOpacity>
       </ScrollView>
       <TouchableOpacity style={styles.floatButton} onPress={() => navigation.navigate('Home')}>

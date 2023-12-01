@@ -1,7 +1,7 @@
 import { Alert, View, Text, ScrollView, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import React, { useEffect, useState } from 'react';
-import { queryTeamByName, queryAllUsers, addNewSentRequest} from './firebase/utils';
+import { queryTeamByName, queryAllUsers, updateRequestsTeamSentPeople} from './firebase/utils';
 
 
 const Browse = ({ route, navigation }) => {
@@ -50,7 +50,7 @@ const Browse = ({ route, navigation }) => {
   //   { name: 'Jason', rating: 8.4, age: 22, skills:['R', 'C++', 'C'] },
   // ];
 
-  const confirmAddition = (name, requesteduser_email, currentuser_email) => {
+  const confirmAddition = (teamname, name, requesteduser_email) => {
     Alert.alert(
       "Confirmation",
       `Are you sure you want to add ${name} to your team?`,
@@ -64,7 +64,7 @@ const Browse = ({ route, navigation }) => {
           text: "Yes",
           onPress: () => {
             console.log("Yes Pressed");
-            additionSuccessful(name, requesteduser_email, currentuser_email); // Call another function to show the second alert
+            additionSuccessful(teamname, name, requesteduser_email); // Call another function to show the second alert
           }
         }
       ]
@@ -72,7 +72,7 @@ const Browse = ({ route, navigation }) => {
   };
 
   // when i request a person for my team, they need to show up in my sent requests.  
-  const additionSuccessful = (name, requesteduser_email, currentuser_email) => {
+  const additionSuccessful = (teamname, name, requesteduser_email) => {
     Alert.alert(
       "Success",
       `You have sent a request to ${name} successfully!`,
@@ -80,9 +80,9 @@ const Browse = ({ route, navigation }) => {
         { text: "OK", onPress: () => console.log('OK Pressed') }
       ]
     );
-    addNewSentRequest(name,requesteduser_email,currentuser_email, 'inProgress');
-    // navigation.navigate('Home',{name: name});
-
+    console.log("teamname: ", teamname); 
+    console.log("user_email", user_email);
+    updateRequestsTeamSentPeople(teamname, name, requesteduser_email, 'inProgress')
   };
 
   const handleHomePress = () => {
@@ -126,7 +126,7 @@ const Browse = ({ route, navigation }) => {
             <Text style={styles.name}>{match.name}</Text>
             <View style={styles.matchInfo}>
               <Text style={styles.rating}>{match.rating}</Text>
-              <TouchableOpacity onPress={() => confirmAddition(match.name, match.email, user_email)}>
+              <TouchableOpacity onPress={() => confirmAddition(teamname, match.name, match.email)}>
                 <Icon name="check" size={30} color="green" />
               </TouchableOpacity>
             </View>

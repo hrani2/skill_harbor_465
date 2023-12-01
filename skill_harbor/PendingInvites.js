@@ -1,28 +1,64 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { queryUserByName, queryTeamByName } from './firebase/utils';
 
 const PendingInvites = ({ navigation, route }) => {
 
   // Your component logic goes here
   const { email } = route.params; 
+  const [invitesFromTeams, setInvitesFromTeams] = useState([]);
+  const [requestsFromPeople, setRequestsFromPeople] = useState([]);
+  // pendingRequest needs to be changed to pending_invites
+  useEffect(() => {
+    const fetchInvites = async () => {
+      const userInfo = await queryUserByName(email);
+      const invites = userInfo.pendingInvites;
+      setInvitesFromTeams(invites);
+    };
+
+    const fetchRequests = async () => {
+      const userInfo = await queryUserByName(email);
+      // for every team in userInfo.teams, query the team and get the requests
+      const requestsList = [];
+      for (let i = 0; i < userInfo.teams.length; i++) {
+        const teamInfo = await queryTeamByName(userInfo.teams[i]);
+        // const requests = [userInfo.teams[i], teamInfo.pendingRequest];
+        for (let j = 0; j < teamInfo.pendingRequest.length; j++) {
+          // requestsList.push(userInfo.teams[i], teamInfo.pendingRequest[j]);
+          requestsList.push(`${teamInfo.pendingRequest[j].name} request to join ${userInfo.teams[i]}`)
+        }
+        // requestsList.push(requests);
+      }
+      setRequestsFromPeople(requestsList);
+    };
+
+    fetchInvites();
+    fetchRequests();
+  }, [])
+
+
+  
   const handleCheckPress = (type, inviteType) => {
     // Handle check press based on the type and inviteType
-    console.log(`Check pressed for ${type} - ${inviteType}`);
+    // console.log(`Check pressed for ${type} - ${inviteType}`);
   };
 
   const handleCrossPress = (type, inviteType) => {
     // Handle cross press based on the type and inviteType
-    console.log(`Cross pressed for ${type} - ${inviteType}`);
+    // console.log(`Cross pressed for ${type} - ${inviteType}`);
   };
 
   const handleHomePress = () => {
-    try { 
-      navigation.navigate('Home', {email: email});
-    } catch (e) {
-      console.log("navigation error: ", e); 
-    }
+    // try { 
+    //   navigation.navigate('Home', {email: email});
+    // } catch (e) {
+    //   console.log("navigation error: ", e); 
+    // }
   };
+
+
+  
 
   return (
     <View style={styles.container}>
@@ -36,30 +72,19 @@ const PendingInvites = ({ navigation, route }) => {
       </View>
 
       {/* Card 1 for Header 1 */}
-      <View style={styles.cardContainer}>
-        <TouchableOpacity style={styles.card} onPress={() => {/* Handle card press for FROM TEAMS */}}>
-          <TouchableOpacity onPress={() => handleCrossPress('Team', 'Invite 1')}>
-            <Icon name="times" size={30} color="red" />
+      {invitesFromTeams.map((team, index) => (
+        <View key={index} style={styles.cardContainer}>
+          <TouchableOpacity style={styles.card} onPress={() => {/* Handle card press for FROM TEAMS */}}>
+            <TouchableOpacity onPress={() => handleCrossPress('Team', team)}>
+              <Icon name="times" size={30} color="red" />
+            </TouchableOpacity>
+            <Text style={styles.cardText}>{team}</Text>
+            <TouchableOpacity onPress={() => handleCheckPress('Team', team)}>
+              <Icon name="check" size={30} color="green" />
+            </TouchableOpacity>
           </TouchableOpacity>
-          <Text style={styles.cardText}>Team Invite 1</Text>
-          <TouchableOpacity onPress={() => handleCheckPress('Team', 'Invite 1')}>
-            <Icon name="check" size={30} color="green" />
-          </TouchableOpacity>
-        </TouchableOpacity>
-      </View>
-
-      {/* Card 2 for Header 1 */}
-      <View style={styles.cardContainer}>
-        <TouchableOpacity style={styles.card} onPress={() => {/* Handle card press for FROM TEAMS */}}>
-          <TouchableOpacity onPress={() => handleCrossPress('Team', 'Invite 2')}>
-            <Icon name="times" size={30} color="red" />
-          </TouchableOpacity>
-          <Text style={styles.cardText}>Team Invite 2</Text>
-          <TouchableOpacity onPress={() => handleCheckPress('Team', 'Invite 2')}>
-            <Icon name="check" size={30} color="green" />
-          </TouchableOpacity>
-        </TouchableOpacity>
-      </View>
+        </View>
+      ))}
 
       {/* Header 2 */}
       <View style={styles.headerContainer}>
@@ -68,31 +93,19 @@ const PendingInvites = ({ navigation, route }) => {
         <View style={styles.line} />
       </View>
 
-      {/* Card 1 for Header 2 */}
-      <View style={styles.cardContainer}>
-        <TouchableOpacity style={styles.card} onPress={() => {/* Handle card press for FROM PEOPLE */}}>
-          <TouchableOpacity onPress={() => handleCrossPress('Person', 'Invite 1')}>
-            <Icon name="times" size={30} color="red" />
+      {requestsFromPeople.map((person, index) => (
+        <View key={index} style={styles.cardContainer}>
+          <TouchableOpacity style={styles.card} onPress={() => {/* Handle card press for FROM PEOPLE */}}>
+            <TouchableOpacity onPress={() => handleCrossPress('Person', person)}>
+              <Icon name="times" size={30} color="red" />
+            </TouchableOpacity>
+            <Text style={styles.cardText}>{person}</Text>
+            <TouchableOpacity onPress={() => handleCheckPress('Person', person)}>
+              <Icon name="check" size={30} color="green" />
+            </TouchableOpacity>
           </TouchableOpacity>
-          <Text style={styles.cardText}>Person Invite 1</Text>
-          <TouchableOpacity onPress={() => handleCheckPress('Person', 'Invite 1')}>
-            <Icon name="check" size={30} color="green" />
-          </TouchableOpacity>
-        </TouchableOpacity>
-      </View>
-
-      {/* Card 2 for Header 2 */}
-      <View style={styles.cardContainer}>
-        <TouchableOpacity style={styles.card} onPress={() => {/* Handle card press for FROM PEOPLE */}}>
-          <TouchableOpacity onPress={() => handleCrossPress('Person', 'Invite 2')}>
-            <Icon name="times" size={30} color="red" />
-          </TouchableOpacity>
-          <Text style={styles.cardText}>Person Invite 2</Text>
-          <TouchableOpacity onPress={() => handleCheckPress('Person', 'Invite 2')}>
-            <Icon name="check" size={30} color="green" />
-          </TouchableOpacity>
-        </TouchableOpacity>
-      </View>
+        </View>
+      ))}
 
       <TouchableOpacity style={styles.homeButton} onPress={handleHomePress}>
         <Icon name="home" size={30} color="#00507B" />
