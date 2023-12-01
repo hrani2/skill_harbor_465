@@ -37,6 +37,37 @@ export const updateUserTeams = async (email, newTeam) => {
   }
 };
 
+
+export const updateRequestsUserSentTeam = async (team_name, email) => {
+  const path_email = removeSpecialCharacters(email); 
+  const userRef = ref(realtimeDb, "user/" + path_email); 
+  try {
+    // Check if the user exists
+    const snapshot = await get(userRef);
+    if (snapshot.exists()) {
+      let userData = snapshot.val();
+      let sent_requests_to_team = userData.sent_requests_to_team || []; 
+      data = {
+        team: team_name,
+      }
+      if (Array.isArray(sent_requests_to_team)) {
+        sent_requests_to_team.push(data); 
+      } else {
+        console.error("Expected 'teams' to be an array, but found:", sent_requests_to_team);
+        return;
+      }
+
+      const requestsRef = ref(realtimeDb, "user/" + path_email + "/sent_requests_to_team");
+      await set(requestsRef, sent_requests_to_team); // Update the database with the new teams array
+      console.log("Requests successfully updated!");
+    } else {
+      console.log("User does not exist.");
+    }
+  } catch (e) {
+    console.error("Error: ", e);
+  }
+}
+
 export const updateRequestsTeamSentPeople = async (team_name, name, requesteduser_email, status) => {
   const teamRef = ref(realtimeDb, "team/" + team_name); 
   try {
@@ -130,8 +161,8 @@ export const addNewUser = async (name, email, password, age, skills) => {
       age: age,
       skills: skills,
       teams: [],
-      invites: [], 
-      requests: [], 
+      pending_invites: [], 
+      sent_requests_to_team: [], 
     });
     console.log("Document successfully written!");
   } catch (e) {

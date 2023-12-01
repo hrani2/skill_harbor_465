@@ -3,7 +3,7 @@ import { Image } from 'react-native'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, SafeAreaView , ScrollView, Modal, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; 
 import Explosion from 'react-native-confetti-cannon'; 
-import { updatePendingInvitesTeam } from './firebase/utils';
+import { updatePendingInvitesTeam, updateRequestsUserSentTeam } from './firebase/utils';
 
 const MyModal = ({modalVisible, setModalVisible, navigation, team, email}) => {
   console.log("email: ", email); 
@@ -52,6 +52,7 @@ const LearnMore = ({route, navigation}) => {
 
                 // Add any necessary logic before navigating
                 updatePendingInvitesTeam(team.name, email)
+                updateRequestsUserSentTeam(team.name, email);
                 setModalVisible(true);
               },
             },
