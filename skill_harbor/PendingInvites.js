@@ -16,7 +16,7 @@ const PendingInvites = ({ navigation, route }) => {
     const fetchInvites = async () => {
       const userInfo = await queryUserByName(email);
       const invites = userInfo.pending_invites;
-      console.log("invites: ", invites); 
+      console.log("invites: ", invites);  
       setInvitesFromTeams(invites);
     };
 
@@ -26,9 +26,7 @@ const PendingInvites = ({ navigation, route }) => {
       const requestsList = [];
       for (let i = 0; i < userInfo.teams.length; i++) {
         const teamInfo = await queryTeamByName(userInfo.teams[i]);
-        // const requests = [userInfo.teams[i], teamInfo.pendingRequest];
         for (let j = 0; j < teamInfo.pending_invites.length; j++) {
-          // requestsList.push(userInfo.teams[i], teamInfo.pendingRequest[j]);
           requestsList.push(`${teamInfo.pending_invites[j].name} request to join ${userInfo.teams[i]}`)
         }
       }
