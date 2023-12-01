@@ -67,19 +67,19 @@ const LearnMore = ({navigation, route}) => {
         <View style={styles.container}>
             <ScrollView>
             <View style={styles.rowformat}>
-                <Image
-                    source={{ uri: 'https://via.placeholder.com/50' }} // Replace 
-                    style={styles.profilePic}
-                  />
-                <Text style={styles.cardTitle}>Font-astic Six</Text>
+                <Text style={styles.cardTitle}>{team.name}</Text>
                 </View>
   
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Current team members:</Text>
           <View style={styles.tagContainer}>
-            <Text style={styles.tag}>Akanksha</Text>
-            <Text style={styles.tag}>Havish</Text>
-            <Text style={styles.tag}>Ric</Text>
+          {team.members && team.members.length > 0 ? (
+      team.members.map((members, index) => (
+        <Text key={index} style={styles.tag}>{members}</Text>
+      ))
+    ) : (
+      <Text style={styles.tag}>Currently No Members</Text>
+    )}
           </View>
         </View>
   
@@ -229,6 +229,7 @@ const LearnMore = ({navigation, route}) => {
         flexDirection: 'row',
         paddingTop: 60,
         left: 20,
+        marginBottom: 20,
       },
       profilePic: {
         width: 80, // Adjust the size as needed
