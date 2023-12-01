@@ -37,7 +37,7 @@ const MyModal = ({modalVisible, setModalVisible, navigation}) => (
 
 const SearchOrg = ( {navigation, route}) => {
   const [TeamsWithJoinCode, setTeamsWithJoinCode] = useState([]);
-  const { joinCode } = route.params;
+  const { joinCode, email } = route.params;
   const [filteredData, setFilteredData] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -104,7 +104,7 @@ const SearchOrg = ( {navigation, route}) => {
               ))}
             </View>
           </ScrollView>
-          <TouchableOpacity style={styles.floatButton} onPress={() => navigation.navigate('Home')}>
+          <TouchableOpacity style={styles.floatButton} onPress={() => navigation.navigate('Home', {email: email})}>
           <View style = {styles.homeicon}>
             <Icon name="home" size={30} color="#FFF" />
           </View>

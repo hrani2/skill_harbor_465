@@ -8,7 +8,6 @@ import Icon from 'react-native-vector-icons/FontAwesome'; // Make sure to instal
 //Pop-up for Join a Team (asks to search all teams or Join Organization)
 const MyModal = ({modalVisible, setModalVisible, navigation, openJoinModal, email}) => {
   const [helpModalVisible, sethelpModalVisible] = useState(false);
-  const [joinModalVisible, setjoinModalVisible] = useState(false);
 
   return(
   <Modal
@@ -59,7 +58,7 @@ const MyModal = ({modalVisible, setModalVisible, navigation, openJoinModal, emai
   };
 
   //Pop-up for Join  Code 
-  const JoinOrg = ({modalVisible, setModalVisible, navigation, onSubmitJoinCode}) => {
+  const JoinOrg = ({modalVisible, setModalVisible, navigation, onSubmitJoinCode, email}) => {
     const [code, setCode] = useState('');
     const [submissionSuccessful, setSubmissionSuccessful] = useState(false);
     const [filteredTeams, setFilteredTeams] = useState([]);
@@ -87,7 +86,7 @@ const MyModal = ({modalVisible, setModalVisible, navigation, openJoinModal, emai
 
   useEffect(() => {
     if (submissionSuccessful) {
-      navigation.navigate('SearchOrg', { joinCode: code });
+      navigation.navigate('SearchOrg', { joinCode: code, email: email });
       setModalVisible(false); // if you want to close the modal upon navigation
       setSubmissionSuccessful(false); // Reset the flag
     }
@@ -135,8 +134,9 @@ const MyModal = ({modalVisible, setModalVisible, navigation, openJoinModal, emai
               //   setModalVisible(false);
               // }
             }}>
-          <Text style={styles.next}>Next</Text>
-           </TouchableOpacity>
+            <Text style={styles.next}>Next</Text>
+             </TouchableOpacity>
+             
         </View>
       </View>
     </Modal>
@@ -276,7 +276,7 @@ const Create = ({modalVisible, setModalVisible, navigation, email}) => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            console.log("email: ", email); 
+            console.log({email});
             console.log('Create Team button pressed');
             navigation.navigate('CreateTeam', {email: email}); setModalVisible(false);}}>
           <Text style={styles.textStyle}>Create Teams</Text>
@@ -285,7 +285,7 @@ const Create = ({modalVisible, setModalVisible, navigation, email}) => {
           style={styles.button}
           onPress={() => {
             console.log('Create Join Code button pressed');
-            navigation.navigate('JoinCode'); setModalVisible(false);}}>
+            navigation.navigate('JoinCode', {email: email}); setModalVisible(false);}}>
           <Text style={styles.textStyle}>Create Join Code</Text>
         </TouchableOpacity>
       </View>
@@ -338,7 +338,11 @@ const HomeScreen = ({text, request_count, invite_count, route, navigation}) => {
       try {
         // Fetch user teams
         const user = await queryUserByName(email);
+        console.log('Fetched user:', user);
+  
         const teams = user.teams || [];
+        console.log('User teams:', teams);
+  
         setUserTeams(teams);
   
         // Fetch team information
@@ -369,16 +373,13 @@ const HomeScreen = ({text, request_count, invite_count, route, navigation}) => {
         const teamNames = validTeamInfoList.map((teamInfo) => teamInfo.name);
         const teamLocations = validTeamInfoList.map((teamInfo) => teamInfo.location);
         const teamSizes = validTeamInfoList.map((teamInfo) => teamInfo.teamSize);
-        
-        setUserTeams(teamNames); // Update userTeams state with team names
   
-        // Now you have arrays containing team names, locations, and sizes
         console.log('Team Names:', teamNames);
         console.log('Locations:', teamLocations);
         console.log('Team Sizes:', teamSizes);
-
+  
         setUserTeams(teamNames); // Update userTeams state with team names
-        setTeamLocations(teamLocations)
+        setTeamLocations(teamLocations);
         setTeamSizes(teamSizes); // Update teamSizes state
         // Additional logic or state updates can be added here if needed
       } catch (error) {
@@ -387,7 +388,16 @@ const HomeScreen = ({text, request_count, invite_count, route, navigation}) => {
     };
   
     fetchData();
-  }, [email]);
+
+    // Set up auto-refresh every 5 seconds (adjust the interval as needed)
+  const refreshInterval = setInterval(() => {
+    fetchData();
+  }, 5 * 1000); // 5 seconds in milliseconds
+
+  // Clear the interval on component unmount to prevent memory leaks
+  return () => clearInterval(refreshInterval);
+  }, []); // Removed email from the dependency array
+  
   
   
 
@@ -461,7 +471,12 @@ const HomeScreen = ({text, request_count, invite_count, route, navigation}) => {
           <Icon name="user" size={30} color="#FFF"/>
       </TouchableOpacity>
       <Text style={styles.headerTitle}>Skill Harbor</Text>
-      <TouchableOpacity style={styles.headerIcon}
+      <TouchableOpacity style={styles.qeustionIcon}
+          onPress={() => navigation.navigate('Help', {email: email})}
+      >
+          <Icon name="question" size={30} color="#FFF"/>
+      </TouchableOpacity> 
+      <TouchableOpacity style={styles.signOut}
           onPress={() => handleLogOut()}
       >
           <Icon name="sign-out" size={30} color="#FFF"/>
@@ -511,6 +526,7 @@ const HomeScreen = ({text, request_count, invite_count, route, navigation}) => {
         setModalVisible={setIsJoinModalVisible}
         onSubmitJoinCode={handleJoinCodeSubmit}
         navigation={navigation}
+        email={email}
       />
         </TouchableOpacity>
 
@@ -639,7 +655,7 @@ const styles = StyleSheet.create({
   header: {
     height: 120, // set the height of your header
     flexDirection: 'row', // layout children in a row
-    justifyContent: 'space-between', // space out the children
+    // justifyContent: 'space-between', // space out the children
     alignItems: 'center',// center children vertically
     paddingHorizontal: 15, // add some padding on the sides
     paddingTop: 55,
@@ -647,7 +663,18 @@ const styles = StyleSheet.create({
   },
   headerIcon: {
     fontSize: 30, 
-    color: "#FFF"
+    color: "#FFF",
+    marginLeft: 10,
+  },
+  qeustionIcon: {
+    fontSize: 30, 
+    color: "#FFF",
+    marginLeft: 40,
+  },
+  signOut: {
+    fontSize: 30, 
+    color: "#FFF",
+    marginLeft: 30,
   },
   headerTitle: {
     fontSize: 25, // size of the title text
@@ -656,6 +683,7 @@ const styles = StyleSheet.create({
     color: "#FFF",
     fontFamily: 'RobotoSlab-ExtraBold',
     letterSpacing: 1,
+    marginLeft: 90,
   },
   menu: {
     flexDirection: 'row',
