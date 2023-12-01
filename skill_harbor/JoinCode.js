@@ -183,6 +183,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     height: 120,
     textAlignVertical: 'top',  // Move the placeholder to the top
+    fontFamily: 'RobotoSlab-Regular',
   },
   homeButton: {
     position: 'absolute',
