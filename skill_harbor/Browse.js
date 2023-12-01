@@ -83,7 +83,7 @@ const Browse = ({ route, navigation }) => {
     );
     console.log("teamname: ", teamname); 
     console.log("user_email", user_email);
-    updateRequestsPeoplePendingInvites(user_email, teamname);
+    updateRequestsPeoplePendingInvites(requesteduser_email, teamname);
     updateRequestsTeamSentPeople(teamname, name, requesteduser_email, 'inProgress')
   };
 

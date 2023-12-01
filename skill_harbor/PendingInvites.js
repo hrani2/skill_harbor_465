@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { queryUserByName, queryTeamByName, removeSpecialCharacters } from './firebase/utils';
 import { getDatabase, ref, update, get } from 'firebase/database';
@@ -15,7 +15,7 @@ const PendingInvites = ({ navigation, route }) => {
   useEffect(() => {
     const fetchInvites = async () => {
       const userInfo = await queryUserByName(email);
-      const invites = userInfo.pending_invites;
+      const invites = userInfo.pending_invites || [];
       console.log("invites: ", invites);  
       setInvitesFromTeams(invites);
     };
@@ -25,8 +25,12 @@ const PendingInvites = ({ navigation, route }) => {
       // for every team in userInfo.teams, query the team and get the requests
       const requestsList = [];
       for (let i = 0; i < userInfo.teams.length; i++) {
+        console.log(userInfo.teams[i]);
         const teamInfo = await queryTeamByName(userInfo.teams[i]);
+        console.log("teaminfo", teamInfo.pending_invites);
         for (let j = 0; j < teamInfo.pending_invites.length; j++) {
+          console.log("length", teamInfo.pending_invites.length); 
+          console.log("teaminfo.pendinginvites[j]", teamInfo.pending_invites[j]); 
           requestsList.push(`${teamInfo.pending_invites[j].name} request to join ${userInfo.teams[i]}`)
         }
       }
@@ -279,6 +283,13 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
   },
+  // scrollView: {
+  //   marginBottom: 20,
+  // },
+  // scrollViewContent: {
+  //   alignItems: 'center', // Centers items on the cross axis
+  //   // You can add more styles as needed
+  // },
 });
 
 export default PendingInvites;

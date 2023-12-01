@@ -64,7 +64,7 @@ export const updateRequestsPeoplePendingInvites = async (email, team_name) => {
   }
 }
 
-export const updateRequestsUserSentTeam = async (team_name, email) => {
+export const updateRequestsUserSentTeam = async (team_name, email, status) => {
   const path_email = removeSpecialCharacters(email); 
   const userRef = ref(realtimeDb, "user/" + path_email); 
   try {
@@ -73,11 +73,12 @@ export const updateRequestsUserSentTeam = async (team_name, email) => {
     if (snapshot.exists()) {
       let userData = snapshot.val();
       let sent_requests_to_team = userData.sent_requests_to_team || []; 
-      // data = {
-      //   team: team_name,
-      // }
+      data = {
+        team_name: team_name,
+        status: status, 
+      }
       if (Array.isArray(sent_requests_to_team)) {
-        sent_requests_to_team.push(team_name); 
+        sent_requests_to_team.push(data); 
       } else {
         console.error("Expected 'teams' to be an array, but found:", sent_requests_to_team);
         return;
@@ -138,6 +139,7 @@ export const updatePendingInvitesTeam = async (team_name, requesteduser_email, n
         name: name, 
       }
       if (Array.isArray(pending_invites)) {
+        console.log("pushed data to pending_invites for teams");
         pending_invites.push(data); 
       } else {
         console.error("Expected 'teams' to be an array, but found:", pending_invites);

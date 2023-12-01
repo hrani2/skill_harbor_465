@@ -53,7 +53,7 @@ const LearnMore = ({navigation, route}) => {
                 // Add any necessary logic before navigating
                 const userInfo = await queryUserByName(email); 
                 updatePendingInvitesTeam(team.name, email, userInfo.name);
-                updateRequestsUserSentTeam(team.name, email);
+                updateRequestsUserSentTeam(team.name, email, 'inProgress');
                 setModalVisible(true);
               },
             },

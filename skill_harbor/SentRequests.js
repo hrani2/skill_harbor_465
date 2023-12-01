@@ -1,4 +1,4 @@
-import { Alert, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Alert, View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { queryUserByName, queryTeamByName } from './firebase/utils';
@@ -14,7 +14,7 @@ const SentRequests = ({ navigation, route }) => {
   useEffect(() => {
     const fetchRequestsToTeams = async () => {
       const userInfo = await queryUserByName(email); 
-      const teamRequests = userInfo.sent_requests_to_team;
+      const teamRequests = userInfo.sent_requests_to_team || [];
       const requestsToTeamsList = [];
       for (let i = 0; i < teamRequests.length; i++) {
         requestsToTeamsList.push([teamRequests[i].team_name, teamRequests[i].status])
@@ -24,9 +24,12 @@ const SentRequests = ({ navigation, route }) => {
 
     const fetchRequestsToPeople = async () => {
       const userInfo = await queryUserByName(email);
+      const teams = userInfo.teams || []; 
+      console.log(teams); 
       const requestsToPeopleList = [];
       for (let i = 0; i < userInfo.teams.length; i++) {
-        const teamInfo = await queryTeamByName(userInfo.teams[i]);
+        const teamInfo = await queryTeamByName(teams[i]);
+        console.log("teaminfo.sent_requests", teamInfo.sent_requests);
         for (let j = 0; j < teamInfo.sent_requests.length; j++) {
 
           requestsToPeopleList.push([`Request ${teamInfo.sent_requests[j].name} to join ${userInfo.teams[i]}`, teamInfo.sent_requests[j].status])
@@ -194,6 +197,13 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
   },
+  // scrollView: {
+  //   marginBottom: 20,
+  // },
+  // scrollViewContent: {
+  //   alignItems: 'center', // Centers items on the cross axis
+  //   // You can add more styles as needed
+  // },
 });
 
 export default SentRequests;
