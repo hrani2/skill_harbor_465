@@ -6,22 +6,9 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, SafeAre
 import Icon from 'react-native-vector-icons/FontAwesome'; // Make sure to install this package
 
 //Pop-up for Join a Team (asks to search all teams or Join Organization)
-const MyModal = ({modalVisible, setModalVisible, navigation, openJoinModal}) => {
+const MyModal = ({modalVisible, setModalVisible, navigation, openJoinModal, email}) => {
   const [helpModalVisible, sethelpModalVisible] = useState(false);
   const [joinModalVisible, setjoinModalVisible] = useState(false);
-
-  // useEffect(() => {
-  //   if (joinModalVisible) {
-  //     console.log('opened closing')
-  //     setModalVisible(false);
-  //   }
-  // }, [joinModalVisible]); 
-
-  // const openJoinOrgModal = () => {
-  //   // Set joinModalVisible to true, useEffect will take care of setting modalVisible
-  //   console.log('opening join')
-  //   setjoinModalVisible(true);
-  // };
 
   return(
   <Modal
@@ -52,7 +39,7 @@ const MyModal = ({modalVisible, setModalVisible, navigation, openJoinModal}) => 
         </View>
         <TouchableOpacity
           style={styles.button}
-          onPress={() =>  {navigation.navigate('Search'); setModalVisible(false);}}>
+          onPress={() =>  {navigation.navigate('Search', {email: email}); setModalVisible(false);}}>
           <Text style={styles.textStyle}>Search All Teams</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -457,6 +444,7 @@ const HomeScreen = ({text, request_count, invite_count, route, navigation}) => {
         setModalVisible={setModalVisible}
         openJoinModal={openJoinModal}
         navigation={navigation}
+        email={email}
       />
 
       <JoinOrg

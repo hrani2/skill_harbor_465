@@ -35,12 +35,14 @@ const MyModal = ({modalVisible, setModalVisible, navigation}) => (
 
   
 
-const Search = ( {navigation}) => {
+const Search = ( {navigation, route}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [teamsWithoutJoinCode, setTeamsWithoutJoinCode] = useState([]);
+  const { email } = route.params
 
   const fetchTeamsWithoutJoinCode = async () => {
     try {
+      console.log("email: ", email); 
       const teams = await queryTeamsWithoutJoinCode();
       setTeamsWithoutJoinCode(teams);
     } catch (error) {
@@ -91,7 +93,8 @@ const Search = ( {navigation}) => {
                 <Text style={styles.summary}> {team.info} </Text>
               <TouchableOpacity style={styles.learnMoreButton} onPress={() => { 
                 console.log("Navigating with team:", team);
-                navigation.navigate('LearnMore', { team: team }) }}>
+                console.log("email:", email); 
+                navigation.navigate('LearnMore', { team: team, email: email }) }}>
                 <Text style={styles.learnMoreText}>Learn More</Text>
               </TouchableOpacity>
               </View>

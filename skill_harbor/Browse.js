@@ -1,7 +1,7 @@
 import { Alert, View, Text, ScrollView, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import React, { useEffect, useState } from 'react';
-import { queryTeamByName, queryAllUsers, updateTeamRequests} from './firebase/utils';
+import { queryTeamByName, queryAllUsers, updateRequestsTeamSentPeople} from './firebase/utils';
 
 
 const Browse = ({ route, navigation }) => {
@@ -82,7 +82,7 @@ const Browse = ({ route, navigation }) => {
     );
     console.log("teamname: ", teamname); 
     console.log("user_email", user_email);
-    updateTeamRequests(teamname, name, requesteduser_email, 'inProgress')
+    updateRequestsTeamSentPeople(teamname, name, requesteduser_email, 'inProgress')
   };
 
   const handleHomePress = () => {

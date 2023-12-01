@@ -37,7 +37,7 @@ export const updateUserTeams = async (email, newTeam) => {
   }
 };
 
-export const updateTeamRequests = async (team_name, name, requesteduser_email, status) => {
+export const updateRequestsTeamSentPeople = async (team_name, name, requesteduser_email, status) => {
   const teamRef = ref(realtimeDb, "team/" + team_name); 
   try {
     // Check if the user exists
@@ -68,31 +68,26 @@ export const updateTeamRequests = async (team_name, name, requesteduser_email, s
   }
 };
 
-export const updateUserInvites = async (name, requesteduser_email, currentuser_email, type, status) => {
-  const path_email = removeSpecialCharacters(currentuser_email);
-  const userRef = ref(realtimeDb, "team/" + path_email);
-
+export const updatePendingInvitesTeam = async (team_name, requesteduser_email) => {
+  const teamRef = ref(realtimeDb, "team/" + team_name); 
   try {
     // Check if the user exists
-    const snapshot = await get(userRef);
+    const snapshot = await get(teamRef);
     if (snapshot.exists()) {
-      let userData = snapshot.val();
-      let requests = userData.requests || []; 
+      let teamData = snapshot.val();
+      let pending_invites = teamData.pending_invites || []; 
       data = {
-        name: name, 
-        email: requesteduser_email, 
-        type: type, 
-        status: status, 
+        email: requesteduser_email,
       }
-      if (Array.isArray(requests)) {
-        requests.push(data); 
+      if (Array.isArray(pending_invites)) {
+        pending_invites.push(data); 
       } else {
-        console.error("Expected 'teams' to be an array, but found:", requests);
+        console.error("Expected 'teams' to be an array, but found:", pending_invites);
         return;
       }
 
-      const requestsRef = ref(realtimeDb, "user/" + path_email + "/requests");
-      await set(requestsRef, requests); // Update the database with the new teams array
+      const requestsRef = ref(realtimeDb, "team/" + team_name + "/pending_invites");
+      await set(requestsRef, pending_invites); // Update the database with the new teams array
       console.log("Requests successfully updated!");
     } else {
       console.log("User does not exist.");
@@ -170,6 +165,7 @@ export const addNewTeam = async (name, location, team_size, join_code, skills, i
       info: info, 
       members: [],
       sent_requests: [], 
+      pending_invites: [], 
     });
     console.log("Document successfully written!");
   } catch (e) {
