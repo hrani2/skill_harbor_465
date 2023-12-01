@@ -1,6 +1,6 @@
 import { get, set, ref } from 'firebase/database';
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity } from 'react-native';
 import { realtimeDb } from './firebase/config';
 import { removeSpecialCharacters } from './firebase/utils';
 
@@ -52,6 +52,7 @@ const ForgotPasswordScreen = ({ navigation }) => {
         value={email}
         placeholder="Email"
         keyboardType="email-address"
+        
       />
 
       <TextInput
@@ -70,7 +71,13 @@ const ForgotPasswordScreen = ({ navigation }) => {
         secureTextEntry
       />
 
-      <Button title="Submit" onPress={handlePasswordReset} />
+
+      <TouchableOpacity
+        style={styles.signInButton}
+        onPress={handlePasswordReset}
+      >
+        <Text style={styles.signInButtonText}>Submit</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -84,16 +91,33 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontFamily: 'RobotoSlab-Bold',
     marginBottom: 20,
+    color: '#00507B',
   },
   input: {
     width: '100%',
     borderWidth: 1,
-    borderColor: 'gray',
+    borderColor: '#00507B',
     padding: 10,
     borderRadius: 5,
+    fontFamily: 'RobotoSlab-Bold',
     marginBottom: 15,
+  },
+  signInButton: {
+    backgroundColor: '#00507B',
+    borderRadius: 5,
+    padding: 15,
+    width: '90%',
+    alignItems: 'center',
+    marginTop: 20,
+    alignSelf: 'center',
+  },
+  signInButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: '600',
+    fontFamily: 'RobotoSlab-Medium'
   },
 });
 
