@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Alert, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { queryUserSentRequests } from './firebase/utils';
@@ -39,7 +39,7 @@ const SentRequests = ({ navigation, route }) => {
           text: 'OK',
           onPress: () => {
             console.log('Home button pressed - confirmed');
-            navigation.navigate('Home', {email: user_email});
+            navigation.navigate('Home', {email: email});
           },
         },
       ],
