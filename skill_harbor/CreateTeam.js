@@ -61,7 +61,7 @@ const CreateTeam = ({ navigation, route }) => {
           text: 'OK',
           onPress: () => {
             console.log('Home button pressed - confirmed');
-            navigation.navigate('Home');
+            navigation.navigate('Home', {email: email});
           },
         },
       ],

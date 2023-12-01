@@ -21,6 +21,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import ProfileScreen from './ProfileScreen';
 import ForgotPasswordScreen from './ForgotPassword';
 
+import Help from './Help.js';
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -100,6 +101,8 @@ function App() {
         <Stack.Screen name="LearnMore" component={Learn}
         options={{ headerShown: false }} />
         <Stack.Screen name="SearchOrg" component={SearchOrg}
+        options={{ headerShown: false }} />
+        <Stack.Screen name="Help" component={Help}
         options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>

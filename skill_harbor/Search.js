@@ -174,7 +174,8 @@ const Search = ( {navigation, route}) => {
                ))}
               </View>
           </ScrollView>
-          <TouchableOpacity style={styles.floatButton} onPress={() => navigation.navigate('Home')}>
+          <TouchableOpacity style={styles.floatButton} onPress={() => {console.log({email});
+                                                                      navigation.navigate('Home', {email: email});}}>
           <View style = {styles.homeicon}>
             <Icon name="home" size={30} color="#FFF" />
           </View>

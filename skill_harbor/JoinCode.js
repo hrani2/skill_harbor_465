@@ -3,10 +3,11 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert , ScrollView
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { addNewJoinCode } from './firebase/utils'
 
-const JoinCode = ({ navigation }) => {
+const JoinCode = ({ navigation, route }) => {
   const [organization, setOrganization] = useState('');
   const [course, setCourse] = useState('');
   const [joinCode, setJoinCode] = useState('');
+  const { email } = route.params; 
 
   const generateJoinCode = () => {
     let code = '';
@@ -82,7 +83,7 @@ const JoinCode = ({ navigation }) => {
           text: 'OK',
           onPress: () => {
             console.log('Home button pressed - confirmed');
-            navigation.navigate('Home');
+            navigation.navigate('Home', {email: email});
           },
         },
       ],
