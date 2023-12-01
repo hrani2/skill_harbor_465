@@ -3,7 +3,7 @@ import { Image } from 'react-native'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, SafeAreaView , ScrollView, Modal, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; 
 import Explosion from 'react-native-confetti-cannon'; 
-import { updatePendingInvitesTeam } from './firebase/utils';
+import { queryUserByName, updatePendingInvitesTeam, updateRequestsUserSentTeam } from './firebase/utils';
 
 const MyModal = ({modalVisible, setModalVisible, navigation, team, email}) => {
   console.log("email: ", email); 
@@ -31,13 +31,13 @@ const MyModal = ({modalVisible, setModalVisible, navigation, team, email}) => {
   );
 }
 
-const LearnMore = ({route, navigation}) => {
+const LearnMore = ({navigation, route}) => {
     const [modalVisible, setModalVisible] = useState(false);
 
     console.log("Received in Learn More:", route.params);
     const team = route.params?.team;
     const email = route.params?.email; 
-    const Request = () => {
+    const Request = async () => {
         Alert.alert(
           'Confirmation',
           `Are you sure you want to a send a request to ${team.name}?`,
@@ -48,10 +48,12 @@ const LearnMore = ({route, navigation}) => {
             },
             {
               text: 'Yes',
-              onPress: () => {
+              onPress: async () => {
 
                 // Add any necessary logic before navigating
-                updatePendingInvitesTeam(team.name, email)
+                const userInfo = await queryUserByName(email); 
+                updatePendingInvitesTeam(team.name, email, userInfo.name);
+                updateRequestsUserSentTeam(team.name, email);
                 setModalVisible(true);
               },
             },
@@ -69,7 +71,7 @@ const LearnMore = ({route, navigation}) => {
                     source={{ uri: 'https://via.placeholder.com/50' }} // Replace 
                     style={styles.profilePic}
                   />
-                <Text style={styles.cardTitle}>{team.name}</Text>
+                <Text style={styles.cardTitle}>Font-astic Six</Text>
                 </View>
   
         <View style={styles.section}>
