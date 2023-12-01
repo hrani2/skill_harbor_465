@@ -13,7 +13,8 @@ const PendingInvites = ({ navigation, route }) => {
   useEffect(() => {
     const fetchInvites = async () => {
       const userInfo = await queryUserByName(email);
-      const invites = userInfo.pendingInvites;
+      const invites = userInfo.pending_invites;
+      console.log("invites: ", invites); 
       setInvitesFromTeams(invites);
     };
 
@@ -24,9 +25,9 @@ const PendingInvites = ({ navigation, route }) => {
       for (let i = 0; i < userInfo.teams.length; i++) {
         const teamInfo = await queryTeamByName(userInfo.teams[i]);
         // const requests = [userInfo.teams[i], teamInfo.pendingRequest];
-        for (let j = 0; j < teamInfo.pendingRequest.length; j++) {
+        for (let j = 0; j < teamInfo.pending_invites.length; j++) {
           // requestsList.push(userInfo.teams[i], teamInfo.pendingRequest[j]);
-          requestsList.push(`${teamInfo.pendingRequest[j].name} request to join ${userInfo.teams[i]}`)
+          requestsList.push(`${teamInfo.pending_invites[j].name} request to join ${userInfo.teams[i]}`)
         }
         // requestsList.push(requests);
       }
